@@ -194,6 +194,7 @@ def create_segment_pnh_subpipes(cropped, name= "segment_pnh_subpipes",
     seg_pipe.connect(correct_bias_pipe, "restore_T2.out_file",denoise_pipe,'inputnode.preproc_T2')
 
 
+
     ##### brain extraction
     brain_extraction_pipe = create_brain_extraction_pipe(
         atlasbrex_dir=atlasbrex_dir, nmt_dir=nmt_dir, name = "devel_atlas_brex")
