@@ -43,8 +43,8 @@ if "general" in params.keys() and "my_path" in params["general"].keys():
     my_path = params["general"]["my_path"]
 else:
     #my_path = "/home/INT/meunier.d/Data/"
-    my_path = "/hpc/crise/meunier.d/"
-    #my_path = "/hpc/neopto/USERS/racicot/data/"
+    #my_path = "/hpc/crise/meunier.d/"
+    my_path = "/hpc/neopto/USERS/racicot/data/"
 
 nmt_dir = load_test_data('NMT_v1.2', path_to = my_path)
 params_template = format_template(nmt_dir, 'NMT_v1.2')

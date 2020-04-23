@@ -1,4 +1,8 @@
 {
+    "general":
+    {
+        "my_path": "/hpc/neopto/USERS/racicot/data/"
+    },
     "preproc_pipe":
     {
         "reorient":
