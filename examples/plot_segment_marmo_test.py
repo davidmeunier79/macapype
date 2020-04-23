@@ -49,8 +49,8 @@ print (params_template)
 #data_path = load_test_data("data_marmo_test", path_to = my_path)
 
 # data file
-T1_file = op.join(data_path, "T1w_0p33mm_28.nii")
-T2_file = op.join(data_path, "T2w_0p4mm_32.nii")
+T1_file = op.join(my_path, "T1w_0p33mm_28.nii")
+T2_file = op.join(my_path, "T2w_0p4mm_32.nii")
 
 from macapype.utils.utils_tests import load_test_data
 
