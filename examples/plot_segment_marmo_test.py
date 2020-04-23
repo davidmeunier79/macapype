@@ -21,6 +21,8 @@ import nipype.pipeline.engine as pe
 from nipype.interfaces.utility import IdentityInterface
 import nipype.interfaces.io as nio
 
+from macapype.utils.utils_tests import load_test_data
+
 ###############################################################################
 #Running workflow
 #==================
@@ -52,14 +54,9 @@ print (params_template)
 T1_file = op.join(my_path, "T1w_0p33mm_28.nii")
 T2_file = op.join(my_path, "T2w_0p4mm_32.nii")
 
-from macapype.utils.utils_tests import load_test_data
-
-nmt_dir = load_test_data('NMT_v1.2', path_to = my_path)
-
 # running workflow
 segment_pnh = create_full_segment_pnh_subpipes(params=params,
                                                params_template=params_template,
-                                               segment=True,
                                                name = "segment_marmo_test_template")
 segment_pnh.base_dir = my_path
 
