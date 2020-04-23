@@ -28,51 +28,49 @@ import nipype.interfaces.io as nio
 from macapype.utils.utils_tests import load_test_data, format_template
 from macapype.pipelines.full_segment import create_full_segment_pnh_subpipes
 
+package_directory = os.path.dirname(os.path.abspath(__file__))
+params_file = '{}/../workflows/params_segment_marmo_test.json'.format(package_directory)
+params = json.load(open(params_file))
 
+print(params)
+pprint.pprint(params)
 
-#package_directory = os.path.dirname(os.path.abspath(__file__))
-#params_file = '{}/../workflows/params_segment_marmo_test.json'.format(package_directory)
-#params = json.load(open(params_file))
+if "general" in params.keys() and "my_path" in params["general"].keys():
+    my_path = params["general"]["my_path"]
+else:
+    #my_path = "/home/INT/meunier.d/Data/Primavoice/"
+    my_path = "/hpc/crise/meunier.d/"
 
-#print(params)
-#pprint.pprint(params)
+nmt_dir = load_test_data('marmotemplate', path_to = my_path)
 
-#if "general" in params.keys() and "my_path" in params["general"].keys():
-    #my_path = params["general"]["my_path"]
-#else:
-    ##my_path = "/home/INT/meunier.d/Data/Primavoice/"
-    #my_path = "/hpc/crise/meunier.d/"
-
-#nmt_dir = load_test_data('marmotemplate', path_to = my_path)
-
-#params_template = format_template(nmt_dir, 'marmotemplate')
-#print (params_template)
+params_template = format_template(nmt_dir, 'marmotemplate')
+print (params_template)
 
 #data_path = load_test_data("data_marmo_test", path_to = my_path)
 
-## data file
-#T1_file = op.join(data_path, "T1w_0p33mm_28.nii")
-#T2_file = op.join(data_path, "T2w_0p4mm_32.nii")
+# data file
+T1_file = op.join(data_path, "T1w_0p33mm_28.nii")
+T2_file = op.join(data_path, "T2w_0p4mm_32.nii")
 
-#from macapype.utils.utils_tests import load_test_data
+from macapype.utils.utils_tests import load_test_data
 
-#nmt_dir = load_test_data('NMT_v1.2', path_to = my_path)
+nmt_dir = load_test_data('NMT_v1.2', path_to = my_path)
 
-## running workflow
-#segment_pnh = create_full_segment_pnh_subpipes(params=params,
-                                               #params_template=params_template,
-                                               #segment=True,
-                                               #name = "segment_marmo_test_template")
-#segment_pnh.base_dir = my_path
+# running workflow
+segment_pnh = create_full_segment_pnh_subpipes(params=params,
+                                               params_template=params_template,
+                                               segment=True,
+                                               name = "segment_marmo_test_template")
+segment_pnh.base_dir = my_path
 
-#segment_pnh.inputs.inputnode.T1 = T1_file
-#segment_pnh.inputs.inputnode.T2 = T2_file
+segment_pnh.inputs.inputnode.T1 = T1_file
+segment_pnh.inputs.inputnode.T2 = T2_file
 
 
-#segment_pnh.write_graph(graph2use="colored")
-#segment_pnh.run()
+segment_pnh.write_graph(graph2use="colored")
+segment_pnh.run()
 
-#exit()
+exit()
 
 ###############################################################################
 # Testing plot in local

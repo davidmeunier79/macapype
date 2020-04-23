@@ -1,4 +1,8 @@
 {
+    "general":
+    {
+        "my_path": "/hpc/neopto/USERS/racicot/data/data_marmoset"
+    },
     "preproc_pipe":
     {
         "crop":
