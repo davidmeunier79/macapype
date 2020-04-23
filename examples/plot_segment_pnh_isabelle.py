@@ -51,11 +51,9 @@ params_template = format_template(nmt_dir, 'NMT_v1.2')
 print (params_template)
 
 
-data_path = load_test_data("data_test_macapype", path_to = my_path)
-
 # data file
-T1_file = op.join(data_path, "sub-ziggy_T1w.nii")
-T2_file = op.join(data_path, "sub-ziggy_T2w.nii")
+T1_file = op.join(my_path, "sub-ziggy_T1w.nii")
+T2_file = op.join(my_path, "sub-ziggy_T2w.nii")
 
 atlasbrex_dir = load_test_data('AtlasBREX', path_to = my_path)
 
