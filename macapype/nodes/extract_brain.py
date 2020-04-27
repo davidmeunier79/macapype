@@ -9,6 +9,7 @@ import os
 from nipype.interfaces.fsl.base import (FSLCommand, FSLCommandInputSpec)
 
 
+# T1xT2BET
 class T1xT2BETInputSpec(FSLCommandInputSpec):
 
     t1_file = File(
