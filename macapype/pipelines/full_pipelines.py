@@ -46,22 +46,65 @@ def create_brain_register_pipe(params_template, params={},
     brain_register_pipe.connect(inputnode, 'T2_cropped', debias, 't2_file')
     brain_register_pipe.connect(inputnode, 'mask', debias, 'b')
 
-    # Iterative registration to the INIA19 template
-    reg = pe.Node(IterREGBET(), name='reg')
-    reg.inputs.refb_file = params_template["template_brain"]
+    ## Iterative registration to the INIA19 template
+    #reg = pe.Node(IterREGBET(), name='reg')
+    #reg.inputs.refb_file = params_template["template_brain"]
 
-    if "reg" in params.keys() and "n" in params["reg"].keys():
-        reg.inputs.n = params["reg"]["n"]
+    #if "reg" in params.keys() and "n" in params["reg"].keys():
+        #reg.inputs.n = params["reg"]["n"]
 
-    if "reg" in params.keys() and "m" in params["reg"].keys():
-        reg.inputs.m = params["reg"]["m"]
+    #if "reg" in params.keys() and "m" in params["reg"].keys():
+        #reg.inputs.m = params["reg"]["m"]
 
-    if "reg" in params.keys() and "dof" in params["reg"].keys():
-        reg.inputs.dof = params["reg"]["dof"]
+    #if "reg" in params.keys() and "dof" in params["reg"].keys():
+        #reg.inputs.dof = params["reg"]["dof"]
 
-    brain_register_pipe.connect(debias, 't1_debiased_file', reg, 'inw_file')
-    brain_register_pipe.connect(debias, 't1_debiased_brain_file',
-                                reg, 'inb_file')
+    #brain_register_pipe.connect(debias, 't1_debiased_file', reg, 'inw_file')
+    #brain_register_pipe.connect(debias, 't1_debiased_brain_file',
+                                #reg, 'inb_file')
+
+    return brain_register_pipe
+def create_brain_register_mask_pipe(params_template, params={},
+                               name="brain_register_mask_pipe"):
+
+    # Creating pipeline
+    brain_register_pipe = pe.Workflow(name=name)
+
+    # Creating input node
+    inputnode = pe.Node(
+        niu.IdentityInterface(fields=['T1_cropped', 'T2_cropped']),
+        name='inputnode'
+    )
+
+    # Bias correction of cropped images
+    if "debias" in params.keys():
+        s = params["debias"]["s"]
+        bet = params["debias"]["bet"]
+    else:
+        s = 4
+        bet = 0
+
+    debias = pe.Node(T1xT2BiasFieldCorrection(s=s, bet=bet), name='debias')
+
+    brain_register_pipe.connect(inputnode, 'T1_cropped', debias, 't1_file')
+    brain_register_pipe.connect(inputnode, 'T2_cropped', debias, 't2_file')
+
+    ## Iterative registration to the INIA19 template
+    #reg = pe.Node(IterREGBET(), name='reg')
+    #reg.inputs.refb_file = params_template["template_brain"]
+
+    #if "reg" in params.keys() and "n" in params["reg"].keys():
+        #reg.inputs.n = params["reg"]["n"]
+
+    #if "reg" in params.keys() and "m" in params["reg"].keys():
+        #reg.inputs.m = params["reg"]["m"]
+
+    #if "reg" in params.keys() and "dof" in params["reg"].keys():
+        #reg.inputs.dof = params["reg"]["dof"]
+
+    #brain_register_pipe.connect(debias, 't1_debiased_file', reg, 'inw_file')
+    #brain_register_pipe.connect(debias, 't1_debiased_brain_file',
+                                #reg, 'inb_file')
 
     return brain_register_pipe
 
@@ -126,14 +169,33 @@ def create_full_T1xT2_segment_pnh_subpipes(
     seg_pipe.connect(inputnode, 'T1', data_preparation_pipe, 'inputnode.T1')
     seg_pipe.connect(inputnode, 'T2', data_preparation_pipe, 'inputnode.T2')
 
-    if 'brain_register_pipe' in params.keys():
-        print("brain_register_pipe is in params")
-        params_brain_register_pipe = params["brain_register_pipe"]
+    #if 'brain_register_pipe' in params.keys():
+        #print("brain_register_pipe is in params")
+        #params_brain_register_pipe = params["brain_register_pipe"]
+    #else:
+        #print("*** brain_register_pipe NOT in params")
+        #params_brain_register_pipe = {}
+
+    #brain_register_pipe = create_brain_register_pipe(
+        #params_template,
+        #params=params_brain_register_pipe)
+
+    #seg_pipe.connect(data_preparation_pipe, 'bet_crop.t1_cropped_file',
+                     #brain_register_pipe, 'inputnode.T1_cropped')
+    #seg_pipe.connect(data_preparation_pipe, 'bet_crop.t2_cropped_file',
+                     #brain_register_pipe, 'inputnode.T2_cropped')
+    #seg_pipe.connect(data_preparation_pipe, 'bet_crop.mask_file',
+                     #brain_register_pipe, 'inputnode.mask')
+
+
+    if 'brain_register_mask_pipe' in params.keys():
+        print("brain_register_mask_pipe is in params")
+        params_brain_register_pipe = params["brain_register_mask_pipe"]
     else:
-        print("*** brain_register_pipe NOT in params")
+        print("*** brain_register_mask_pipe NOT in params")
         params_brain_register_pipe = {}
 
-    brain_register_pipe = create_brain_register_pipe(
+    brain_register_pipe = create_brain_register_mask_pipe(
         params_template,
         params=params_brain_register_pipe)
 
@@ -141,21 +203,19 @@ def create_full_T1xT2_segment_pnh_subpipes(
                      brain_register_pipe, 'inputnode.T1_cropped')
     seg_pipe.connect(data_preparation_pipe, 'bet_crop.t2_cropped_file',
                      brain_register_pipe, 'inputnode.T2_cropped')
-    seg_pipe.connect(data_preparation_pipe, 'bet_crop.mask_file',
-                     brain_register_pipe, 'inputnode.mask')
 
-    # Compute brain mask using old_segment of SPM and postprocessing on
-    # tissues' masks
-    if "old_segment_pipe" in params.keys():
-        params_old_segment_pipe = params["old_segment_pipe"]
-    else:
-        params_old_segment_pipe = {}
+    ## Compute brain mask using old_segment of SPM and postprocessing on
+    ## tissues' masks
+    #if "old_segment_pipe" in params.keys():
+        #params_old_segment_pipe = params["old_segment_pipe"]
+    #else:
+        #params_old_segment_pipe = {}
 
-    old_segment_pipe = create_old_segment_pipe(
-        params_template, params=params_old_segment_pipe)
+    #old_segment_pipe = create_old_segment_pipe(
+        #params_template, params=params_old_segment_pipe)
 
-    seg_pipe.connect(brain_register_pipe, ('reg.warp_file', gunzip),
-                     old_segment_pipe, 'inputnode.T1')
+    #seg_pipe.connect(brain_register_pipe, ('reg.warp_file', gunzip),
+                     #old_segment_pipe, 'inputnode.T1')
 
     return seg_pipe
 
