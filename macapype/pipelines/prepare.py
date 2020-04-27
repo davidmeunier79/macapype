@@ -146,7 +146,7 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
 
             data_preparation_pipe.connect(av_T1, 'avg_img',
                                           bet_crop, 't1_file')
-            data_preparation_pipe.connect(av_T2, 'avg_img',,
+            data_preparation_pipe.connect(av_T2, 'avg_img',
                                           bet_crop, 't2_file')
 
             #data_preparation_pipe.connect(deoblique_T1, 'out_file',
