@@ -195,21 +195,21 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
         data_preparation_pipe.connect(align_T2_on_T1, "out_file",
                                       crop_bb_T2, 'in_file')
 
-    # denoise with Ants package
-    denoise_T1 = pe.Node(interface=DenoiseImage(), name="denoise_T1")
-    denoise_T2 = pe.Node(interface=DenoiseImage(), name="denoise_T2")
+    ## denoise with Ants package
+    #denoise_T1 = pe.Node(interface=DenoiseImage(), name="denoise_T1")
+    #denoise_T2 = pe.Node(interface=DenoiseImage(), name="denoise_T2")
 
-    if "bet_crop" in params.keys():
-        data_preparation_pipe.connect(bet_crop, "t1_cropped_file",
-                                      denoise_T1, 'input_image')
-        data_preparation_pipe.connect(bet_crop, "t2_cropped_file",
-                                      denoise_T2, 'input_image')
+    #if "bet_crop" in params.keys():
+        #data_preparation_pipe.connect(bet_crop, "t1_cropped_file",
+                                      #denoise_T1, 'input_image')
+        #data_preparation_pipe.connect(bet_crop, "t2_cropped_file",
+                                      #denoise_T2, 'input_image')
 
-    elif "crop" in params.keys():
-        data_preparation_pipe.connect(crop_bb_T1, "roi_file",
-                                      denoise_T1, 'input_image')
-        data_preparation_pipe.connect(crop_bb_T2, "roi_file",
-                                      denoise_T2, 'input_image')
+    #elif "crop" in params.keys():
+        #data_preparation_pipe.connect(crop_bb_T1, "roi_file",
+                                      #denoise_T1, 'input_image')
+        #data_preparation_pipe.connect(crop_bb_T2, "roi_file",
+                                      #denoise_T2, 'input_image')
 
     return data_preparation_pipe
 
