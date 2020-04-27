@@ -201,9 +201,9 @@ def create_full_T1xT2_segment_pnh_subpipes(
         params_template,
         params=params_brain_register_pipe)
 
-    seg_pipe.connect(data_preparation_pipe, 'denoise_T1.out_file',
+    seg_pipe.connect(data_preparation_pipe, 'denoise_T1.output_image',
                      brain_register_pipe, 'inputnode.T1_cropped')
-    seg_pipe.connect(data_preparation_pipe, 'denoise_T2.out_file',
+    seg_pipe.connect(data_preparation_pipe, 'denoise_T2.output_image',
                      brain_register_pipe, 'inputnode.T2_cropped')
 
     ## Compute brain mask using old_segment of SPM and postprocessing on
