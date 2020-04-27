@@ -70,6 +70,7 @@ segment_pnh.inputs.inputnode.T1 = T1_file
 segment_pnh.inputs.inputnode.T2 = T2_file
 
 segment_pnh.write_graph(graph2use="colored")
+segment_pnh.config['execution'] = {'remove_unnecessary_outputs': 'false'}
 segment_pnh.run()
 
 exit()

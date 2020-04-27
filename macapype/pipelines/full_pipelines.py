@@ -64,6 +64,8 @@ def create_brain_register_pipe(params_template, params={},
                                 #reg, 'inb_file')
 
     return brain_register_pipe
+
+
 def create_brain_register_mask_pipe(params_template, params={},
                                name="brain_register_mask_pipe"):
 
@@ -89,22 +91,22 @@ def create_brain_register_mask_pipe(params_template, params={},
     brain_register_pipe.connect(inputnode, 'T1_cropped', debias, 't1_file')
     brain_register_pipe.connect(inputnode, 'T2_cropped', debias, 't2_file')
 
-    ## Iterative registration to the INIA19 template
-    #reg = pe.Node(IterREGBET(), name='reg')
-    #reg.inputs.refb_file = params_template["template_brain"]
+    # Iterative registration to the INIA19 template
+    reg = pe.Node(IterREGBET(), name='reg')
+    reg.inputs.refb_file = params_template["template_brain"]
 
-    #if "reg" in params.keys() and "n" in params["reg"].keys():
-        #reg.inputs.n = params["reg"]["n"]
+    if "reg" in params.keys() and "n" in params["reg"].keys():
+        reg.inputs.n = params["reg"]["n"]
 
-    #if "reg" in params.keys() and "m" in params["reg"].keys():
-        #reg.inputs.m = params["reg"]["m"]
+    if "reg" in params.keys() and "m" in params["reg"].keys():
+        reg.inputs.m = params["reg"]["m"]
 
-    #if "reg" in params.keys() and "dof" in params["reg"].keys():
-        #reg.inputs.dof = params["reg"]["dof"]
+    if "reg" in params.keys() and "dof" in params["reg"].keys():
+        reg.inputs.dof = params["reg"]["dof"]
 
-    #brain_register_pipe.connect(debias, 't1_debiased_file', reg, 'inw_file')
-    #brain_register_pipe.connect(debias, 't1_debiased_brain_file',
-                                #reg, 'inb_file')
+    brain_register_pipe.connect(debias, 't1_debiased_file', reg, 'inw_file')
+    brain_register_pipe.connect(debias, 't1_debiased_brain_file',
+                                reg, 'inb_file')
 
     return brain_register_pipe
 
@@ -199,9 +201,9 @@ def create_full_T1xT2_segment_pnh_subpipes(
         params_template,
         params=params_brain_register_pipe)
 
-    seg_pipe.connect(data_preparation_pipe, 'bet_crop.t1_cropped_file',
+    seg_pipe.connect(data_preparation_pipe, 'denoise_T1.out_file',
                      brain_register_pipe, 'inputnode.T1_cropped')
-    seg_pipe.connect(data_preparation_pipe, 'bet_crop.t2_cropped_file',
+    seg_pipe.connect(data_preparation_pipe, 'denoise_T2.out_file',
                      brain_register_pipe, 'inputnode.T2_cropped')
 
     ## Compute brain mask using old_segment of SPM and postprocessing on
