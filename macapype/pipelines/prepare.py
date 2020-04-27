@@ -67,22 +67,22 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
         name='inputnode'
     )
 
-    # avererge if multiple T1
-    av_T1 = pe.Node(
-        niu.Function(input_names=['list_img'],
-                     output_names=['avg_img'],
-                     function=average_align),
-        name="av_T1")
+    ## avererge if multiple T1
+    #av_T1 = pe.Node(
+        #niu.Function(input_names=['list_img'],
+                     #output_names=['avg_img'],
+                     #function=average_align),
+        #name="av_T1")
 
-    data_preparation_pipe.connect(inputnode, 'T1', av_T1, 'list_img')
+    #data_preparation_pipe.connect(inputnode, 'T1', av_T1, 'list_img')
 
-    # avererge if multiple T2
-    av_T2 = pe.Node(niu.Function(
-        input_names=['list_img'],
-        output_names=['avg_img'],
-        function=average_align), name="av_T2")
+    ## avererge if multiple T2
+    #av_T2 = pe.Node(niu.Function(
+        #input_names=['list_img'],
+        #output_names=['avg_img'],
+        #function=average_align), name="av_T2")
 
-    data_preparation_pipe.connect(inputnode, 'T2', av_T2, 'list_img')
+    #data_preparation_pipe.connect(inputnode, 'T2', av_T2, 'list_img')
 
     ## Adding force deoblique (special for cerimed file)
     #deoblique_T1 = pe.Node(afni.Refit(deoblique=True), name="deoblique_T1")
@@ -91,23 +91,23 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
     #deoblique_T2 = pe.Node(afni.Refit(deoblique=True), name="deoblique_T2")
     #data_preparation_pipe.connect(av_T2, 'avg_img', deoblique_T2, "in_file")
 
-    if "reorient" in params.keys():
+    #if "reorient" in params.keys():
 
-        if "new_dims" in params["reorient"].keys():
-            new_dims = tuple(params["reorient"]["new_dims"].split())
+        #if "new_dims" in params["reorient"].keys():
+            #new_dims = tuple(params["reorient"]["new_dims"].split())
 
-        else:
-            new_dims = ("x", "z", "-y")
+        #else:
+            #new_dims = ("x", "z", "-y")
 
-        reorient_T1_pipe = create_reorient_pipeline(name="reorient_T1_pipe",
-                                                    new_dims=new_dims)
-        data_preparation_pipe.connect(deoblique_T1, 'out_file',
-                                      reorient_T1_pipe, 'inputnode.image')
+        #reorient_T1_pipe = create_reorient_pipeline(name="reorient_T1_pipe",
+                                                    #new_dims=new_dims)
+        #data_preparation_pipe.connect(deoblique_T1, 'out_file',
+                                      #reorient_T1_pipe, 'inputnode.image')
 
-        reorient_T2_pipe = create_reorient_pipeline(name="reorient_T2_pipe",
-                                                    new_dims=new_dims)
-        data_preparation_pipe.connect(deoblique_T2, 'out_file',
-                                      reorient_T2_pipe, 'inputnode.image')
+        #reorient_T2_pipe = create_reorient_pipeline(name="reorient_T2_pipe",
+                                                    #new_dims=new_dims)
+        #data_preparation_pipe.connect(deoblique_T2, 'out_file',
+                                      #reorient_T2_pipe, 'inputnode.image')
 
     if "bet_crop" in params.keys():
 
@@ -143,6 +143,11 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
                                           'swap_dim.out_file',
                                           bet_crop, 't2_file')
         else:
+
+            data_preparation_pipe.connect(inputnode, 'T1',
+                                          bet_crop, 't1_file')
+            data_preparation_pipe.connect(inputnode, 'T2',
+                                          bet_crop, 't2_file')
 
             data_preparation_pipe.connect(av_T1, 'avg_img',
                                           bet_crop, 't1_file')
