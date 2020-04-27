@@ -22,48 +22,48 @@ from macapype.utils.misc import gunzip
 
 ###############################################################################
 # Regis
-def create_brain_register_pipe(params_template, params={},
-                               name="brain_register_pipe"):
+#def create_brain_register_pipe(params_template, params={},
+                               #name="brain_register_pipe"):
 
-    # Creating pipeline
-    brain_register_pipe = pe.Workflow(name=name)
+    ## Creating pipeline
+    #brain_register_pipe = pe.Workflow(name=name)
 
-    # Creating input node
-    inputnode = pe.Node(
-        niu.IdentityInterface(fields=['T1_cropped', 'T2_cropped', "mask"]),
-        name='inputnode'
-    )
+    ## Creating input node
+    #inputnode = pe.Node(
+        #niu.IdentityInterface(fields=['T1_cropped', 'T2_cropped', "mask"]),
+        #name='inputnode'
+    #)
 
-    # Bias correction of cropped images
-    if "debias" in params.keys():
-        s = params["debias"]["s"]
-    else:
-        s = 4
+    ## Bias correction of cropped images
+    #if "debias" in params.keys():
+        #s = params["debias"]["s"]
+    #else:
+        #s = 4
 
-    debias = pe.Node(T1xT2BiasFieldCorrection(s=s), name='debias')
+    #debias = pe.Node(T1xT2BiasFieldCorrection(s=s), name='debias')
 
-    brain_register_pipe.connect(inputnode, 'T1_cropped', debias, 't1_file')
-    brain_register_pipe.connect(inputnode, 'T2_cropped', debias, 't2_file')
-    brain_register_pipe.connect(inputnode, 'mask', debias, 'b')
+    #brain_register_pipe.connect(inputnode, 'T1_cropped', debias, 't1_file')
+    #brain_register_pipe.connect(inputnode, 'T2_cropped', debias, 't2_file')
+    #brain_register_pipe.connect(inputnode, 'mask', debias, 'b')
 
-    ## Iterative registration to the INIA19 template
-    #reg = pe.Node(IterREGBET(), name='reg')
-    #reg.inputs.refb_file = params_template["template_brain"]
+    ### Iterative registration to the INIA19 template
+    ##reg = pe.Node(IterREGBET(), name='reg')
+    ##reg.inputs.refb_file = params_template["template_brain"]
 
-    #if "reg" in params.keys() and "n" in params["reg"].keys():
-        #reg.inputs.n = params["reg"]["n"]
+    ##if "reg" in params.keys() and "n" in params["reg"].keys():
+        ##reg.inputs.n = params["reg"]["n"]
 
-    #if "reg" in params.keys() and "m" in params["reg"].keys():
-        #reg.inputs.m = params["reg"]["m"]
+    ##if "reg" in params.keys() and "m" in params["reg"].keys():
+        ##reg.inputs.m = params["reg"]["m"]
 
-    #if "reg" in params.keys() and "dof" in params["reg"].keys():
-        #reg.inputs.dof = params["reg"]["dof"]
+    ##if "reg" in params.keys() and "dof" in params["reg"].keys():
+        ##reg.inputs.dof = params["reg"]["dof"]
 
-    #brain_register_pipe.connect(debias, 't1_debiased_file', reg, 'inw_file')
-    #brain_register_pipe.connect(debias, 't1_debiased_brain_file',
-                                #reg, 'inb_file')
+    ##brain_register_pipe.connect(debias, 't1_debiased_file', reg, 'inw_file')
+    ##brain_register_pipe.connect(debias, 't1_debiased_brain_file',
+                                ##reg, 'inb_file')
 
-    return brain_register_pipe
+    #return brain_register_pipe
 
 
 def create_brain_register_mask_pipe(params_template, params={},
