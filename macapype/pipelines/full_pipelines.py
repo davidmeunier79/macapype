@@ -190,21 +190,21 @@ def create_full_T1xT2_segment_pnh_subpipes(
                      #brain_register_pipe, 'inputnode.mask')
 
 
-    if 'brain_register_mask_pipe' in params.keys():
-        print("brain_register_mask_pipe is in params")
-        params_brain_register_pipe = params["brain_register_mask_pipe"]
-    else:
-        print("*** brain_register_mask_pipe NOT in params")
-        params_brain_register_pipe = {}
+    #if 'brain_register_mask_pipe' in params.keys():
+        #print("brain_register_mask_pipe is in params")
+        #params_brain_register_pipe = params["brain_register_mask_pipe"]
+    #else:
+        #print("*** brain_register_mask_pipe NOT in params")
+        #params_brain_register_pipe = {}
 
-    brain_register_pipe = create_brain_register_mask_pipe(
-        params_template,
-        params=params_brain_register_pipe)
+    #brain_register_pipe = create_brain_register_mask_pipe(
+        #params_template,
+        #params=params_brain_register_pipe)
 
-    seg_pipe.connect(data_preparation_pipe, 'denoise_T1.output_image',
-                     brain_register_pipe, 'inputnode.T1_cropped')
-    seg_pipe.connect(data_preparation_pipe, 'denoise_T2.output_image',
-                     brain_register_pipe, 'inputnode.T2_cropped')
+    #seg_pipe.connect(data_preparation_pipe, 'denoise_T1.output_image',
+                     #brain_register_pipe, 'inputnode.T1_cropped')
+    #seg_pipe.connect(data_preparation_pipe, 'denoise_T2.output_image',
+                     #brain_register_pipe, 'inputnode.T2_cropped')
 
     ## Compute brain mask using old_segment of SPM and postprocessing on
     ## tissues' masks
