@@ -21,7 +21,7 @@ from macapype.pipelines.full_pipelines import create_full_segment_pnh_subpipes
 from macapype.utils.utils_tests import load_test_data
 
 package_directory = os.path.dirname(os.path.abspath(__file__))
-params_file = '{}/../workflows/params_segment_pnh_isabelle.json'.format(package_directory)
+params_file = '{}/../workflows/params_segment_sphinx_pnh_ants_based.json'.format(package_directory)
 params = json.load(open(params_file))
 
 print(params)
@@ -37,7 +37,7 @@ params_template = format_template(template_dir, template_name)
 print (params_template)
 
 
-data_path = load_test_data("data_test_macapype_ziggy")
+data_path = load_test_data("data_test_sphinx_pnh")
 
 # data file
 T1_file = op.join(data_path, "sub-ziggy_T1w.nii")
