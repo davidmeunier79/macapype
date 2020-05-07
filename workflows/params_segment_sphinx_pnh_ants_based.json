@@ -46,7 +46,7 @@
 
         }
     },
-    "brain_segment_pipe":
+    "no_brain_segment_pipe":
     {
         "masked_correct_bias_pipe":
         {
