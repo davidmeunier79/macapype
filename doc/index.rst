@@ -23,7 +23,7 @@ A docker image is also available, explanation can be found :ref:`here <docker_in
 Examples
 ********
 
-The :ref:`plot_segment_pnh_regis_T1xT2 workflow <plot_segment_pnh_regis_T1xT2>` based on Regis' :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_T1xT2>`, with the processing sequence:
+The :ref:`plot_segment_pnh_spm_based workflow <plot_segment_pnh_spm_based>` based on SPM-based :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_T1xT2>`, with the processing sequence:
 
 * :class:`Data preparation <macapype.pipelines.prepare.create_data_preparation_pipe>`
 * :class:`T1xT2BiasFieldCorrection <macapype.nodes.correct_bias.T1xT2BiasFieldCorrection>`
@@ -31,7 +31,7 @@ The :ref:`plot_segment_pnh_regis_T1xT2 workflow <plot_segment_pnh_regis_T1xT2>` 
 * :class:`old_segment SPM based pipeline <macapype.pipelines.segment.create_old_segment_pipe>`
 
 
-The :ref:`plot_segment_pnh_kepkee workflow <plot_segment_pnh_kepkee>` based on Kepkee's :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_subpipes>`, with the processing sequence :
+The :ref:`plot_segment_pnh_ants_based workflow <plot_segment_pnh_ants_based>` based on Kepkee's :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_subpipes>`, with the processing sequence :
 
 * :class:`Data preparation <macapype.pipelines.prepare.create_data_preparation_pipe>`
     - Averaging multiple files from same nature
@@ -49,7 +49,7 @@ The :ref:`plot_segment_pnh_kepkee workflow <plot_segment_pnh_kepkee>` based on K
     - :class:`segmentation pipeline <macapype.pipelines.segment.create_segment_atropos_pipe>` in subject space with Atropos
 
 
-An exemple of :ref:`reorientation <plot_segment_pnh_isabelle>`, starting from a sphinx position, with Kepkee's :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_subpipes>`.
+An exemple of :ref:`reorientation <plot_segment_sphinx_pnh_ants_based>`, starting from a sphinx position, with ANTS-based :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_subpipes>`.
 
-The same Kepkee's :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_subpipes>`, used on marmouset data (:ref:`link to example <plot_segment_marmo_test>`). The automated cropping did not work, hence manual cropping was used.
+The same ANTS-based :class:`full pipeline <macapype.pipelines.full_pipelines.create_full_pipelines_pnh_subpipes>`, used on marmouset data (:ref:`link to example <plot_segment_marmo_ants_based>`). The automated cropping did not work, hence manual cropping was used.
 

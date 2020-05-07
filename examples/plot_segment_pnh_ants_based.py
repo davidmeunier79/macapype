@@ -1,5 +1,5 @@
 """
-.. _plot_segment_pnh_kepkee:
+.. _plot_segment_pnh_ants_based:
 
 ============================================================
 Plot the results of a segmentation with ANTS-based pipeline
