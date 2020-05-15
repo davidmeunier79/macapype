@@ -5,7 +5,7 @@ import nipype.interfaces.fsl as fsl
 import nipype.interfaces.afni as afni
 import nipype.interfaces.ants as ants
 
-from ..utils.misc import get_elem
+from ..utils.misc import get_elem, parse_key
 from ..utils.utils_nodes import NodeParams
 
 from ..nodes.register import (interative_flirt, NMTSubjectAlign,
@@ -266,7 +266,7 @@ def create_register_NMT_pipe(params_template, params={},
 ###############################################################################
 # multi / indiv_params
 ###############################################################################
-def create_register_NMT_pipe(params_template, params={},
+def create_multi_register_NMT_pipe(params_template, params={},
                              name="register_NMT_pipe"):
     """
     Description: Register template to anat with the script NMT_subject_align,
@@ -312,8 +312,9 @@ def create_register_NMT_pipe(params_template, params={},
     register_NMT_pipe.connect(inputnode, 'T1',
                               norm_intensity, "input_image")
 
-    register_NMT_pipe.connect(inputnode, 'indiv_params',
-                              norm_intensity, "params")
+    register_NMT_pipe.connect(
+        inputnode, ('indiv_params', parse_key, "norm_intensity"),
+        norm_intensity, "indiv_params")
 
 
     deoblique = pe.Node(afni.Refit(deoblique=True), name="deoblique")

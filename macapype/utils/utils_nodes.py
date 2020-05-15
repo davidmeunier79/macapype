@@ -1,6 +1,7 @@
 from nipype.pipeline.engine import Node
 from nipype.interfaces.base import isdefined, traits
 
+
 class NodeParams(Node):
 
     """
@@ -56,7 +57,6 @@ class NodeParams(Node):
 
         print("Running Node")
         super(NodeParams, self).run(updatehash=updatehash)
-
 
 from nipype.interfaces.io import BIDSDataGrabber
 from .misc import parse_key
