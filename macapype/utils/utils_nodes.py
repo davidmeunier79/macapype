@@ -17,9 +17,14 @@ class NodeParams(Node):
 
         self.load_inputs_from_dict(params)
 
-    def load_inputs_from_dict(self, params):
+    def load_inputs_from_dict(self, params, overwrite=True):
 
-        new_inputs = list(set(list(params.keys())))
+        def_inputs = []
+        if not overwrite:
+            def_inputs = list(self.inputs.get_traitsfree().keys())
+
+        new_inputs = list(set(list(params.keys())) - set(def_inputs))
+
         for key in new_inputs:
             assert hasattr(self._interface.inputs, key), \
                 print("Warning, Could not find {} in inputs {} for node {}".
