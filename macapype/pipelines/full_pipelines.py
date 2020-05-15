@@ -412,23 +412,23 @@ def create_full_segment_multi_pnh_subpipes(
     seg_pipe.connect(inputnode, 'indiv_params',
                      data_preparation_pipe, 'inputnode.indiv_params')
 
-    # full extract brain pipeline (correct_bias, denoising, extract brain)
-    if 'brain_extraction_pipe' in params.keys():
-        print("brain_extraction_pipe is in params")
-        params_brain_extraction_pipe = params["brain_extraction_pipe"]
-    else:
-        print("*** brain_extraction_pipe NOT in params")
-        params_brain_extraction_pipe = {}
+    ## full extract brain pipeline (correct_bias, denoising, extract brain)
+    #if 'brain_extraction_pipe' in params.keys():
+        #print("brain_extraction_pipe is in params")
+        #params_brain_extraction_pipe = params["brain_extraction_pipe"]
+    #else:
+        #print("*** brain_extraction_pipe NOT in params")
+        #params_brain_extraction_pipe = {}
 
-    brain_extraction_pipe = create_brain_multi_extraction_pipe(
-        params=params_brain_extraction_pipe, params_template=params_template)
+    #brain_extraction_pipe = create_brain_multi_extraction_pipe(
+        #params=params_brain_extraction_pipe, params_template=params_template)
 
-    seg_pipe.connect(data_preparation_pipe, 'denoise_T1.output_image',
-                     brain_extraction_pipe, 'inputnode.preproc_T1')
-    seg_pipe.connect(data_preparation_pipe, 'denoise_T2.output_image',
-                     brain_extraction_pipe, 'inputnode.preproc_T2')
+    #seg_pipe.connect(data_preparation_pipe, 'denoise_T1.output_image',
+                     #brain_extraction_pipe, 'inputnode.preproc_T1')
+    #seg_pipe.connect(data_preparation_pipe, 'denoise_T2.output_image',
+                     #brain_extraction_pipe, 'inputnode.preproc_T2')
 
-    seg_pipe.connect(inputnode, 'indiv_params',
-                     brain_extraction_pipe, 'inputnode.indiv_params')
+    #seg_pipe.connect(inputnode, 'indiv_params',
+                     #brain_extraction_pipe, 'inputnode.indiv_params')
 
     return seg_pipe

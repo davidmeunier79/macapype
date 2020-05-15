@@ -1,5 +1,5 @@
 from nipype.pipeline.engine import Node
-from nipype.interfaces.base import isdefined
+from nipype.interfaces.base import isdefined, traits
 
 class NodeParams(Node):
 
@@ -25,6 +25,32 @@ class NodeParams(Node):
                 print("Warning, Could not find {} in inputs {} for node {}".
                       format(key, self._interface.inputs, self._name))
             setattr(self._interface.inputs, key, params[key])
+
+    def _check_inputs(self, parameter):
+        if parameter == "indiv_params":
+            print("**** checking for indiv_params****")
+            return True
+        else:
+            return super(NodeParams, self)._check_inputs(parameter=parameter)
+
+
+    def set_input(self, parameter, val):
+        if parameter == "indiv_params":
+            print(val)
+            print("**** setting indiv_params****")
+            self.load_inputs_from_dict(val)
+        else :
+            super(NodeParams, self).set_input(parameter=parameter, val=val)
+
+
+    def run(self, updatehash = False):
+
+        if hasattr(self._interface.inputs, "params"):
+            print("***** Found indiv_params *****")
+            self.load_inputs_from_dict(params)
+
+        print("Running Node")
+        super(NodeParams, self).run(updatehash=updatehash)
 
 
 from nipype.interfaces.io import BIDSDataGrabber
