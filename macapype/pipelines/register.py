@@ -312,8 +312,9 @@ def create_multi_register_NMT_pipe(params_template, params={},
     register_NMT_pipe.connect(inputnode, 'T1',
                               norm_intensity, "input_image")
 
-    register_NMT_pipe.connect(inputnode, ('indiv_params', parse_key, "crop"),
-                              norm_intensity, "indiv_params")
+    register_NMT_pipe.connect(
+        inputnode, ('indiv_params', parse_key, "norm_intensity"),
+        norm_intensity, "indiv_params")
 
 
     deoblique = pe.Node(afni.Refit(deoblique=True), name="deoblique")
