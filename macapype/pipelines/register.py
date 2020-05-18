@@ -313,7 +313,7 @@ def create_multi_register_NMT_pipe(params_template, params={},
                               norm_intensity, "input_image")
 
     register_NMT_pipe.connect(inputnode, 'indiv_params',
-                              norm_intensity, "params")
+                              norm_intensity, "indiv_params")
 
 
     deoblique = pe.Node(afni.Refit(deoblique=True), name="deoblique")
