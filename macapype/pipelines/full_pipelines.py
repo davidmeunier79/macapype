@@ -373,6 +373,7 @@ def create_full_segment_pnh_subpipes(
 
     return seg_pipe
 
+
 ###############################################################################
 # multi / indiv_params
 ###############################################################################
@@ -542,6 +543,7 @@ def create_multi_brain_segment_from_mask_pipe(
 
     return brain_segment_pipe
 
+
 def create_full_segment_multi_pnh_subpipes(
         params_template, params={}, name="full_segment_pnh_subpipes"):
     """Description: Segment T1 (using T2 for bias correction) .
@@ -617,10 +619,6 @@ def create_full_segment_multi_pnh_subpipes(
     seg_pipe.connect(inputnode, 'indiv_params',
                      brain_extraction_pipe, 'inputnode.indiv_params')
 
-
-
-
-
     # full_segment (restarting from the avg_align files)
     if "brain_segment_pipe" in params.keys():
         params_brain_segment_pipe = params["brain_segment_pipe"]
@@ -638,8 +636,6 @@ def create_full_segment_multi_pnh_subpipes(
                          brain_segment_pipe, "inputnode.brain_mask")
 
         seg_pipe.connect(inputnode, 'indiv_params',
-                        brain_segment_pipe, 'inputnode.indiv_params')
-
-
+                         brain_segment_pipe, 'inputnode.indiv_params')
 
     return seg_pipe

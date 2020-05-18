@@ -1,5 +1,6 @@
 from nipype.pipeline.engine import Node
-from nipype.interfaces.base import isdefined, traits
+from nipype.interfaces.io import BIDSDataGrabber
+from .misc import parse_key
 
 
 class NodeParams(Node):
@@ -39,36 +40,20 @@ class NodeParams(Node):
         else:
             return super(NodeParams, self)._check_inputs(parameter=parameter)
 
-
     def set_input(self, parameter, val):
         if parameter == "indiv_params":
-            print(val)
             print("**** setting indiv_params****")
+            print(val)
             self.load_inputs_from_dict(val)
-        else :
+        else:
             super(NodeParams, self).set_input(parameter=parameter, val=val)
 
-
-    def run(self, updatehash = False):
-
-        if hasattr(self._interface.inputs, "params"):
-            print("***** Found indiv_params *****")
-            self.load_inputs_from_dict(params)
-
-        print("Running Node")
-        super(NodeParams, self).run(updatehash=updatehash)
-
-from nipype.interfaces.io import BIDSDataGrabber
-from .misc import parse_key
 
 class BIDSDataGrabberParams(BIDSDataGrabber):
     def __init__(self, params={}, **kwargs):
 
         super(BIDSDataGrabberParams, self).__init__(**kwargs)
-
         self._params = params
-
-        print(self._params)
 
     def _set_indiv_params(self, outputs):
 
@@ -76,18 +61,13 @@ class BIDSDataGrabberParams(BIDSDataGrabber):
             "Error, subject and session should be defined as iterables"
 
         keys = ("sub-" + getattr(self.inputs, "subject"),
-               "ses-" + getattr(self.inputs, "session"))
-
+                "ses-" + getattr(self.inputs, "session"))
         outputs["indiv_params"] = parse_key(self._params, keys)
 
         return outputs
 
     def _list_outputs(self):
-
         outputs = super(BIDSDataGrabberParams, self)._list_outputs()
-
         outputs = self._set_indiv_params(outputs)
 
         return outputs
-
-

@@ -280,7 +280,7 @@ def create_multi_data_preparation_pipe(params, name="data_preparation_pipe"):
             crop_bb_T1, 'indiv_params')
 
         # Crop bounding box for T2
-        crop_bb_T2 = NodeParams(fsl.ExtractROI(),name='crop_bb_T2')
+        crop_bb_T2 = NodeParams(fsl.ExtractROI(), name='crop_bb_T2')
         crop_bb_T2.load_inputs_from_dict(params["crop"])
 
         data_preparation_pipe.connect(
@@ -309,7 +309,6 @@ def create_multi_data_preparation_pipe(params, name="data_preparation_pipe"):
 
         data_preparation_pipe.connect(align_T2_on_T1, "out_file",
                                       crop_bb_T2, 'in_file')
-
 
     # denoise with Ants package
     denoise_T1 = pe.Node(interface=DenoiseImage(), name="denoise_T1")

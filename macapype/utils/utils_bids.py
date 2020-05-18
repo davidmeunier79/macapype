@@ -4,6 +4,8 @@ from bids.layout import BIDSLayout
 import nipype.interfaces.io as nio
 import nipype.pipeline.engine as pe
 
+from .utils_nodes import BIDSDataGrabberParams
+
 
 def create_datasource(data_dir, subjects=None, sessions=None, acqs=None):
     """ Create a datasource node that have iterables following BIDS format """
@@ -52,13 +54,14 @@ def create_datasource(data_dir, subjects=None, sessions=None, acqs=None):
 
     return bids_datasource
 
-from .utils_nodes import  BIDSDataGrabberParams
 
-def create_datasource_multi_params(data_dir, multi_params, subjects=None, sessions=None, acqs=None):
-    """ Create a datasource node that have iterables following BIDS format """
+def create_datasource_multi_params(data_dir, multi_params, subjects=None,
+                                   sessions=None, acqs=None):
+    """ Create a datasource node that have iterables following BIDS format,
+    including a multi_params file"""
+
     bids_datasource = pe.Node(
         interface=BIDSDataGrabberParams(multi_params),
-        #interface=nio.BIDSDataGrabber(),
         name='bids_datasource'
     )
 
