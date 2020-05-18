@@ -266,7 +266,7 @@ def create_register_NMT_pipe(params_template, params={},
 ###############################################################################
 # multi / indiv_params
 ###############################################################################
-def create_register_NMT_pipe(params_template, params={},
+def create_multi_register_NMT_pipe(params_template, params={},
                              name="register_NMT_pipe"):
     """
     Description: Register template to anat with the script NMT_subject_align,
