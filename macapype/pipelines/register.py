@@ -5,7 +5,7 @@ import nipype.interfaces.fsl as fsl
 import nipype.interfaces.afni as afni
 import nipype.interfaces.ants as ants
 
-from ..utils.misc import get_elem
+from ..utils.misc import get_elem, parse_key
 from ..utils.utils_nodes import NodeParams
 
 from ..nodes.register import (interative_flirt, NMTSubjectAlign,
