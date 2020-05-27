@@ -58,7 +58,7 @@ import nipype.interfaces.utility as niu
 import nipype.interfaces.fsl as fsl
 fsl.FSLCommand.set_default_output_type('NIFTI_GZ')
 
-from macapype.pipelines.full_pipelines import create_full_segment_multi_pnh_subpipes
+from macapype.pipelines.full_pipelines import create_full_segment_pnh_subpipes
 
 from macapype.utils.utils_bids import create_datasource_multi_params
 from macapype.utils.utils_tests import load_test_data, format_template
@@ -139,15 +139,15 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions, params_file)
 
     main_workflow.connect(datasource, "indiv_params", convert_json,'cur_dict')
 
-    #segment_pnh = create_full_segment_multi_pnh_subpipes(
-        #params_template=params_template,
-        #params=params)
+    segment_pnh = create_full_segment_pnh_subpipes(
+        params_template=params_template,
+        params=params)
 
-    #main_workflow.connect(datasource, 'T1', segment_pnh, 'inputnode.T1')
-    #main_workflow.connect(datasource, 'T2', segment_pnh, 'inputnode.T2')
+    main_workflow.connect(datasource, 'T1', segment_pnh, 'inputnode.T1')
+    main_workflow.connect(datasource, 'T2', segment_pnh, 'inputnode.T2')
 
-    #main_workflow.connect(datasource, "indiv_params",
-                          #segment_pnh,'inputnode.indiv_params')
+    main_workflow.connect(datasource, "indiv_params",
+                          segment_pnh,'inputnode.indiv_params')
 
 
     return main_workflow
