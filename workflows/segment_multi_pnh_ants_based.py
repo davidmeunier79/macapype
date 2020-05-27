@@ -122,7 +122,7 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
     print (params_template)
 
     # main_workflow
-    main_workflow = pe.Workflow(name= "test_pipeline_ants_multi_params_bet_crop")
+    main_workflow = pe.Workflow(name= "test_pipeline_ants_multi_params_crop")
     main_workflow.base_dir = process_dir
 
     datasource = create_datasource(data_dir, multi_params, subjects, sessions)
