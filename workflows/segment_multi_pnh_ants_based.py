@@ -60,14 +60,15 @@ fsl.FSLCommand.set_default_output_type('NIFTI_GZ')
 
 from macapype.pipelines.full_pipelines import create_full_segment_pnh_subpipes
 
-from macapype.utils.utils_bids import create_datasource_multi_params
+from macapype.utils.utils_bids import create_datasource
 from macapype.utils.utils_tests import load_test_data, format_template
 
 from macapype.utils.misc import show_files, get_first_elem
 
 ###############################################################################
 
-def create_main_workflow(data_dir, process_dir, subjects, sessions, params_file):
+def create_main_workflow(data_dir, process_dir, subjects, sessions,
+                         params_file, multi_params_file):
 
     # formating args
     data_dir = op.abspath(data_dir)
@@ -88,21 +89,21 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions, params_file)
         params = {}
 
 
-    print(params)
+    print("Params:")
     pprint.pprint(params)
 
+
     # multi_params
-    multi_params_file = op.join(data_dir, "multi_params.json")
+    multi_params = {}
 
-    print(multi_params_file)
-    if multi_params_file is not None:
+    if multi_params_file is None:
+        multi_params_file = op.join(data_dir, "multi_params.json")
 
-        assert os.path.exists(multi_params_file), "Error with file {}".format(
-            multi_params_file)
-
+    if os.path.exists(multi_params_file):
         multi_params = json.load(open(multi_params_file))
-    else:
-        multi_params = {}
+
+    print("Multi-params:")
+    pprint.pprint(multi_params)
 
     # params_template
     if "general" in params.keys() and "my_path" in params["general"].keys():
@@ -123,7 +124,7 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions, params_file)
     main_workflow = pe.Workflow(name= "test_pipeline_ants_multi_params")
     main_workflow.base_dir = process_dir
 
-    datasource = create_datasource_multi_params(data_dir,
+    datasource = create_datasource(data_dir,
                                                 multi_params,
                                                 subjects, sessions)
 
@@ -168,6 +169,8 @@ if __name__ == '__main__':
                         help="Subjects' ID", required=False)
     parser.add_argument("-params", dest="params_file", type=str,
                         help="Parameters json file", required=False)
+    parser.add_argument("-multi_params", dest="multi_params_file", type=str,
+                        help="Multiple Parameters json file", required=False)
 
 
     args = parser.parse_args()
@@ -179,8 +182,9 @@ if __name__ == '__main__':
         process_dir=args.out,
         subjects=args.subjects,
         sessions=args.ses,
-        params_file=args.params_file
-    )
+        params_file=args.params_file,
+        multi_params_file=args.multi_params_file)
+
     wf.write_graph(graph2use="colored")
     wf.config['execution'] = {'remove_unnecessary_outputs': 'false'}
     #print('The PNH segmentation pipeline is ready')
