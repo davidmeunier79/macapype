@@ -1,4 +1,3 @@
-
 import nipype.interfaces.utility as niu
 import nipype.pipeline.engine as pe
 
@@ -9,6 +8,7 @@ from ..utils.utils_nodes import NodeParams, parse_key
 
 from ..nodes.prepare import average_align, FslOrient
 from ..nodes.extract_brain import T1xT2BET
+
 
 def create_reorient_pipeline(name="reorient_pipe",
                              new_dims=("x", "z", "-y")):
@@ -43,8 +43,9 @@ def create_reorient_pipeline(name="reorient_pipe",
 
     return reorient_pipe
 
+
 def create_data_preparation_pipe(params, name="data_preparation_pipe"):
-       """
+    """
     Description
     prepare:
     - av = checking if multiples T1 and T2 and if it is the case,
@@ -78,7 +79,6 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
             mask from T1xT2BET
 
     """
-
     # creating pipeline
     data_preparation_pipe = pe.Workflow(name=name)
 
@@ -181,11 +181,9 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
                               params=parse_key(params, "bet_crop"),
                               name='bet_crop')
 
-
         data_preparation_pipe.connect(
             inputnode, ('indiv_params', parse_key, "bet_crop"),
             bet_crop, 'indiv_params')
-
 
         if "reorient" in params.keys():
 
@@ -209,20 +207,19 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
         align_T2_on_T1 = pe.Node(fsl.FLIRT(), name="align_T2_on_T1")
         align_T2_on_T1.inputs.dof = 6
 
-
         if "reorient" in params.keys():
 
             data_preparation_pipe.connect(reorient_T1_pipe,
-                                        'swap_dim.out_file',
-                                        align_T2_on_T1, 'reference')
+                                          'swap_dim.out_file',
+                                          align_T2_on_T1, 'reference')
             data_preparation_pipe.connect(reorient_T2_pipe,
-                                        'swap_dim.out_file',
-                                        align_T2_on_T1, 'in_file')
+                                          'swap_dim.out_file',
+                                          align_T2_on_T1, 'in_file')
         else:
             data_preparation_pipe.connect(av_T1, 'avg_img',
-                                        align_T2_on_T1, 'reference')
+                                          align_T2_on_T1, 'reference')
             data_preparation_pipe.connect(av_T2, 'avg_img',
-                                        align_T2_on_T1, 'in_file')
+                                          align_T2_on_T1, 'in_file')
 
     # denoise with Ants package
     denoise_T1 = pe.Node(interface=DenoiseImage(), name="denoise_T1")
@@ -241,4 +238,3 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
                                       denoise_T2, 'input_image')
 
     return data_preparation_pipe
-
