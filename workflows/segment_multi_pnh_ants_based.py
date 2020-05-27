@@ -127,18 +127,6 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
 
     datasource = create_datasource(data_dir, multi_params, subjects, sessions)
 
-    def print_dict(cur_dict):
-        print("************* Le dict params: {}".format(cur_dict))
-        return cur_dict
-
-
-    convert_json = pe.Node(
-        interface = niu.Function(inputnames = ["cur_dict"],output_names = ["params"],
-                                 function = print_dict),
-        name = "convert_json")
-
-    main_workflow.connect(datasource, "indiv_params", convert_json,'cur_dict')
-
     segment_pnh = create_full_segment_pnh_subpipes(
         params_template=params_template,
         params=params)
