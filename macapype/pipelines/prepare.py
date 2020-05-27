@@ -242,28 +242,28 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
             data_preparation_pipe.connect(av_T2, 'avg_img',
                                           bet_crop, 't2_file')
 
+    else:
+        print("No bet_crop parameters, or no individual cropping were found, \
+            align T1 and T2 is performed")
+
+        # align avg T2 on avg T1
+        align_T2_on_T1 = pe.Node(fsl.FLIRT(), name="align_T2_on_T1")
+        align_T2_on_T1.inputs.dof = 6
+
+
+        if "reorient" in params.keys():
+
+            data_preparation_pipe.connect(reorient_T1_pipe,
+                                        'swap_dim.out_file',
+                                        align_T2_on_T1, 'reference')
+            data_preparation_pipe.connect(reorient_T2_pipe,
+                                        'swap_dim.out_file',
+                                        align_T2_on_T1, 'in_file')
         else:
-            print("No bet_crop parameters, or no individual cropping were found, \
-                align T1 and T2 is performed")
-
-            # align avg T2 on avg T1
-            align_T2_on_T1 = pe.Node(fsl.FLIRT(), name="align_T2_on_T1")
-            align_T2_on_T1.inputs.dof = 6
-
-
-            if "reorient" in params.keys():
-
-                data_preparation_pipe.connect(reorient_T1_pipe,
-                                            'swap_dim.out_file',
-                                            align_T2_on_T1, 'reference')
-                data_preparation_pipe.connect(reorient_T2_pipe,
-                                            'swap_dim.out_file',
-                                            align_T2_on_T1, 'in_file')
-            else:
-                data_preparation_pipe.connect(av_T1, 'avg_img',
-                                            align_T2_on_T1, 'reference')
-                data_preparation_pipe.connect(av_T2, 'avg_img',
-                                            align_T2_on_T1, 'in_file')
+            data_preparation_pipe.connect(av_T1, 'avg_img',
+                                        align_T2_on_T1, 'reference')
+            data_preparation_pipe.connect(av_T2, 'avg_img',
+                                        align_T2_on_T1, 'in_file')
 
     ## denoise with Ants package
     #denoise_T1 = pe.Node(interface=DenoiseImage(), name="denoise_T1")
