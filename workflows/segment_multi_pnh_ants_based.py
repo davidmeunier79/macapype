@@ -63,7 +63,7 @@ from macapype.pipelines.full_pipelines import create_full_segment_multi_pnh_subp
 from macapype.utils.utils_bids import create_datasource_multi_params
 from macapype.utils.utils_tests import load_test_data, format_template
 
-from macapype.utils.misc import show_files, get_first_elem, get_dict_from_json
+from macapype.utils.misc import show_files, get_first_elem
 
 ###############################################################################
 
@@ -133,11 +133,11 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions, params_file)
 
 
     convert_json = pe.Node(
-        interface = niu.Function(inputnames = ["json_file"],output_names = ["params"],
+        interface = niu.Function(inputnames = ["cur_dict"],output_names = ["params"],
                                  function = print_dict),
         name = "convert_json")
 
-    main_workflow.connect(datasource, "indiv_params", convert_json,'json_file')
+    main_workflow.connect(datasource, "indiv_params", convert_json,'cur_dict')
 
     #segment_pnh = create_full_segment_multi_pnh_subpipes(
         #params_template=params_template,
