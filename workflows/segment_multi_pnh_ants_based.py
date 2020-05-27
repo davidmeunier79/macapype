@@ -96,9 +96,6 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
     # multi_params
     multi_params = {}
 
-    if multi_params_file is None:
-        multi_params_file = op.join(data_dir, "multi_params.json")
-
     if os.path.exists(multi_params_file):
         multi_params = json.load(open(multi_params_file))
 
@@ -121,12 +118,10 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
     print (params_template)
 
     # main_workflow
-    main_workflow = pe.Workflow(name= "test_pipeline_ants_multi_params")
+    main_workflow = pe.Workflow(name= "test_pipeline_ants_multi_params_bet_crop")
     main_workflow.base_dir = process_dir
 
-    datasource = create_datasource(data_dir,
-                                                multi_params,
-                                                subjects, sessions)
+    datasource = create_datasource(data_dir, multi_params, subjects, sessions)
 
     def print_dict(cur_dict):
         print("************* Le dict params: {}".format(cur_dict))
@@ -142,7 +137,7 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
 
     segment_pnh = create_full_segment_pnh_subpipes(
         params_template=params_template,
-        params=params)
+        params=params, name = "")
 
     main_workflow.connect(datasource, 'T1', segment_pnh, 'inputnode.T1')
     main_workflow.connect(datasource, 'T2', segment_pnh, 'inputnode.T2')
