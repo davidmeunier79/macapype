@@ -242,10 +242,17 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
 
         print('bet_crop is in params')
 
-        # Brain extraction (unused) + Cropping
-        bet_crop = NodeParams(T1xT2BET(), params=params["bet_crop"],
+        # Align, Brain extraction + Cropping
+        bet_crop = NodeParams(T1xT2BET(),
+                              params=parse_key(params, "bet_crop"),
                               name='bet_crop')
 
+
+        data_preparation_pipe.connect(
+            inputnode, ('indiv_params', parse_key, "bet_crop"),
+            bet_crop, 'indiv_params')
+
+
         if "reorient" in params.keys():
 
             data_preparation_pipe.connect(reorient_T1_pipe,
@@ -260,71 +267,71 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
             data_preparation_pipe.connect(av_T2, 'avg_img',
                                           bet_crop, 't2_file')
 
-    elif "crop" in params.keys():
-        print('crop is in params')
+    #elif "crop" in params.keys():
+        #print('crop is in params')
 
-        # assert "croplist" in params["crop"].keys(), \
-        #    "Error, croplist is not specified for crop node, breaking"
+        ## assert "croplist" in params["crop"].keys(), \
+        ##    "Error, croplist is not specified for crop node, breaking"
 
-        # align avg T2 on avg T1
-        align_T2_on_T1 = pe.Node(fsl.FLIRT(), name="align_T2_on_T1")
-        align_T2_on_T1.inputs.dof = 6
+        ## align avg T2 on avg T1
+        #align_T2_on_T1 = pe.Node(fsl.FLIRT(), name="align_T2_on_T1")
+        #align_T2_on_T1.inputs.dof = 6
 
-        # cropping
-        # Crop bounding box for T1
-        crop_bb_T1 = NodeParams(fsl.ExtractROI(), name='crop_bb_T1')
-        crop_bb_T1.load_inputs_from_dict(params["crop"])
+        ## cropping
+        ## Crop bounding box for T1
+        #crop_bb_T1 = NodeParams(fsl.ExtractROI(), name='crop_bb_T1')
+        #crop_bb_T1.load_inputs_from_dict(params["crop"])
 
-        data_preparation_pipe.connect(
-            inputnode, ('indiv_params', parse_key, "crop"),
-            crop_bb_T1, 'indiv_params')
+        #data_preparation_pipe.connect(
+            #inputnode, ('indiv_params', parse_key, "crop"),
+            #crop_bb_T1, 'indiv_params')
 
-        # Crop bounding box for T2
-        crop_bb_T2 = NodeParams(fsl.ExtractROI(), name='crop_bb_T2')
-        crop_bb_T2.load_inputs_from_dict(params["crop"])
+        ## Crop bounding box for T2
+        #crop_bb_T2 = NodeParams(fsl.ExtractROI(), name='crop_bb_T2')
+        #crop_bb_T2.load_inputs_from_dict(params["crop"])
 
-        data_preparation_pipe.connect(
-            inputnode, ('indiv_params', parse_key, "crop"),
-            crop_bb_T2, 'indiv_params')
+        #data_preparation_pipe.connect(
+            #inputnode, ('indiv_params', parse_key, "crop"),
+            #crop_bb_T2, 'indiv_params')
 
-        # Crop bounding box for T2
-        if "reorient" in params.keys():
-            data_preparation_pipe.connect(reorient_T1_pipe,
-                                          'swap_dim.out_file',
-                                          align_T2_on_T1, 'reference')
-            data_preparation_pipe.connect(reorient_T2_pipe,
-                                          'swap_dim.out_file',
-                                          align_T2_on_T1, 'in_file')
+        ## Crop bounding box for T2
+        #if "reorient" in params.keys():
+            #data_preparation_pipe.connect(reorient_T1_pipe,
+                                          #'swap_dim.out_file',
+                                          #align_T2_on_T1, 'reference')
+            #data_preparation_pipe.connect(reorient_T2_pipe,
+                                          #'swap_dim.out_file',
+                                          #align_T2_on_T1, 'in_file')
 
-            data_preparation_pipe.connect(reorient_T1_pipe,
-                                          'swap_dim.out_file',
-                                          crop_bb_T1, 'in_file')
-        else:
-            data_preparation_pipe.connect(av_T1, 'avg_img',
-                                          align_T2_on_T1, 'reference')
-            data_preparation_pipe.connect(av_T2, 'avg_img',
-                                          align_T2_on_T1, 'in_file')
-            data_preparation_pipe.connect(av_T1, 'avg_img',
-                                          crop_bb_T1, 'in_file')
+            #data_preparation_pipe.connect(reorient_T1_pipe,
+                                          #'swap_dim.out_file',
+                                          #crop_bb_T1, 'in_file')
+        #else:
+            #data_preparation_pipe.connect(av_T1, 'avg_img',
+                                          #align_T2_on_T1, 'reference')
+            #data_preparation_pipe.connect(av_T2, 'avg_img',
+                                          #align_T2_on_T1, 'in_file')
+            #data_preparation_pipe.connect(av_T1, 'avg_img',
+                                          #crop_bb_T1, 'in_file')
 
-        data_preparation_pipe.connect(align_T2_on_T1, "out_file",
-                                      crop_bb_T2, 'in_file')
+        #data_preparation_pipe.connect(align_T2_on_T1, "out_file",
+                                      #crop_bb_T2, 'in_file')
 
-    # denoise with Ants package
-    denoise_T1 = pe.Node(interface=DenoiseImage(), name="denoise_T1")
-    denoise_T2 = pe.Node(interface=DenoiseImage(), name="denoise_T2")
+    ## denoise with Ants package
+    #denoise_T1 = pe.Node(interface=DenoiseImage(), name="denoise_T1")
+    #denoise_T2 = pe.Node(interface=DenoiseImage(), name="denoise_T2")
 
-    if "bet_crop" in params.keys():
-        data_preparation_pipe.connect(bet_crop, "t1_cropped_file",
-                                      denoise_T1, 'input_image')
-        data_preparation_pipe.connect(bet_crop, "t2_cropped_file",
-                                      denoise_T2, 'input_image')
+    #if "bet_crop" in params.keys():
+        #data_preparation_pipe.connect(bet_crop, "t1_cropped_file",
+                                      #denoise_T1, 'input_image')
+        #data_preparation_pipe.connect(bet_crop, "t2_cropped_file",
+                                      #denoise_T2, 'input_image')
 
-    elif "crop" in params.keys():
-        data_preparation_pipe.connect(crop_bb_T1, "roi_file",
-                                      denoise_T1, 'input_image')
-        data_preparation_pipe.connect(crop_bb_T2, "roi_file",
-                                      denoise_T2, 'input_image')
+    #elif "crop" in params.keys():
+        #data_preparation_pipe.connect(crop_bb_T1, "roi_file",
+                                      #denoise_T1, 'input_image')
+        #data_preparation_pipe.connect(crop_bb_T2, "roi_file",
+                                      #denoise_T2, 'input_image')
 
     return data_preparation_pipe
 
