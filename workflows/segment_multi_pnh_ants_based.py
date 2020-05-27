@@ -78,29 +78,32 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
 
 
     # params
-    print(params_file)
+    params = {}
     if params_file is not None:
+
+        print("Params:", params_file)
 
         assert os.path.exists(params_file), "Error with file {}".format(
             params_file)
 
         params = json.load(open(params_file))
-    else:
-        params = {}
 
-
-    print("Params:", params_file)
     pprint.pprint(params)
 
 
     # multi_params
     multi_params = {}
+    if multi_params_file is not None:
 
-    if os.path.exists(multi_params_file):
+        print("Params:", multi_params_file)
+
+        assert os.path.exists(multi_params_file), "Error with file {}".format(
+            multi_params_file)
+
         multi_params = json.load(open(multi_params_file))
 
-    print("Multi-params:", multi_params_file)
     pprint.pprint(multi_params)
+
 
     # params_template
     if "general" in params.keys() and "my_path" in params["general"].keys():
