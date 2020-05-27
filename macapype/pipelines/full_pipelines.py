@@ -318,17 +318,17 @@ def create_full_segment_pnh_subpipes(
     seg_pipe.connect(inputnode, 'indiv_params',
                      data_preparation_pipe, 'inputnode.indiv_params')
 
-    ## full extract brain pipeline (correct_bias, denoising, extract brain)
-    #brain_extraction_pipe = create_brain_extraction_pipe(
-        #params=parse_key(params, "brain_extraction_pipe"),
-        #params_template=params_template)
+    # full extract brain pipeline (correct_bias, denoising, extract brain)
+    brain_extraction_pipe = create_brain_extraction_pipe(
+        params=parse_key(params, "brain_extraction_pipe"),
+        params_template=params_template)
 
-    #seg_pipe.connect(data_preparation_pipe, 'denoise_T1.output_image',
-                     #brain_extraction_pipe, 'inputnode.preproc_T1')
-    #seg_pipe.connect(data_preparation_pipe, 'denoise_T2.output_image',
-                     #brain_extraction_pipe, 'inputnode.preproc_T2')
-    #seg_pipe.connect(inputnode, 'indiv_params',
-                     #brain_extraction_pipe, 'inputnode.indiv_params')
+    seg_pipe.connect(data_preparation_pipe, 'denoise_T1.output_image',
+                     brain_extraction_pipe, 'inputnode.preproc_T1')
+    seg_pipe.connect(data_preparation_pipe, 'denoise_T2.output_image',
+                     brain_extraction_pipe, 'inputnode.preproc_T2')
+    seg_pipe.connect(inputnode, 'indiv_params',
+                     brain_extraction_pipe, 'inputnode.indiv_params')
 
     ## full_segment (restarting from the avg_align files)
     #if "brain_segment_pipe" in params.keys():
