@@ -89,7 +89,7 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
         params = {}
 
 
-    print("Params:")
+    print("Params:", params_file)
     pprint.pprint(params)
 
 
@@ -102,7 +102,7 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
     if os.path.exists(multi_params_file):
         multi_params = json.load(open(multi_params_file))
 
-    print("Multi-params:")
+    print("Multi-params:", multi_params_file)
     pprint.pprint(multi_params)
 
     # params_template
