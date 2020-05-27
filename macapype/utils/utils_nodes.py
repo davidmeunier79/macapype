@@ -3,6 +3,47 @@ from nipype.interfaces.io import BIDSDataGrabber
 from .misc import parse_key
 
 
+def parse_key(params, key):
+
+    from nipype.interfaces.base import isdefined
+
+    def _parse_key(params, cur_key):
+        if  cur_key in params.keys():
+            return params[cur_key]
+        else:
+            "Error, key {} was not found in {}".format(key, params.keys())
+            return {}
+
+    if isdefined(params):
+        if isinstance(key, tuple):
+            for cur_key in key:
+                params = _parse_key(params, cur_key)
+
+        else:
+            params = _parse_key(params, key)
+
+        return params
+
+    else:
+        return {}
+
+
+def output_key_exists(node, output_name, keys):
+
+    print (node.outputs)
+    print (keys)
+
+    if hasattr(node.outputs,output_name):
+        print("Found {} in {}".format(output_name, node.name))
+        params = getattr(node.outputs, output_name)
+        print("Params = {}".format(params))
+        val = parse_key(params, keys)
+        return(val)
+    else:
+        print("Not Found {} in {}".format(output_name, node.name))
+        return False
+
+
 class NodeParams(Node):
 
     """
@@ -62,7 +103,6 @@ class BIDSDataGrabberParams(BIDSDataGrabber):
         keys = ("sub-" + getattr(self.inputs, "subject"),
                 "ses-" + getattr(self.inputs, "session"))
         outputs["indiv_params"] = parse_key(self._params, keys)
-
         return outputs
 
     def _list_outputs(self):
