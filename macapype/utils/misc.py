@@ -98,7 +98,9 @@ def parse_key(params, key):
         else:
             params = _parse_key(params, key)
 
+        print(params)
         return params
 
     else:
+        print({})
         return {}
