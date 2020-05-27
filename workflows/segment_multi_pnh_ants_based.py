@@ -96,7 +96,7 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions,
     multi_params = {}
     if multi_params_file is not None:
 
-        print("Params:", multi_params_file)
+        print("Multi Params:", multi_params_file)
 
         assert os.path.exists(multi_params_file), "Error with file {}".format(
             multi_params_file)
