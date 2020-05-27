@@ -127,22 +127,27 @@ def create_main_workflow(data_dir, process_dir, subjects, sessions, params_file)
                                                 multi_params,
                                                 subjects, sessions)
 
-    #convert_json = pe.Node(
-        #interface = niu.Function(inputnames = ["json_file"],output_names = ["params"],
-                                 #function = get_dict_from_json),
-        #name = "convert_json")
+    def print_dict(cur_dict):
+        print("************* Le dict params: {}".format(cur_dict))
+        return cur_dict
 
-    #main_workflow.connect(datasource, ("json_file",get_first_elem), convert_json,'json_file')
 
-    segment_pnh = create_full_segment_multi_pnh_subpipes(
-        params_template=params_template,
-        params=params)
+    convert_json = pe.Node(
+        interface = niu.Function(inputnames = ["json_file"],output_names = ["params"],
+                                 function = print_dict),
+        name = "convert_json")
 
-    main_workflow.connect(datasource, 'T1', segment_pnh, 'inputnode.T1')
-    main_workflow.connect(datasource, 'T2', segment_pnh, 'inputnode.T2')
+    main_workflow.connect(datasource, "indiv_params", convert_json,'json_file')
 
-    main_workflow.connect(datasource, "indiv_params",
-                          segment_pnh,'inputnode.indiv_params')
+    #segment_pnh = create_full_segment_multi_pnh_subpipes(
+        #params_template=params_template,
+        #params=params)
+
+    #main_workflow.connect(datasource, 'T1', segment_pnh, 'inputnode.T1')
+    #main_workflow.connect(datasource, 'T2', segment_pnh, 'inputnode.T2')
+
+    #main_workflow.connect(datasource, "indiv_params",
+                          #segment_pnh,'inputnode.indiv_params')
 
 
     return main_workflow
