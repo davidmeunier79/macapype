@@ -164,7 +164,7 @@ def create_data_preparation_pipe(params, name="data_preparation_pipe"):
         data_preparation_pipe.connect(av_T2, 'avg_img',
                                       reorient_T2_pipe, 'inputnode.image')
 
-    if "crop" in params.keys()):
+    if "crop" in params.keys():
         print('crop is in params')
 
         # align avg T2 on avg T1
