@@ -64,6 +64,7 @@ from macapype.utils.utils_bids import create_datasource
 from macapype.utils.utils_tests import load_test_data, format_template
 
 from macapype.utils.misc import show_files, get_first_elem
+from macapype.utils.utils_node import node_output_exists
 
 ###############################################################################
 
