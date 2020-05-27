@@ -77,16 +77,24 @@ def get_dict_from_json(json_file):
 
 def parse_key(params, key):
 
-    def _parse_key(params, cur_key):
-        assert cur_key in params.keys(), \
-            "Error, key {} was not found in {}".format(key, params.keys())
-        return params[cur_key]
+    from nipype.interfaces.base import isdefined
 
-    if isinstance(key, tuple):
-        for cur_key in key:
-            params = _parse_key(params, cur_key)
+    def _parse_key(params, cur_key):
+        if  cur_key in params.keys():
+            return params[cur_key]
+        else:
+            "Error, key {} was not found in {}".format(key, params.keys())
+            return {}
+
+    if isdefined(params):
+        if isinstance(key, tuple):
+            for cur_key in key:
+                params = _parse_key(params, cur_key)
+
+        else:
+            params = _parse_key(params, key)
+
+        return params
 
     else:
-        params = _parse_key(params, key)
-
-    return params
+        return {}
