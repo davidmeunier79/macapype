@@ -34,9 +34,9 @@ def set_spm():
 
         print(spm.SPMCommand().version)
         print(spm.Info.version())
+        print(spm.Info.name())
 
-
-        return False
+        return True
 
     else:
         print("OK, matlab was found")
