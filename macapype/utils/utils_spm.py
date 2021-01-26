@@ -26,9 +26,17 @@ def set_spm():
         except KeyError:
             print("Error, could not find SPM or MCR environement")
 
-            print("Going for octave")
-            #return False
+        print("Going for octave")
 
+        assert os.path.exists('/opt/spm12')
+
+        spm.SPMCommand.set_mlab_paths(paths='/opt/spm12')
+
+        print(spm.SPMCommand().version)
+        print(spm.Info.version())
+
+
+        return False
 
     else:
         print("OK, matlab was found")
