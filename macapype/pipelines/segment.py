@@ -8,7 +8,7 @@ from ..nodes.segment import AtroposN4, BinaryFillHoles
 
 from ..utils.misc import get_elem, merge_3_elem_to_list
 from ..utils.utils_nodes import NodeParams, parse_key
-from ..utils.utils_spm import set_spm()
+from ..utils.utils_spm import set_spm
 
 
 def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
