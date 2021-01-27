@@ -44,13 +44,6 @@ RUN export ND_ENTRYPOINT="/neurodocker/startup.sh" \
 
 ENTRYPOINT ["/neurodocker/startup.sh"]
 
-ENV ANTSPATH="/opt/ants-2.3.1" \
-    PATH="/opt/ants-2.3.1:$PATH"
-RUN echo "Downloading ANTs ..." \
-    && mkdir -p /opt/ants-2.3.1 \
-    && curl -fsSL --retry 5 https://dl.dropbox.com/s/1xfhydsf4t4qoxg/ants-Linux-centos6_x86_64-v2.3.1.tar.gz \
-    | tar -xz -C /opt/ants-2.3.1 --strip-components 1
-
 ENV FSLDIR="/opt/fsl-5.0.10" \
     PATH="/opt/fsl-5.0.10/bin:$PATH" \
     FSLOUTPUTTYPE="NIFTI_GZ" \
