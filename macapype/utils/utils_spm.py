@@ -36,9 +36,7 @@ def set_spm():
 
         #spm.SPMCommand.set_mlab_paths(matlab_cmd='octave', use_mcr=True)
 
-        print(spm.SPMCommand().version)
-        print(spm.Info.version())
-        print(spm.Info.name())
+        os.system('/opt/spm12/bin/spm12-octave --no-window-system')
 
         return True
 

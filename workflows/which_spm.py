@@ -8,7 +8,7 @@ import nipype.interfaces.spm as spm
 
 segment = spm.Segment()
 
-print(segment.cmd)
+print(segment.cmdline)
 
 
 
