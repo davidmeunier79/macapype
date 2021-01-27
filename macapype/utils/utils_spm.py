@@ -36,7 +36,7 @@ def set_spm():
 
         spm.SPMCommand.set_mlab_paths(matlab_cmd='octave', use_mcr=True)
 
-        os.system('octave')
+        #os.system('octave')
 
         return True
 
