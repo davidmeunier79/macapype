@@ -35,7 +35,7 @@ def set_spm():
         #    use_mcr=True)
 
         spm.SPMCommand.set_mlab_paths(
-            matlab_cmd='octave -w --no-gui --braindead', use_mcr=True)
+            matlab_cmd='octave --no-window-system --no-gui --braindead', use_mcr=True)
 
         #os.system('octave')
 
