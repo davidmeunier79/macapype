@@ -30,7 +30,8 @@ def set_spm():
 
         assert os.path.exists('/opt/spm12')
 
-        spm.SPMCommand.set_mlab_paths(matlab_cmd='/opt/spm12', use_mcr=True)
+        spm.SPMCommand.set_mlab_paths(matlab_cmd='/opt/spm12/bin/spm12-octave', use_mcr=True)
+        #spm.SPMCommand.set_mlab_paths(matlab_cmd='/opt/spm12/octave', use_mcr=True)
 
         print(spm.SPMCommand().version)
         print(spm.Info.version())
