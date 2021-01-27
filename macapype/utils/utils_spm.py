@@ -30,7 +30,7 @@ def set_spm():
 
         assert os.path.exists('/opt/spm12')
 
-        spm.SPMCommand.set_mlab_paths(paths='/opt/spm12')
+        spm.SPMCommand.set_mlab_paths(matlab_cmd='/opt/spm12')
 
         print(spm.SPMCommand().version)
         print(spm.Info.version())
