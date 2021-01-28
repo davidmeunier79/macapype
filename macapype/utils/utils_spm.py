@@ -11,6 +11,11 @@ def set_spm():
         print("could not find matlab, will try with mcr_spm version")
 
         try:
+            print(os.environ)
+            print(os.environ["SPM_DIR"]
+            print(os.environ["SPM_VERSION"])
+            print(os.environ["MCR_VERSION"])
+
             spm_dir = os.environ["SPM_DIR"]
             spm_ver = os.environ["SPM_VERSION"]
             mcr_version = os.environ["MCR_VERSION"]

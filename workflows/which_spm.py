@@ -7,8 +7,8 @@ assert set_spm(), "Error, SPM was not found"
 import nipype.interfaces.spm as spm
 
 segment = spm.Segment()
+segment.run()
 
-print(segment.cmdline)
 
 
 
