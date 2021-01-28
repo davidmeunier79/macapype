@@ -25,6 +25,9 @@ def set_spm():
 
             spm_cmd = '{}/run_spm{}.sh /opt/mcr/{} script'.format(
                 spm_dir, spm_ver, mcr_version)
+            print(spm_cmd)
+            os.system(spm_cmd)
+
             spm.SPMCommand.set_mlab_paths(matlab_cmd=spm_cmd, use_mcr=True)
             return True
 
@@ -35,14 +38,8 @@ def set_spm():
 
         assert os.path.exists('/opt/spm12')
 
-        #spm.SPMCommand.set_mlab_paths(
-        #    matlab_cmd='/opt/spm12/bin/spm12-octave',
-        #    use_mcr=True)
-
         spm.SPMCommand.set_mlab_paths(
             matlab_cmd='octave --no-window-system --no-gui --braindead', use_mcr=True)
-
-        #os.system('octave')
 
         return True
 
