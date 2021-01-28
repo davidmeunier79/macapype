@@ -12,7 +12,7 @@ def set_spm():
 
         try:
             print(os.environ)
-            print(os.environ["SPM_DIR"]
+            print(os.environ["SPM_DIR"])
             print(os.environ["SPM_VERSION"])
             print(os.environ["MCR_VERSION"])
 
