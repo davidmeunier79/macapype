@@ -26,7 +26,6 @@ def set_spm():
             spm_cmd = '{}/run_spm{}.sh /opt/mcr/{} script'.format(
                 spm_dir, spm_ver, mcr_version)
             print(spm_cmd)
-            os.system(spm_cmd)
 
             spm.SPMCommand.set_mlab_paths(matlab_cmd=spm_cmd, use_mcr=True)
             return True
