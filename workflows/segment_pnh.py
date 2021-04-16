@@ -269,11 +269,11 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     main_workflow.connect(
         segment_pnh_pipe, 'outputnode.segmented_brain_mask',
-        datasink, 'anat.@segmented_brain_mask')
+        datasink, '@segmented_brain_mask.anat')
 
     main_workflow.connect(
         segment_pnh_pipe, 'outputnode.brain_mask',
-        datasink, 'anat.@brain_mask')
+        datasink, '@brain_mask.anat')
 
 
     main_workflow.write_graph(graph2use="colored")
