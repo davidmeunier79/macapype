@@ -268,11 +268,11 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
     datasink.inputs.base_directory = data_dir
 
     main_workflow.connect(
-        segment_pnh_pipe, 'mask_from_seg_pipe.merge_indexed_mask.indexed_mask',
-        datasink, 'anat.@indexed_mask')
+        segment_pnh_pipe, 'outputnode.segmented_brain_mask',
+        datasink, 'anat.@segmented_brain_mask')
 
     main_workflow.connect(
-        segment_pnh_pipe, 'debias.debiased_mask_file',
+        segment_pnh_pipe, 'outputnode.brain_mask',
         datasink, 'anat.@brain_mask')
 
 

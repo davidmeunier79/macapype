@@ -285,6 +285,11 @@ def create_full_native_spm_subpipes(
         name='inputnode'
     )
 
+    # output node
+    outputnode = pe.Node(
+        niu.IdentityInterface(fields=['brain_mask', 'segmented_brain_mask']),
+        name='outputnode')
+
     # preprocessing
     if 'short_preparation_pipe' in params.keys():
 
@@ -319,6 +324,9 @@ def create_full_native_spm_subpipes(
                          debias, 'b')
     else:
         debias.inputs.bet = 1
+
+    seg_pipe.connect(debias, 'debiased_mask_file',
+                     outputnode, 'brain_mask')
 
     if "native_iter_reg_pipe" in params.keys():
         native_reg_pipe = create_native_iter_reg_pipe(
@@ -377,6 +385,10 @@ def create_full_native_spm_subpipes(
 
         seg_pipe.connect(inputnode, 'indiv_params',
                          mask_from_seg_pipe, 'inputnode.indiv_params')
+
+
+    seg_pipe.connect(mask_from_seg_pipe, 'merge_indexed_mask.indexed_mask',
+                     outputnode, 'segmented_brain_mask')
 
     return seg_pipe
 
