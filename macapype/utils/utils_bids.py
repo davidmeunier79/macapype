@@ -1,3 +1,6 @@
+import os.path as op
+
+import json
 
 from bids.layout import BIDSLayout
 
@@ -187,7 +190,16 @@ def create_datasink(iterables, name = "output"):
 
     datasink.inputs.substitutions = subjFolders
 
-    regex_subs = [('T1w_roi_noise_corrected_debiased_BET_mask', 'space-native_mask')]
+    json_regex_subs = op.join(op.dirname(op.abspath(__file__)),
+                            "regex_subs.json")
+
+    dict_regex_subs = json.load(open(json_regex_subs))
+
+    print(dict_regex_subs)
+
+    regex_subs = [(key, value) for key, value in dict_regex_subs.items()]
+
+    print(regex_subs)
 
     datasink.inputs.regexp_substitutions = regex_subs  # (r'(/_.*(\d+/))', r'/run\2')
 
