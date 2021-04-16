@@ -386,9 +386,8 @@ def create_full_native_spm_subpipes(
         seg_pipe.connect(inputnode, 'indiv_params',
                          mask_from_seg_pipe, 'inputnode.indiv_params')
 
-
-    seg_pipe.connect(mask_from_seg_pipe, 'merge_indexed_mask.indexed_mask',
-                     outputnode, 'segmented_brain_mask')
+        seg_pipe.connect(mask_from_seg_pipe, 'merge_indexed_mask.indexed_mask',
+                         outputnode, 'segmented_brain_mask')
 
     return seg_pipe
 
@@ -1032,18 +1031,17 @@ def create_full_ants_subpipes(
                      brain_segment_pipe, 'inputnode.preproc_T2')
 
     if mask_file is None:
+
         seg_pipe.connect(brain_extraction_pipe,
                          "extract_pipe.smooth_mask.out_file",
                          brain_segment_pipe, "inputnode.brain_mask")
-
-
 
         seg_pipe.connect(brain_extraction_pipe,
                          "extract_pipe.smooth_mask.out_file",
                          outputnode, "brain_mask")
 
     else:
-        #TODO this is weird
+        # TODO this is weird
         brain_segment_pipe.inputs.inputnode.brain_mask = mask_file
 
         seg_pipe.inputs.outputnode.brain_mask = mask_file
@@ -1054,7 +1052,6 @@ def create_full_ants_subpipes(
     seg_pipe.connect(brain_segment_pipe,
                      'segment_atropos_pipe.outputnode.segmented_file',
                      outputnode, 'segmented_brain_mask')
-
 
     if "mask_from_seg_pipe" in params.keys():
         mask_from_seg_pipe = create_mask_from_seg_pipe(

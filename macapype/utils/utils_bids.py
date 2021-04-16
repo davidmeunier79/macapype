@@ -9,6 +9,7 @@ import nipype.pipeline.engine as pe
 
 from .utils_nodes import BIDSDataGrabberParams
 
+
 def create_datasource(data_dir, subjects=None, sessions=None,
                       acquisitions=None, reconstructions=None):
     """ Create a datasource node that have iterables following BIDS format """
@@ -173,25 +174,25 @@ def create_datasource_indiv_params_FLAIR(data_dir, indiv_params, subjects=None,
     return bids_datasource
 
 
-def create_datasink(iterables, name = "output"):
-    """ Description: reformating relevant outputs
-
+def create_datasink(iterables, name="output"):
+    """
+    Description: reformating relevant outputs
     """
 
     print("Datasink name: ", name)
 
-    datasink = pe.Node(nio.DataSink(container=name),  # the name of the sub-folder of base_dirctory
-               name = 'datasink')
+    datasink = pe.Node(nio.DataSink(container=name),
+                       name='datasink')
 
-    print (iterables)
-    subjFolders = [('_session_%s_subject_%s' % (ses, sub), 'sub-%s/ses-%s/anat' % (sub, ses))
-               for ses in iterables[1][1]
-               for sub in iterables[0][1]]
+    subjFolders = [
+        ('_session_%s_subject_%s' % (ses, sub),
+         'sub-%s/ses-%s/anat' % (sub, ses)) for ses in iterables[1][1]
+        for sub in iterables[0][1]]
 
     datasink.inputs.substitutions = subjFolders
 
     json_regex_subs = op.join(op.dirname(op.abspath(__file__)),
-                            "regex_subs.json")
+                              "regex_subs.json")
 
     dict_regex_subs = json.load(open(json_regex_subs))
 
@@ -201,6 +202,6 @@ def create_datasink(iterables, name = "output"):
 
     print(regex_subs)
 
-    datasink.inputs.regexp_substitutions = regex_subs  # (r'(/_.*(\d+/))', r'/run\2')
+    datasink.inputs.regexp_substitutions = regex_subs
 
     return datasink
