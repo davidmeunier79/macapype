@@ -264,7 +264,8 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         #main_workflow.connect(datasource, "indiv_params",
                               #segment_pnh_pipe,'inputnode.indiv_params')
 
-    datasink = create_datasink(iterables=datasource.iterables, name="derivatives")
+    datasink = create_datasink(iterables=datasource.iterables,
+                               name="derivatives/macapype")
     datasink.inputs.base_directory = data_dir
 
     main_workflow.connect(

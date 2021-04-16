@@ -932,6 +932,12 @@ def create_full_ants_subpipes(
                 pipeline name (default = "full_segment_pipe")
 
     Outputs:
+
+        brain_mask
+
+        segmented_brain_mask:
+            indexed with tissue classes
+
     """
 
     # creating pipeline
@@ -1036,12 +1042,10 @@ def create_full_ants_subpipes(
                          "extract_pipe.smooth_mask.out_file",
                          outputnode, "brain_mask")
 
-
     else:
-
+        #TODO this is weird
         brain_segment_pipe.inputs.inputnode.brain_mask = mask_file
 
-        #TODO is weird
         seg_pipe.inputs.outputnode.brain_mask = mask_file
 
     seg_pipe.connect(inputnode, 'indiv_params',
