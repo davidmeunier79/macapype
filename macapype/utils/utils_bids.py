@@ -170,7 +170,7 @@ def create_datasource_indiv_params_FLAIR(data_dir, indiv_params, subjects=None,
     return bids_datasource
 
 
-def create_datasink(name = "output"):
+def create_datasink(iterables, name = "output"):
     """ Description: reformating relevant outputs
 
     """
@@ -180,7 +180,13 @@ def create_datasink(name = "output"):
     datasink = pe.Node(nio.DataSink(container=name),  # the name of the sub-folder of base_dirctory
                name = 'datasink')
 
-    substitutions = [("_subject_id_", ""), ("_session_id_", "")]
+    print (iterables)
+    subjFolders = [('_session_%s_subject_%s' % (ses, sub), 'sub-%s/ses-%s/' % (sub, ses))
+               for ses in iterables[1][1]
+               for sub in iterables[0][1]]
+
+
+    substitutions = subjFolders
     datasink.inputs.substitutions = substitutions
 
     return datasink
