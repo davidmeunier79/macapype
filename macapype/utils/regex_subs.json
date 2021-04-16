@@ -1,3 +1,5 @@
 {
-    "T1w_roi_noise_corrected_debiased_BET_mask": "space-native_mask"
+    "T1w_roi_noise_corrected_debiased_BET_mask": "space-orig_desc-brain_mask",
+    "_T1w_roi_noise_corrected_debiased_thresh_fillh_indexed_mask": "space-orig_desc-brain_dseg",
+
 }

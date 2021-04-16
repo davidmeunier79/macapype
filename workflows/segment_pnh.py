@@ -269,11 +269,11 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     main_workflow.connect(
         segment_pnh_pipe, 'mask_from_seg_pipe.merge_indexed_mask.indexed_mask',
-        datasink, '@indexed_mask')
+        datasink, 'anat.@indexed_mask')
 
     main_workflow.connect(
         segment_pnh_pipe, 'debias.debiased_mask_file',
-        datasink, '@brain_mask')
+        datasink, 'anat.@brain_mask')
 
 
     main_workflow.write_graph(graph2use="colored")
