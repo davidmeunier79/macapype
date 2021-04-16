@@ -6,7 +6,6 @@ import nipype.pipeline.engine as pe
 
 from .utils_nodes import BIDSDataGrabberParams
 
-
 def create_datasource(data_dir, subjects=None, sessions=None,
                       acquisitions=None, reconstructions=None):
     """ Create a datasource node that have iterables following BIDS format """
@@ -178,7 +177,7 @@ def create_datasink(name = "output"):
 
     print("Datasink name: ", name)
 
-    datasink = pe.Node(DataSink(base_directory=join(output_dir),
+    datasink = pe.Node(nio.DataSink(base_directory=join(output_dir),
                          container=name),  # the name of the sub-folder of base_dirctory
                name = 'datasink')
 
