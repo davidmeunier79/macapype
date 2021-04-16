@@ -267,8 +267,9 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
     data_sink = create_datasink("derivatives")
     data_sink.inputs.base_dir = data_dir
 
-    main_workflow.connect(segment_pnh_pipe, 'mask_from_seg_pipe.merge_indexed_mask'),
-                              datasink, 'anat.@indexed_mask')
+    main_workflow.connect(segment_pnh_pipe,
+                          'mask_from_seg_pipe.merge_indexed_mask'),
+                          datasink, 'anat.@indexed_mask')
 
     main_workflow.write_graph(graph2use="colored")
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
