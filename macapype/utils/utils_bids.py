@@ -177,8 +177,7 @@ def create_datasink(name = "output"):
 
     print("Datasink name: ", name)
 
-    datasink = pe.Node(nio.DataSink(base_directory=join(output_dir),
-                         container=name),  # the name of the sub-folder of base_dirctory
+    datasink = pe.Node(nio.DataSink(container=name),  # the name of the sub-folder of base_dirctory
                name = 'datasink')
 
     substitutions = [("_subject_id_", ""), ("_session_id_", "")]

@@ -265,7 +265,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                               #segment_pnh_pipe,'inputnode.indiv_params')
 
     data_sink = create_datasink("derivatives")
-    data_sink.inputs.base_dir = data_dir
+    data_sink.inputs.base_directory = data_dir
 
     main_workflow.connect(
         segment_pnh_pipe, 'mask_from_seg_pipe.merge_indexed_mask',
