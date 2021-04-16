@@ -184,7 +184,7 @@ def create_datasink(iterables, name = "output"):
                name = 'datasink')
 
     print (iterables)
-    subjFolders = [('_session_%s_subject_%s' % (ses, sub), 'sub-%s/ses-%s/' % (sub, ses))
+    subjFolders = [('_session_%s_subject_%s' % (ses, sub), 'sub-%s/ses-%s/anat' % (sub, ses))
                for ses in iterables[1][1]
                for sub in iterables[0][1]]
 
