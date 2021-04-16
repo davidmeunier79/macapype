@@ -185,8 +185,6 @@ def create_datasink(iterables, name = "output"):
                for ses in iterables[1][1]
                for sub in iterables[0][1]]
 
-
-    substitutions = subjFolders
-    datasink.inputs.substitutions = substitutions
+    datasink.inputs.substitutions = subjFolders
 
     return datasink

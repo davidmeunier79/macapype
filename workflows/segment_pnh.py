@@ -264,10 +264,10 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         #main_workflow.connect(datasource, "indiv_params",
                               #segment_pnh_pipe,'inputnode.indiv_params')
 
-    datasink = create_datasink("derivatives")
+    datasink = create_datasink(iterables=datasource.iterables, name="derivatives")
     datasink.inputs.base_directory = data_dir
 
-    print (datasource.iterables)
+    print ()
 
     main_workflow.connect(
         segment_pnh_pipe, 'mask_from_seg_pipe.merge_indexed_mask.indexed_mask',
