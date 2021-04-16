@@ -187,4 +187,8 @@ def create_datasink(iterables, name = "output"):
 
     datasink.inputs.substitutions = subjFolders
 
+    regex_subs = ('T1w_roi_noise_corrected_debiased_BET_mask', 'space-native_mask')
+
+    datasink.inputs.regexp_substitutions = regex_subs  # (r'(/_.*(\d+/))', r'/run\2')
+
     return datasink

@@ -267,15 +267,13 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
     datasink = create_datasink(iterables=datasource.iterables, name="derivatives")
     datasink.inputs.base_directory = data_dir
 
-    print ()
-
     main_workflow.connect(
         segment_pnh_pipe, 'mask_from_seg_pipe.merge_indexed_mask.indexed_mask',
-        datasink, 'anat.@indexed_mask')
+        datasink, '@indexed_mask')
 
     main_workflow.connect(
         segment_pnh_pipe, 'debias.debiased_mask_file',
-        datasink, 'anat.@brain_mask')
+        datasink, '@brain_mask')
 
 
     main_workflow.write_graph(graph2use="colored")
