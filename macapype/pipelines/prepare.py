@@ -1020,6 +1020,18 @@ def create_short_preparation_FLAIR_pipe(params,
         name='inputnode'
     )
 
+    # align FLAIR on avg T1
+    align_FLAIR_on_T1 = pe.Node(fsl.FLIRT(), name="align_FLAIR_on_T1")
+    align_FLAIR_on_T1.inputs.dof = 6
+    align_FLAIR_on_T1.inputs.cost = "mutualinfo"
+    align_FLAIR_on_T1.inputs.cost_func = "mutualinfo"
+
+    data_preparation_pipe.connect(inputnode, 'orig_T1',
+                                  align_FLAIR_on_T1, 'reference')
+
+    data_preparation_pipe.connect(inputnode, 'FLAIR',
+                                  align_FLAIR_on_T1, 'in_file')
+
     # Creating output node
     outputnode = pe.Node(
         niu.IdentityInterface(
