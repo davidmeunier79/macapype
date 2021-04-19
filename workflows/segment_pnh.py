@@ -82,7 +82,7 @@ from macapype.utils.misc import show_files, get_first_elem
 def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                          acquisitions, reconstructions, params_file,
                          indiv_params_file, mask_file, nprocs,
-                         wf_name="test_pipeline_single"):
+                         wf_name="macapype_pipeline", derivatives_output=True):
     """ Set up the segmentatiopn pipeline based on ANTS
 
     Arguments
@@ -264,17 +264,23 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         #main_workflow.connect(datasource, "indiv_params",
                               #segment_pnh_pipe,'inputnode.indiv_params')
 
-    datasink = create_datasink(iterables=datasource.iterables,
-                               name="derivatives/macapype")
-    datasink.inputs.base_directory = data_dir
+    if derivatives_output:
 
-    main_workflow.connect(
-        segment_pnh_pipe, 'outputnode.segmented_brain_mask',
-        datasink, '@segmented_brain_mask')
+        datasink_name = os.path.join("derivatives", wf_name)
 
-    main_workflow.connect(
-        segment_pnh_pipe, 'outputnode.brain_mask',
-        datasink, '@brain_mask')
+        datasink = create_datasink(iterables=datasource.iterables,
+                                name=datasink_name)
+        datasink.inputs.base_directory = data_dir
+
+        main_workflow.connect(
+            segment_pnh_pipe, 'outputnode.segmented_brain_mask',
+            datasink, '@segmented_brain_mask')
+
+        main_workflow.connect(
+            segment_pnh_pipe, 'outputnode.brain_mask',
+            datasink, '@brain_mask')
+
+
 
 
     main_workflow.write_graph(graph2use="colored")
@@ -321,6 +327,9 @@ if __name__ == '__main__':
                         help="precomputed mask file", required=False)
     parser.add_argument("-nprocs", dest="nprocs", type=int,
                         help="number of processes to allocate", required=False)
+    parser.add_argument("-deriv", dest="deriv", action='store_true',
+                        help="output derivatives in BIDS orig directory",
+                        required=False)
 
     args = parser.parse_args()
 
@@ -337,5 +346,5 @@ if __name__ == '__main__':
         params_file=args.params_file,
         indiv_params_file=args.indiv_params_file,
         mask_file=args.mask_file,
-        nprocs=args.nprocs)
+        nprocs=args.nprocs, derivatives_output=args.deriv)
 
