@@ -211,7 +211,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     if indiv_params:
 
-        if "flair" in soft
+        if "flair" in soft:
             if "md" in soft:
                 datasource = create_datasource_indiv_params_FLAIR(
                     data_dir, indiv_params, subjects, sessions, acquisitions,
