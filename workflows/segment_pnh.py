@@ -64,10 +64,11 @@ from macapype.pipelines.full_pipelines import (
     create_full_ants_subpipes,
     create_full_T1_spm_subpipes,
     create_full_T1_ants_subpipes,
-    create_transfo_pipe)
+    create_transfo_FLAIR_pipe)
 
 from macapype.utils.utils_bids import (create_datasource_indiv_params,
                                        create_datasource_indiv_params_FLAIR,
+                                       create_datasource_indiv_params_FLAIR_MD,
                                        create_datasource,
                                        create_datasink)
 
@@ -210,10 +211,16 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     if indiv_params:
 
-        if "flair" in soft:
-            datasource = create_datasource_indiv_params_FLAIR(
-                data_dir, indiv_params, subjects, sessions, acquisitions,
-                reconstructions)
+        if "flair" in soft
+            if "md" in soft:
+                datasource = create_datasource_indiv_params_FLAIR(
+                    data_dir, indiv_params, subjects, sessions, acquisitions,
+                    reconstructions)
+            else:
+                datasource = create_datasource_indiv_params_FLAIR_MD(
+                    data_dir, indiv_params, subjects, sessions, acquisitions,
+                    reconstructions)
+
         else:
             datasource = create_datasource_indiv_params(
                 data_dir, indiv_params, subjects, sessions, acquisitions,
@@ -233,8 +240,6 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                               segment_pnh_pipe, 'inputnode.list_T2')
 
     if "flair" in soft:
-        transfo_pipe = create_transfo_pipe(params=params,
-                                           params_template=params_template)
 
         main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_file",
                               transfo_pipe, 'inputnode.SS_T1')
@@ -248,18 +253,41 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         main_workflow.connect(segment_pnh_pipe, "reg.inv_transfo_file",
                               transfo_pipe, 'inputnode.inv_lin_transfo_file')
 
-        main_workflow.connect(segment_pnh_pipe,
-                              "old_segment_pipe.outputnode.threshold_wm",
-                              transfo_pipe, 'inputnode.threshold_wm')
-
         main_workflow.connect(datasource, ('FLAIR', get_first_elem),
                               transfo_pipe, 'inputnode.FLAIR')
 
+        transfo_FLAIR_pipe = create_transfo_FLAIR_pipe(params=params,
+                                        params_template=params_template)
+
+    if 'md' in soft:
+        main_workflow.connect(segment_pnh_pipe,
+                                "old_segment_pipe.outputnode.threshold_wm",
+                                transfo_pipe, 'inputnode.threshold_wm')
+
         main_workflow.connect(datasource, ('MD', get_first_elem),
-                              transfo_pipe, 'inputnode.MD')
+                                transfo_pipe, 'inputnode.MD')
 
         main_workflow.connect(datasource, ('b0mean', get_first_elem),
-                              transfo_pipe, 'inputnode.b0mean')
+                                transfo_pipe, 'inputnode.b0mean')
+
+        main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_file",
+                            transfo_pipe, 'inputnode.SS_T1')
+
+        main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_brain_file",
+                            transfo_pipe, 'inputnode.orig_T1')
+
+        main_workflow.connect(segment_pnh_pipe, "reg.transfo_file",
+                            transfo_pipe, 'inputnode.lin_transfo_file')
+
+        main_workflow.connect(segment_pnh_pipe, "reg.inv_transfo_file",
+                            transfo_pipe, 'inputnode.inv_lin_transfo_file')
+
+        main_workflow.connect(datasource, ('FLAIR', get_first_elem),
+                            transfo_pipe, 'inputnode.FLAIR')
+
+        transfo_MD_pipe = create_transfo_MD_pipe(params=params,
+                                        params_template=params_template)
+
 
         #main_workflow.connect(datasource, "indiv_params",
                               #segment_pnh_pipe,'inputnode.indiv_params')

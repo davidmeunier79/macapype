@@ -11,6 +11,7 @@ from macapype.nodes.register import IterREGBET
 
 from .prepare import (create_short_preparation_pipe,
                       create_short_preparation_FLAIR_pipe,
+                      create_short_preparation_MD_pipe,
                       create_short_preparation_T1_pipe,
                       create_long_multi_preparation_pipe,
                       create_long_single_preparation_pipe)
@@ -542,7 +543,8 @@ def create_full_T1_spm_subpipes(
 
 
 # SPM with Flair
-def create_transfo_pipe(params_template, params={}, name='transfo_pipe'):
+def create_transfo_FLAIR_pipe(params_template, params={},
+                              name='transfo_FLAIR_pipe'):
     """ Description: apply tranformation to FLAIR, MD and FA if necssary
 
     Processing steps:
@@ -580,11 +582,107 @@ def create_transfo_pipe(params_template, params={}, name='transfo_pipe'):
             FLAIR:
                 flair file name
 
-            MD:
-                MD diffusion file name
+            transfo_file:
+                Transformation file between native to template
 
-            b0mean:
-                B0mean diffusion file name
+            inv_transfo_file:
+                Transformation file between template and native
+
+            threshold_wm:
+                gm binary tissue in template space
+
+            indiv_params (opt):
+                dict with individuals parameters for some nodes
+
+
+        arguments:
+
+            params_template:
+                dict of template files containing brain_template and priors \
+            (list of template based segmented tissues)
+
+            params:
+                dictionary of node sub-parameters (from a json file)
+
+            name:
+                pipeline name (default = "full_spm_subpipes")
+
+    Outputs:
+
+    """
+
+    print("Transfo FLAIR pipe name: ", name)
+
+    # Creating pipeline
+    transfo_pipe = pe.Workflow(name=name)
+
+    # Creating input node
+    inputnode = pe.Node(
+        niu.IdentityInterface(
+            fields=['SS_T1', 'orig_T1', 'FLAIR', 'lin_transfo_file']),
+        name='inputnode'
+    )
+
+    data_preparation_pipe = create_short_preparation_FLAIR_pipe(
+        params=parse_key(params, "short_preparation_pipe"))
+
+    transfo_pipe.connect(inputnode, 'orig_T1',
+                         data_preparation_pipe, 'inputnode.orig_T1')
+    transfo_pipe.connect(inputnode, 'SS_T1',
+                         data_preparation_pipe, 'inputnode.SS_T1')
+    transfo_pipe.connect(inputnode, 'FLAIR',
+                         data_preparation_pipe, 'inputnode.FLAIR')
+
+    # apply norm to FLAIR
+    norm_lin_FLAIR = pe.Node(fsl.ApplyXFM(), name="norm_lin_FLAIR")
+    norm_lin_FLAIR.inputs.reference = params_template["template_brain"]
+
+    transfo_pipe.connect(data_preparation_pipe, 'outputnode.coreg_FLAIR',
+                         norm_lin_FLAIR, 'in_file')
+    transfo_pipe.connect(inputnode, 'lin_transfo_file',
+                         norm_lin_FLAIR, 'in_matrix_file')
+
+    return transfo_pipe
+
+# SPM with MD
+def create_transfo_MD_pipe(params_template, params={},
+                              name='transfo_MD_pipe'):
+    """ Description: apply tranformation to FLAIR, MD and FA if necssary
+
+    Processing steps:
+
+    - -coreg FA on T1
+    - apply coreg on MD
+    - debias using T1xT2BiasFieldCorrection (using mask is betcrop)
+    - registration to template file with IterREGBET
+    - SPM segmentation the old way (SPM8, not dartel based)
+
+    Params:
+
+    - short_data_preparation_pipe (see :class:`create_short_preparation_pipe \
+    <macapype.pipelines.prepare.create_short_preparation_pipe>`)
+    - debias (see :class:`T1xT2BiasFieldCorrection \
+    <macapype.nodes.correct_bias.T1xT2BiasFieldCorrection>`) - also available \
+    as :ref:`indiv_params <indiv_params>`
+    - reg (see :class:`IterREGBET <macapype.nodes.register.IterREGBET>`) - \
+    also available as :ref:`indiv_params <indiv_params>`
+    - old_segment_pipe (see :class:`create_old_segment_pipe \
+    <macapype.pipelines.segment.create_old_segment_pipe>`)
+    - nii_to_mesh_fs_pipe (see :class:`create_nii_to_mesh_fs_pipe \
+    <macapype.pipelines.surface.create_nii_to_mesh_fs_pipe>`)
+
+    Inputs:
+
+        inputnode:
+
+            SS_T1:
+                T1 file names
+
+            orig_T1:
+                T2 file names
+
+            FLAIR:
+                flair file name
 
             transfo_file:
                 Transformation file between native to template
@@ -613,17 +711,9 @@ def create_transfo_pipe(params_template, params={}, name='transfo_pipe'):
 
     Outputs:
 
-            old_segment_pipe.thresh_gm.out_file:
-                segmented grey matter in template space
-
-            old_segment_pipe.thresh_wm.out_file:
-                segmented white matter in template space
-
-            old_segment_pipe.thresh_csf.out_file:
-                segmented csf in template space
     """
 
-    print("Full pipeline name: ", name)
+    print("Transfo MD pipe name: ", name)
 
     # Creating pipeline
     transfo_pipe = pe.Workflow(name=name)
@@ -631,7 +721,7 @@ def create_transfo_pipe(params_template, params={}, name='transfo_pipe'):
     # Creating input node
     inputnode = pe.Node(
         niu.IdentityInterface(
-            fields=['SS_T1', 'orig_T1', 'FLAIR', 'MD', 'b0mean',
+            fields=['SS_T1', 'orig_T1', 'MD', 'b0mean',
                     'threshold_wm', 'lin_transfo_file',
                     'inv_lin_transfo_file']),
         name='inputnode'
@@ -648,7 +738,7 @@ def create_transfo_pipe(params_template, params={}, name='transfo_pipe'):
     transfo_pipe.connect(inputnode, 'inv_lin_transfo_file',
                          compute_native_wm, 'in_matrix_file')
 
-    data_preparation_pipe = create_short_preparation_FLAIR_pipe(
+    data_preparation_pipe = create_short_preparation_MD_pipe(
         params=parse_key(params, "short_preparation_pipe"))
 
     transfo_pipe.connect(inputnode, 'orig_T1',
@@ -664,15 +754,6 @@ def create_transfo_pipe(params_template, params={}, name='transfo_pipe'):
 
     transfo_pipe.connect(compute_native_wm, 'out_file',
                          data_preparation_pipe, 'inputnode.native_wm_mask')
-
-    # apply norm to FLAIR
-    norm_lin_FLAIR = pe.Node(fsl.ApplyXFM(), name="norm_lin_FLAIR")
-    norm_lin_FLAIR.inputs.reference = params_template["template_brain"]
-
-    transfo_pipe.connect(data_preparation_pipe, 'outputnode.coreg_FLAIR',
-                         norm_lin_FLAIR, 'in_file')
-    transfo_pipe.connect(inputnode, 'lin_transfo_file',
-                         norm_lin_FLAIR, 'in_matrix_file')
 
     # apply norm to coreg_MD
     norm_lin_MD = pe.Node(fsl.ApplyXFM(), name="norm_lin_MD")
@@ -693,6 +774,7 @@ def create_transfo_pipe(params_template, params={}, name='transfo_pipe'):
                          norm_lin_better_MD, 'in_matrix_file')
 
     return transfo_pipe
+
 
 ###############################################################################
 # ANTS based segmentation (from Kepkee Loh / Julien Sein)
