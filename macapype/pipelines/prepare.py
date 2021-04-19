@@ -985,9 +985,6 @@ def create_short_preparation_FLAIR_pipe(params,
             FLAIR:
                 FLAIR file
 
-            MD:
-                MD file
-
             indiv_params (opt):
                 dict with individuals parameters for some nodes
 
@@ -1005,9 +1002,6 @@ def create_short_preparation_FLAIR_pipe(params,
 
             coreg_FLAIR:
                 preprocessed FLAIR file
-
-            coreg_MD:
-                preprocessed MD file
 
     """
 

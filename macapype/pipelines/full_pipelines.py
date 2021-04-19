@@ -646,7 +646,7 @@ def create_transfo_FLAIR_pipe(params_template, params={},
 
 # SPM with MD
 def create_transfo_MD_pipe(params_template, params={},
-                              name='transfo_MD_pipe'):
+                           name='transfo_MD_pipe'):
     """ Description: apply tranformation to FLAIR, MD and FA if necssary
 
     Processing steps:
@@ -745,13 +745,10 @@ def create_transfo_MD_pipe(params_template, params={},
                          data_preparation_pipe, 'inputnode.orig_T1')
     transfo_pipe.connect(inputnode, 'SS_T1',
                          data_preparation_pipe, 'inputnode.SS_T1')
-    transfo_pipe.connect(inputnode, 'FLAIR',
-                         data_preparation_pipe, 'inputnode.FLAIR')
     transfo_pipe.connect(inputnode, 'MD',
                          data_preparation_pipe, 'inputnode.MD')
     transfo_pipe.connect(inputnode, 'b0mean',
                          data_preparation_pipe, 'inputnode.b0mean')
-
     transfo_pipe.connect(compute_native_wm, 'out_file',
                          data_preparation_pipe, 'inputnode.native_wm_mask')
 

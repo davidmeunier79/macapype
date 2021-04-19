@@ -83,7 +83,10 @@ from macapype.utils.misc import show_files, get_first_elem
 def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                          acquisitions, reconstructions, params_file,
                          indiv_params_file, mask_file, nprocs,
-                         wf_name="macapype_pipeline", derivatives_output=True):
+                         wf_name="test_pipeline_single",
+                         derivatives_output=True):
+
+    # macapype_pipeline
     """ Set up the segmentatiopn pipeline based on ANTS
 
     Arguments
