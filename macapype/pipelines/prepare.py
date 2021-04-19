@@ -1146,4 +1146,4 @@ def create_short_preparation_MD_pipe(params,
     data_preparation_pipe.connect(align_better_MD_on_T1_with_b0, 'out_file',
                                   outputnode, 'coreg_better_MD')
 
-return data_preparation_pipe
+    return data_preparation_pipe
