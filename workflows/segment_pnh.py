@@ -270,7 +270,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
         datasink = create_datasink(iterables=datasource.iterables,
                                 name=datasink_name)
-        datasink.inputs.base_directory = data_dir
+        datasink.inputs.base_directory = process_dir
 
         main_workflow.connect(
             segment_pnh_pipe, 'outputnode.segmented_brain_mask',
