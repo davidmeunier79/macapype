@@ -241,56 +241,47 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     if "flair" in soft:
 
-        main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_file",
-                              transfo_pipe, 'inputnode.SS_T1')
-
-        main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_brain_file",
-                              transfo_pipe, 'inputnode.orig_T1')
-
-        main_workflow.connect(segment_pnh_pipe, "reg.transfo_file",
-                              transfo_pipe, 'inputnode.lin_transfo_file')
-
-        main_workflow.connect(segment_pnh_pipe, "reg.inv_transfo_file",
-                              transfo_pipe, 'inputnode.inv_lin_transfo_file')
-
-        main_workflow.connect(datasource, ('FLAIR', get_first_elem),
-                              transfo_pipe, 'inputnode.FLAIR')
-
         transfo_FLAIR_pipe = create_transfo_FLAIR_pipe(params=params,
                                         params_template=params_template)
 
-    if 'md' in soft:
-        main_workflow.connect(segment_pnh_pipe,
-                                "old_segment_pipe.outputnode.threshold_wm",
-                                transfo_pipe, 'inputnode.threshold_wm')
-
-        main_workflow.connect(datasource, ('MD', get_first_elem),
-                                transfo_pipe, 'inputnode.MD')
-
-        main_workflow.connect(datasource, ('b0mean', get_first_elem),
-                                transfo_pipe, 'inputnode.b0mean')
-
         main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_file",
-                            transfo_pipe, 'inputnode.SS_T1')
+                              transfo_FLAIR_pipe, 'inputnode.SS_T1')
 
         main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_brain_file",
-                            transfo_pipe, 'inputnode.orig_T1')
+                              transfo_FLAIR_pipe, 'inputnode.orig_T1')
 
         main_workflow.connect(segment_pnh_pipe, "reg.transfo_file",
-                            transfo_pipe, 'inputnode.lin_transfo_file')
-
-        main_workflow.connect(segment_pnh_pipe, "reg.inv_transfo_file",
-                            transfo_pipe, 'inputnode.inv_lin_transfo_file')
+                              transfo_FLAIR_pipe, 'inputnode.lin_transfo_file')
 
         main_workflow.connect(datasource, ('FLAIR', get_first_elem),
-                            transfo_pipe, 'inputnode.FLAIR')
+                              transfo_FLAIR_pipe, 'inputnode.FLAIR')
+
+    if 'md' in soft:
 
         transfo_MD_pipe = create_transfo_MD_pipe(params=params,
                                         params_template=params_template)
 
+        main_workflow.connect(segment_pnh_pipe,
+                                "old_segment_pipe.outputnode.threshold_wm",
+                                transfo_MD_pipe, 'inputnode.threshold_wm')
 
-        #main_workflow.connect(datasource, "indiv_params",
-                              #segment_pnh_pipe,'inputnode.indiv_params')
+        main_workflow.connect(datasource, ('MD', get_first_elem),
+                                transfo_MD_pipe, 'inputnode.MD')
+
+        main_workflow.connect(datasource, ('b0mean', get_first_elem),
+                                transfo_MD_pipe, 'inputnode.b0mean')
+
+        main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_file",
+                            transfo_MD_pipe, 'inputnode.SS_T1')
+
+        main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_brain_file",
+                            transfo_MD_pipe, 'inputnode.orig_T1')
+
+        main_workflow.connect(segment_pnh_pipe, "reg.transfo_file",
+                            transfo_MD_pipe, 'inputnode.lin_transfo_file')
+
+        main_workflow.connect(segment_pnh_pipe, "reg.inv_transfo_file",
+                            transfo_MD_pipe, 'inputnode.inv_lin_transfo_file')
 
     if derivatives_output:
 
