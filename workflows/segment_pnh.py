@@ -238,14 +238,14 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     if indiv_params:
         datasource = create_datasource_indiv_params(
-            outout_query, data_dir, indiv_params, subjects, sessions,
+            output_query, data_dir, indiv_params, subjects, sessions,
             acquisitions, reconstructions)
 
         main_workflow.connect(datasource, "indiv_params",
                               segment_pnh_pipe,'inputnode.indiv_params')
     else:
         datasource = create_datasource(
-            outout_query, data_dir, subjects,  sessions, acquisitions,
+            output_query, data_dir, subjects,  sessions, acquisitions,
             reconstructions)
 
     main_workflow.connect(datasource, 'T1',
