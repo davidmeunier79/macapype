@@ -212,28 +212,43 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                 params_template=params_template, params=params,
                 mask_file=mask_file)
 
+    # list of all required outputs
+    output_query = {
+        'T1': {
+            "datatype": "anat", "suffix": "T1w",
+            "extension": ["nii", ".nii.gz"]
+        },
+        'T2': {
+            "datatype": "anat", "suffix": "T2w",
+            "extension": ["nii", ".nii.gz"]
+        }
+    }
+
+    if 'flair' in soft:
+        output_query['FLAIR'] = {
+            "datatype": "anat", "suffix": "FLAIR",
+            "extension": ["nii", ".nii.gz"]}
+
+    if 'md' in soft:
+        output_query['MD'] =  {
+            "datatype": "dwi", "acquisition": "MD", "suffix": "dwi",
+            "extension": ["nii", ".nii.gz"]}
+
+        output_query['b0mean'] = {
+            "datatype": "dwi", "acquisition": "b0mean", "suffix": "dwi",
+            "extension": ["nii", ".nii.gz"]}
+
     if indiv_params:
-
-        if "flair" in soft:
-            if "md" in soft:
-                datasource = create_datasource_indiv_params_FLAIR(
-                    data_dir, indiv_params, subjects, sessions, acquisitions,
-                    reconstructions)
-            else:
-                datasource = create_datasource_indiv_params_FLAIR_MD(
-                    data_dir, indiv_params, subjects, sessions, acquisitions,
-                    reconstructions)
-
-        else:
-            datasource = create_datasource_indiv_params(
-                data_dir, indiv_params, subjects, sessions, acquisitions,
-                reconstructions)
+        datasource = create_datasource_indiv_params(
+            outout_query, data_dir, indiv_params, subjects, sessions,
+            acquisitions, reconstructions)
 
         main_workflow.connect(datasource, "indiv_params",
                               segment_pnh_pipe,'inputnode.indiv_params')
     else:
-        datasource = create_datasource(data_dir, subjects, sessions,
-                                       acquisitions, reconstructions)
+        datasource = create_datasource(
+            outout_query, data_dir, subjects,  sessions, acquisitions,
+            reconstructions)
 
     main_workflow.connect(datasource, 'T1',
                           segment_pnh_pipe, 'inputnode.list_T1')
