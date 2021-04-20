@@ -67,8 +67,6 @@ from macapype.pipelines.full_pipelines import (
     create_transfo_FLAIR_pipe)
 
 from macapype.utils.utils_bids import (create_datasource_indiv_params,
-                                       create_datasource_indiv_params_FLAIR,
-                                       create_datasource_indiv_params_FLAIR_MD,
                                        create_datasource,
                                        create_datasink)
 
