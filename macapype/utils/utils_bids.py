@@ -51,9 +51,9 @@ def create_datasource(output_query, data_dir, subjects=None, sessions=None,
     return bids_datasource
 
 
-def create_datasource_indiv_params(output_query, data_dir, indiv_params, subjects=None,
-                                   sessions=None, acquisitions=None,
-                                   reconstructions=None):
+def create_datasource_indiv_params(output_query, data_dir, indiv_params,
+                                   subjects=None, sessions=None,
+                                   acquisitions=None, reconstructions=None):
     """ Create a datasource node that have iterables following BIDS format,
     including a indiv_params file"""
 
@@ -64,7 +64,6 @@ def create_datasource_indiv_params(output_query, data_dir, indiv_params, subject
 
     bids_datasource.inputs.base_dir = data_dir
     bids_datasource.inputs.output_query = output_query
-
 
     layout = BIDSLayout(data_dir)
 

@@ -1037,15 +1037,15 @@ def create_short_preparation_FLAIR_pipe(params,
 
     return data_preparation_pipe
 
+
 def create_short_preparation_MD_pipe(params,
-                                        name="short_preparation_MD_pipe"):
-    """Description: apply transfo on FLAIR and MD (no reorient so far)
+                                     name="short_preparation_MD_pipe"):
+    """Description: apply transfo on MD (no reorient so far)
 
     Processing steps;
 
-    - coreg FLAIR on T1
-    - init coreg FA on SS_T1
-    - coreg FA on T1 using bbr and native_wm
+    - init coreg b0mean on SS_T1
+    - coreg b0mean on T1 using bbr and native_wm
     - apply coreg transfo on MD
 
     Params:
@@ -1063,6 +1063,9 @@ def create_short_preparation_MD_pipe(params,
             MD:
                 MD file
 
+            b0mean:
+                B0 mean file
+
             indiv_params (opt):
                 dict with individuals parameters for some nodes
 
@@ -1079,7 +1082,10 @@ def create_short_preparation_MD_pipe(params,
         outputnode:
 
             coreg_MD:
-                preprocessed MD file
+                preprocessed MD file with init
+
+            coreg_better_MD:
+                preprocessed MD file with init and flirt
 
     """
 

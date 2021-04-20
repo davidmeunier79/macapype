@@ -644,6 +644,7 @@ def create_transfo_FLAIR_pipe(params_template, params={},
 
     return transfo_pipe
 
+
 # SPM with MD
 def create_transfo_MD_pipe(params_template, params={},
                            name='transfo_MD_pipe'):
