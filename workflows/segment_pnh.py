@@ -220,7 +220,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         }
 
     if not 't1' in soft:
-        output_query['T2']: {
+        output_query['T2'] = {
             "datatype": "anat", "suffix": "T2w",
             "extension": ["nii", ".nii.gz"]}
 
