@@ -304,7 +304,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     if deriv:
 
-        datasink_name = os.path.join("derivatives", wf_name)
+        datasink_name = os.path.join("derivatives", "macapype_{}".format(soft))
 
         datasink = create_datasink(iterables=datasource.iterables,
                                 name=datasink_name)
