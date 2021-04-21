@@ -212,16 +212,17 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                 mask_file=mask_file)
 
     # list of all required outputs
-    output_query = {
-        'T1': {
+    output_query = {}
+
+    output_query['T1'] = {
             "datatype": "anat", "suffix": "T1w",
             "extension": ["nii", ".nii.gz"]
-        },
-        'T2': {
-            "datatype": "anat", "suffix": "T2w",
-            "extension": ["nii", ".nii.gz"]
         }
-    }
+
+    if not 't1' in soft:
+        output_query['T2']: {
+            "datatype": "anat", "suffix": "T2w",
+            "extension": ["nii", ".nii.gz"]}
 
     if 'flair' in soft:
         output_query['FLAIR'] = {
