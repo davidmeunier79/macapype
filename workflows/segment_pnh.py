@@ -327,10 +327,6 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         if 'flair' in soft :
 
             main_workflow.connect(
-                transfo_FLAIR_pipe, 'outputnode.coreg_FLAIR',
-                datasink, '@coreg_flair')
-
-            main_workflow.connect(
                 transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
                 datasink, '@norm_flair')
 

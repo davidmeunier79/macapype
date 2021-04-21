@@ -1,5 +1,8 @@
 {
     "T1w_roi_noise_corrected_debiased_BET_mask": "space-orig_desc-brain_mask",
     "T1w_roi_noise_corrected_debiased_thresh_fillh_indexed_mask": "space-orig_desc-brain_dseg",
-    "c3": ""
+    "T1w_roi_noise_corrected_debiased_BET_FLIRT-to_inia19-t1-brain_thresh_fillh_indexed_mask": "space-inia_desc-brain_dseg"
+    "c3": "",
+    "T1w_roi_noise_corrected_debiased_BET_FLIRT-to_inia19-t1-brain": "space-inia19_desc-cropped_T1w",
+    "FLAIR_flirt_flirt": "space-inia19_FLAIR"
 }
