@@ -655,7 +655,7 @@ def create_transfo_FLAIR_pipe(params_template, params={},
     outputnode = pe.Node(
         niu.IdentityInterface(
             fields=['coreg_FLAIR', 'norm_FLAIR']),
-        name='inputnode'
+        name='outputnode'
     )
 
     transfo_pipe.connect(data_preparation_pipe, 'outputnode.coreg_FLAIR',
