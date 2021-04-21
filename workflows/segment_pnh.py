@@ -182,29 +182,30 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
     if mask_file is not None:
          wf_name += "_mask"
 
-    soft = soft.lower().split("_")
-    assert "spm" in soft or "spm12" in soft or "ants" in soft, \
-        "error with {}, should be among [spm12, spm, ants]".format(soft)
+    ssoft = soft.lower().split("_")
+
+    assert "spm" in ssoft or "spm12" in ssoft or "ants" in ssoft, \
+        "error with {}, should be among [spm12, spm, ants]".format(ssoft)
 
     # main_workflow
     main_workflow = pe.Workflow(name= wf_name)
 
     main_workflow.base_dir = process_dir
 
-    if "spm" in soft or "spm12" in soft:
-        if "t1" in soft:
+    if "spm" in ssoft or "spm12" in ssoft:
+        if "t1" in ssoft:
             segment_pnh_pipe = create_full_T1_spm_subpipes(
                 params_template=params_template, params=params)
         else:
-            if 'native' in soft:
+            if 'native' in ssoft:
                 segment_pnh_pipe = create_full_native_spm_subpipes(
                     params_template=params_template, params=params)
             else:
                 segment_pnh_pipe = create_full_spm_subpipes(
                     params_template=params_template, params=params)
 
-    elif "ants" in soft:
-        if "t1" in soft:
+    elif "ants" in ssoft:
+        if "t1" in ssoft:
             segment_pnh_pipe = create_full_T1_ants_subpipes(
                 params_template=params_template, params=params)
         else:
@@ -220,17 +221,17 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
             "extension": ["nii", ".nii.gz"]
         }
 
-    if not 't1' in soft:
+    if not 't1' in ssoft:
         output_query['T2'] = {
             "datatype": "anat", "suffix": "T2w",
             "extension": ["nii", ".nii.gz"]}
 
-    if 'flair' in soft:
+    if 'flair' in ssoft:
         output_query['FLAIR'] = {
             "datatype": "anat", "suffix": "FLAIR",
             "extension": ["nii", ".nii.gz"]}
 
-    if 'md' in soft:
+    if 'md' in ssoft:
         output_query['MD'] =  {
             "datatype": "dwi", "acquisition": "MD", "suffix": "dwi",
             "extension": ["nii", ".nii.gz"]}
@@ -254,11 +255,11 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
     main_workflow.connect(datasource, 'T1',
                           segment_pnh_pipe, 'inputnode.list_T1')
 
-    if not "t1" in soft:
+    if not "t1" in ssoft:
         main_workflow.connect(datasource, 'T2', 
                               segment_pnh_pipe, 'inputnode.list_T2')
 
-    if "flair" in soft:
+    if "flair" in ssoft:
 
         transfo_FLAIR_pipe = create_transfo_FLAIR_pipe(params=params,
                                         params_template=params_template)
@@ -275,7 +276,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         main_workflow.connect(datasource, ('FLAIR', get_first_elem),
                               transfo_FLAIR_pipe, 'inputnode.FLAIR')
 
-    if 'md' in soft:
+    if 'md' in ssoft:
 
         transfo_MD_pipe = create_transfo_MD_pipe(params=params,
                                         params_template=params_template)
@@ -318,13 +319,13 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
             segment_pnh_pipe, 'outputnode.brain_mask',
             datasink, '@brain_mask')
 
-        if 'spm' in soft and not 'native' in soft:
+        if 'spm' in ssoft and not 'native' in ssoft:
 
             main_workflow.connect(
                 segment_pnh_pipe, 'outputnode.norm_T1',
                 datasink, '@norm_T1')
 
-        if 'flair' in soft :
+        if 'flair' in ssoft :
 
             main_workflow.connect(
                 transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
@@ -336,8 +337,8 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
     if nprocs is None:
         nprocs = 4
 
-    if not "test" in soft:
-        if "seq" in soft or nprocs==0:
+    if not "test" in ssoft:
+        if "seq" in ssoft or nprocs==0:
             main_workflow.run()
         else:
             main_workflow.run(plugin='MultiProc',
