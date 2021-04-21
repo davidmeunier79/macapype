@@ -187,10 +187,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         "error with {}, should be among [spm12, spm, ants]".format(soft)
 
     # main_workflow
-    if deriv:
-        main_workflow = pe.Workflow(name= wf_name)
-    else:
-        main_workflow = pe.Workflow(name= "working_dir")
+    main_workflow = pe.Workflow(name= wf_name)
 
     main_workflow.base_dir = process_dir
 
