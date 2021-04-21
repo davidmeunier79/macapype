@@ -112,6 +112,13 @@ def create_full_spm_subpipes(
         name='inputnode'
     )
 
+
+    # output node
+    outputnode = pe.Node(
+        niu.IdentityInterface(fields=['brain_mask', 'norm_T1',
+                                      'segmented_brain_mask']),
+        name='outputnode')
+
     # preprocessing
     if 'short_preparation_pipe' in params.keys():
 
@@ -147,6 +154,9 @@ def create_full_spm_subpipes(
     else:
         debias.inputs.bet = 1
 
+    seg_pipe.connect(debias, 'debiased_mask_file',
+                     outputnode, 'brain_mask')
+
     # Iterative registration to the INIA19 template
     reg = NodeParams(IterREGBET(),
                      params=parse_key(params, "reg"),
@@ -158,9 +168,12 @@ def create_full_spm_subpipes(
     seg_pipe.connect(debias, 't1_debiased_brain_file',
                      reg, 'inb_file')
 
-    seg_pipe.connect(
-        inputnode, ('indiv_params', parse_key, "reg"),
+    seg_pipe.connect(inputnode, ('indiv_params', parse_key, "reg"),
         reg, 'indiv_params')
+
+    seg_pipe.connect(reg, 'warp_file',
+                     outputnode, 'norm_T1')
+
 
     # Compute brain mask using old_segment of SPM and postprocessing on
     # tissues' masks
@@ -209,6 +222,9 @@ def create_full_spm_subpipes(
 
         seg_pipe.connect(inputnode, 'indiv_params',
                          mask_from_seg_pipe, 'inputnode.indiv_params')
+
+        seg_pipe.connect(mask_from_seg_pipe, 'merge_indexed_mask.indexed_mask',
+                         outputnode, 'segmented_brain_mask')
 
     return seg_pipe
 
