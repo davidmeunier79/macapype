@@ -594,6 +594,13 @@ def create_transfo_FLAIR_pipe(params_template, params={},
             indiv_params (opt):
                 dict with individuals parameters for some nodes
 
+        outputnode:
+
+            coreg_FLAIR:
+                FLAIR coregistered to T1
+
+            norm_FLAIR:
+                FLAIR normalised in template space
 
         arguments:
 
@@ -623,6 +630,8 @@ def create_transfo_FLAIR_pipe(params_template, params={},
         name='inputnode'
     )
 
+
+
     data_preparation_pipe = create_short_preparation_FLAIR_pipe(
         params=parse_key(params, "short_preparation_pipe"))
 
@@ -641,6 +650,19 @@ def create_transfo_FLAIR_pipe(params_template, params={},
                          norm_lin_FLAIR, 'in_file')
     transfo_pipe.connect(inputnode, 'lin_transfo_file',
                          norm_lin_FLAIR, 'in_matrix_file')
+
+    # Creating output node
+    outputnode = pe.Node(
+        niu.IdentityInterface(
+            fields=['coreg_FLAIR', 'norm_FLAIR']),
+        name='inputnode'
+    )
+
+    transfo_pipe.connect(data_preparation_pipe, 'outputnode.coreg_FLAIR',
+                         outputnode, 'coreg_FLAIR')
+
+    transfo_pipe.connect(norm_lin_FLAIR, 'out_file',
+                         outputnode, 'norm_FLAIR')
 
     return transfo_pipe
 

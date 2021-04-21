@@ -187,7 +187,11 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         "error with {}, should be among [spm12, spm, ants]".format(soft)
 
     # main_workflow
-    main_workflow = pe.Workflow(name= wf_name)
+    if deriv:
+        main_workflow = pe.Workflow(name= wf_name)
+    else:
+        main_workflow = pe.Workflow(name= "working_dir")
+
     main_workflow.base_dir = process_dir
 
     if "spm" in soft or "spm12" in soft:
@@ -316,6 +320,18 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         main_workflow.connect(
             segment_pnh_pipe, 'outputnode.brain_mask',
             datasink, '@brain_mask')
+
+        if 'flair' in soft :
+
+            main_workflow.connect(
+                transfo_FLAIR_pipe, 'outputnode.coreg_FLAIR',
+                datasink, '@coreg_flair')
+
+            main_workflow.connect(
+                transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
+                datasink, '@norm_flair')
+
+
 
 
 
