@@ -83,7 +83,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                          acquisitions, reconstructions, params_file,
                          indiv_params_file, mask_file, nprocs,
                          wf_name="test_pipeline_single",
-                         derivatives_output=True):
+                         deriv=True):
 
     # macapype_pipeline
     """ Set up the segmentatiopn pipeline based on ANTS
@@ -305,7 +305,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         main_workflow.connect(segment_pnh_pipe, "reg.inv_transfo_file",
                             transfo_MD_pipe, 'inputnode.inv_lin_transfo_file')
 
-    if derivatives_output:
+    if deriv:
 
         datasink_name = os.path.join("derivatives", wf_name)
 
@@ -399,5 +399,6 @@ if __name__ == '__main__':
         params_file=args.params_file,
         indiv_params_file=args.indiv_params_file,
         mask_file=args.mask_file,
-        nprocs=args.nprocs, derivatives_output=args.deriv)
+        nprocs=args.nprocs,
+        deriv=args.deriv)
 
