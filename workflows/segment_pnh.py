@@ -318,6 +318,12 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
             segment_pnh_pipe, 'outputnode.brain_mask',
             datasink, '@brain_mask')
 
+        if 'spm' in soft and not 'native' in soft:
+
+            main_workflow.connect(
+                segment_pnh_pipe, 'outputnode.norm_T1',
+                datasink, '@norm_T1')
+
         if 'flair' in soft :
 
             main_workflow.connect(
@@ -327,11 +333,6 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
             main_workflow.connect(
                 transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
                 datasink, '@norm_flair')
-
-
-
-
-
 
     main_workflow.write_graph(graph2use="colored")
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
