@@ -322,6 +322,8 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
         print (params_connect)
 
+        print (params_connect[0])
+
         main_workflow.connect(
             segment_pnh_pipe, 'outputnode.segmented_brain_mask',
             datasink, '@segmented_brain_mask')
