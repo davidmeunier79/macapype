@@ -64,5 +64,7 @@
     "regex_subs":
     {
         "FLAIR_flirt": "preproc-coreg_FLAIR"
-    }
+    },
+    "connect": [["transfo_FLAIR_pipe", "outputnode.coreg_FLAIR",
+                "datasink", "@coreg_flair"]]
 }
