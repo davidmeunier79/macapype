@@ -344,7 +344,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                 transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
                 datasink, '@norm_flair')
 
-            main_workflow.connect(params_connect[0])
+            main_workflow.connect(params_connect)
 
 
     main_workflow.write_graph(graph2use="colored")
