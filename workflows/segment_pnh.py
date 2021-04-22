@@ -318,7 +318,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
         datasink.inputs.base_directory = process_dir
 
-        params_connect =  params["connect"]
+        params_connect =  list(params["connect"])
 
         print (params_connect)
 
