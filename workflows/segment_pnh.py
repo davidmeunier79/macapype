@@ -318,12 +318,6 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
         datasink.inputs.base_directory = process_dir
 
-        params_connect =  list(params["connect"])
-
-        print (params_connect)
-
-        print (params_connect[0])
-
         main_workflow.connect(
             segment_pnh_pipe, 'outputnode.segmented_brain_mask',
             datasink, '@segmented_brain_mask')
@@ -343,9 +337,6 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
             main_workflow.connect(
                 transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
                 datasink, '@norm_flair')
-
-            main_workflow.connect(params_connect)
-
 
     main_workflow.write_graph(graph2use="colored")
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
