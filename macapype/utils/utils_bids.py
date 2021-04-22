@@ -93,7 +93,7 @@ def create_datasource_indiv_params(output_query, data_dir, indiv_params,
     return bids_datasource
 
 
-def create_datasink(iterables, name="output"):
+def create_datasink(iterables, name="output", params_regex_subs = {}):
     """
     Description: reformating relevant outputs
     """
@@ -114,6 +114,8 @@ def create_datasink(iterables, name="output"):
                               "regex_subs.json")
 
     dict_regex_subs = json.load(open(json_regex_subs))
+
+    dict_regex_subs.update(params_regex_subs)
 
     print(dict_regex_subs)
 

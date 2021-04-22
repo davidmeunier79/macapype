@@ -216,21 +216,25 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
     # list of all required outputs
     output_query = {}
 
+    # T1 (mandatory, always added)
     output_query['T1'] = {
             "datatype": "anat", "suffix": "T1w",
             "extension": ["nii", ".nii.gz"]
         }
 
+    # T2 is optional, if "_T1" is added in the -soft arg
     if not 't1' in ssoft:
         output_query['T2'] = {
             "datatype": "anat", "suffix": "T2w",
             "extension": ["nii", ".nii.gz"]}
 
+    # FLAIR is optional, if "_FLAIR" is added in the -soft arg
     if 'flair' in ssoft:
         output_query['FLAIR'] = {
             "datatype": "anat", "suffix": "FLAIR",
             "extension": ["nii", ".nii.gz"]}
 
+    # MD and b0mean are optional, if "_MD" is added in the -soft arg
     if 'md' in ssoft:
         output_query['MD'] =  {
             "datatype": "dwi", "acquisition": "MD", "suffix": "dwi",
@@ -240,6 +244,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
             "datatype": "dwi", "acquisition": "b0mean", "suffix": "dwi",
             "extension": ["nii", ".nii.gz"]}
 
+    # indiv_params
     if indiv_params:
         datasource = create_datasource_indiv_params(
             output_query, data_dir, indiv_params, subjects, sessions,
@@ -308,7 +313,9 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
         datasink_name = os.path.join("derivatives", "macapype_{}".format(soft))
 
         datasink = create_datasink(iterables=datasource.iterables,
-                                name=datasink_name)
+                                   name=datasink_name,
+                                   params_regex_subs = params["regex_subs"])
+
         datasink.inputs.base_directory = process_dir
 
         main_workflow.connect(
@@ -330,6 +337,11 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
             main_workflow.connect(
                 transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
                 datasink, '@norm_flair')
+
+            main_workflow.connect(
+                transfo_FLAIR_pipe, 'outputnode.coreg_FLAIR',
+                datasink, '@coreg_flair')
+
 
     main_workflow.write_graph(graph2use="colored")
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
