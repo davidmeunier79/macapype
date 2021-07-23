@@ -167,11 +167,11 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     if template_name=="custom":
 
-        params_template = {'template_head': "",
-                           'template_brain': "",
-                           "template_gm": "",
-                           "template_wm": "",
-                           "template_csf": ""}
+        params_template = {'template_head': "/home/meunier.d/data_macapype/NMT_v1.3/NMT.nii.gz",
+                           'template_brain': "/home/meunier.d/data_macapype/NMT_v1.3/NMT_SS.nii.gz",
+                           "template_gm": "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_GM.nii.gz",
+                           "template_wm": "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_WM.nii.gz",
+                           "template_csf": "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_CSF.nii.gz"}
     else:
         if "general" in params.keys() and "my_path" in params["general"].keys():
             my_path = params["general"]["my_path"]

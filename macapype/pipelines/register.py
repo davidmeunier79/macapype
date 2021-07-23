@@ -365,7 +365,7 @@ def create_register_NMT_pipe(params_template, params={},
         list_priors = [params_template["template_head"],
                        params_template["template_seg"]]
 
-    align_masks = pe.Node(NwarpApplyPriors(), name='align_masks2')
+    align_masks = pe.NodeParams(NwarpApplyPriors(), params=parse_key(params, "align_masks"), name='align_masks2')
     align_masks.inputs.in_file = list_priors
     align_masks.inputs.out_file = list_priors
     align_masks.inputs.interp = "NN"
@@ -375,6 +375,9 @@ def create_register_NMT_pipe(params_template, params={},
                               align_masks, 'master')
     register_NMT_pipe.connect(NMT_subject_align, 'warpinv_file',
                               align_masks, "warp")
+
+    register_NMT_pipe.connect(inputnode, ('indiv_params', parse_key, "norm_intensity"),,
+                              align_masks, "indiv_params")
 
     # align_NMT
     align_NMT = pe.Node(
