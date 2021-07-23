@@ -376,7 +376,7 @@ def create_register_NMT_pipe(params_template, params={},
     register_NMT_pipe.connect(NMT_subject_align, 'warpinv_file',
                               align_masks, "warp")
 
-    register_NMT_pipe.connect(inputnode, ('indiv_params', parse_key, "norm_intensity"),,
+    register_NMT_pipe.connect(inputnode, ('indiv_params', parse_key, "align_masks"),
                               align_masks, "indiv_params")
 
     # align_NMT
