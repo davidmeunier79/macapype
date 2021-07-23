@@ -165,7 +165,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     template_name = params["general"]["template_name"]
 
-    if template=="custom":
+    if template_name=="custom":
 
         params_template = {'template_head': "",
                            'template_brain': "",
