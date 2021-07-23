@@ -22,9 +22,9 @@
             },
             "align_masks":
                 {
-                "in_file": ["/home/meunier.d/data_macapype/NMT_v1.3/NMT.nii.gz", "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_GM.nii.gz", "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_WM.nii.gz", "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_CSF.nii.gz"],
+                "in_file": ["/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/NMT.nii.gz", "/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/processing_masks/NMT_segmentation_GM.nii.gz", "/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/processing_masks/NMT_segmentation_WM.nii.gz", "/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/processing_masks/NMT_segmentation_CSF.nii.gz"],
 
-                "out_file": ["/home/meunier.d/data_macapype/NMT_v1.3/NMT.nii.gz", "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_GM.nii.gz", "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_WM.nii.gz", "/home/meunier.d/data_macapype/NMT_v1.3/processing_masks/NMT_segmentation_CSF.nii.gz"]
+                "out_file": ["/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/NMT.nii.gz", "/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/processing_masks/NMT_segmentation_GM.nii.gz", "/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/processing_masks/NMT_segmentation_WM.nii.gz", "/hpc/crise/meunier.d/Data/Templates/NMT_v1.3/processing_masks/NMT_segmentation_CSF.nii.gz"]
                     }
         }
     }
