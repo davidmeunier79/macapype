@@ -165,14 +165,24 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
 
     template_name = params["general"]["template_name"]
 
-    if "general" in params.keys() and "my_path" in params["general"].keys():
-        my_path = params["general"]["my_path"]
-    else:
-        my_path = ""
+    if template=="custom":
 
-    nmt_dir = load_test_data(template_name, path_to = my_path)
-    params_template = format_template(nmt_dir, template_name)
-    print (params_template)
+        params_template = {'template_head': "",
+                           'template_brain': "",
+                           "template_gm": "",
+                           "template_wm": "",
+                           "template_csf": ""}
+
+    else
+
+        if "general" in params.keys() and "my_path" in params["general"].keys():
+            my_path = params["general"]["my_path"]
+        else:
+            my_path = ""
+
+        template_dir = load_test_data(template_name, path_to = my_path)
+        params_template = format_template(template_dir, template_name)
+        print (params_template)
 
     # soft
     wf_name += "_{}".format(soft)

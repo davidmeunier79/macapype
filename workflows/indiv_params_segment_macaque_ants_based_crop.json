@@ -10,6 +10,11 @@
             "fill_wm":
             {
                 "args": "-CV 132 116 128 -PV 128 145 114"
+            },
+            "atlas_brex":
+            {
+                "NMT_file": "/home/meunier.d/data_macapype/NMT_v1.3/NMT.nii.gz",
+                "NMT_SS_file": "/home/meunier.d/data_macapype/NMT_v1.3/NMT_SS.nii.gz",
             }
         }
     }

@@ -72,6 +72,7 @@ def create_extract_pipe(params_template, params={}, name="extract_pipe"):
     extract_pipe.connect(inputnode, "restore_T1",
                          atlas_brex, 't1_restored_file')
 
+
     atlas_brex.inputs.NMT_file = params_template["template_head"]
     atlas_brex.inputs.NMT_SS_file = params_template["template_brain"]
 
