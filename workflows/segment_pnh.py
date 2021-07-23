@@ -172,9 +172,7 @@ def create_main_workflow(data_dir, process_dir, soft, subjects, sessions,
                            "template_gm": "",
                            "template_wm": "",
                            "template_csf": ""}
-
-    else
-
+    else:
         if "general" in params.keys() and "my_path" in params["general"].keys():
             my_path = params["general"]["my_path"]
         else:
