@@ -1380,7 +1380,7 @@ def create_brain_segment_from_mask_T1_template_pipe(
         segment_atropos_pipe, "inputnode.brain_file")
 
     segment_atropos_pipe.inputs.inputnode.csf_prior_file = \
-        params_template["template_csf"],
+        params_template["template_csf"]
 
     segment_atropos_pipe.inputs.inputnode.gm_prior_file = \
         params_template["template_gm"]
