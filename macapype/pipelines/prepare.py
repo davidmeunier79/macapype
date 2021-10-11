@@ -1092,7 +1092,7 @@ def create_short_preparation_MD_pipe(params,
     # init_align_b0mean_on_T2
     init_align_b0mean_on_T2 = pe.Node(fsl.FLIRT(),
                                       name="init_align_b0mean_on_T2")
-    init_align_b0mean_on_T2.inputs.dof = 6
+    init_align_b0mean_on_T2.inputs.dof = 12
 
     data_preparation_pipe.connect(inputnode, 'orig_T2',
                                   init_align_b0mean_on_T2, 'reference')
@@ -1101,7 +1101,7 @@ def create_short_preparation_MD_pipe(params,
 
     # align_b0mean_on_T2
     align_b0mean_on_T2 = pe.Node(fsl.FLIRT(), name="align_b0mean_on_T2")
-    align_b0mean_on_T2.inputs.dof = 6
+    align_b0mean_on_T2.inputs.dof = 12
     align_b0mean_on_T2.inputs.cost = "bbr"
 
     data_preparation_pipe.connect(inputnode, 'SS_T2',
