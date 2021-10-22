@@ -846,7 +846,7 @@ def create_brain_segment_from_mask_pipe(
     if "export_5tt_pipe" in params.keys():
 
         export_5tt_pipe = create_5tt_pipe(
-            params=parse_key(params, "export_5tt_pipe")))
+            params=parse_key(params, "export_5tt_pipe"))
 
 
         pe.Node(niu.Function(
@@ -863,6 +863,7 @@ def create_brain_segment_from_mask_pipe(
         segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_csf',
                              export_5tt_pipe, 'inputnode.csf_file')
 
+    # output
     outputnode = pe.Node(
         niu.IdentityInterface(
             fields=["segmented_file", "threshold_gm", "threshold_wm",
