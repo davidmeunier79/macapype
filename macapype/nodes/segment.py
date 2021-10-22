@@ -390,12 +390,11 @@ def compute_5tt(gm_file, wm_file, csf_file):
     gen_5tt_data = np.stack((gm_data, empty_vol, wm_data, csf_data, empty_vol), axis = -1)
 
     print(gen_5tt_data.shape)
-    0/0
 
     gen_5tt_img = nib.Nifti1Image(gen_5tt_data, affine = gm_img.affine, header = gm_img.header)
 
     gen_5tt_file = os.path.abspath("gen_5tt.nii.gz")
 
-    nib.save()
+    nib.save(gen_5tt_file, gen_5tt_img)
 
     return gen_5tt_file
