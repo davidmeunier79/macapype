@@ -843,7 +843,8 @@ def create_brain_segment_from_mask_pipe(
             segment_atropos_pipe, "inputnode.brain_file")
 
 
-    if "export_5tt_pipe" in params.keys()
+    if "export_5tt_pipe" in params.keys():
+
         export_5tt_pipe = create_5tt_pipe(
             params=parse_key(params, "export_5tt_pipe")))
 
