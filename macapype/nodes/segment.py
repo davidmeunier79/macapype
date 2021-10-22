@@ -395,6 +395,6 @@ def compute_5tt(gm_file, wm_file, csf_file):
 
     gen_5tt_file = os.path.abspath("gen_5tt.nii.gz")
 
-    nib.save(gen_5tt_file, gen_5tt_img)
+    nib.save(gen_5tt_img, gen_5tt_file)
 
     return gen_5tt_file
