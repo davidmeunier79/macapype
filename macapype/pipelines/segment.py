@@ -262,8 +262,7 @@ def create_5tt_pipe(params = {}, name="export_5tt_pipe"):
     # creating inputnode
     inputnode = pe.Node(
         niu.IdentityInterface(
-            fields=["gm_file", "wm_file",
-                    "csf_file"]),
+            fields=["gm_file", "wm_file", "csf_file"]),
         name='inputnode')
 
     export_5tt = pe.Node(niu.Function(

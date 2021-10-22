@@ -848,13 +848,13 @@ def create_brain_segment_from_mask_pipe(
         export_5tt_pipe = create_5tt_pipe(
             params=parse_key(params, "export_5tt_pipe"))
 
-        segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_gm',
+        brain_segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_gm',
                              export_5tt_pipe, 'inputnode.gm_file')
 
-        segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_wm',
+        brain_segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_wm',
                              export_5tt_pipe, 'inputnode.wm_file')
 
-        segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_csf',
+        brain_segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_csf',
                              export_5tt_pipe, 'inputnode.csf_file')
 
     # output

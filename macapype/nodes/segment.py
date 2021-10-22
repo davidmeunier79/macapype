@@ -384,10 +384,10 @@ def compute_5tt(gm_file, wm_file, csf_file):
     wm_img = nib.load(wm_file)
     wm_data = wm_img.get_fdata()
 
-    wm_img = nib.load(wm_file)
-    wm_data = wm_img.get_fdata()
+    csf_img = nib.load(csf_file)
+    csf_data = csf_img.get_fdata()
 
-    gen_5tt_data = np.concatenate((wm_data, empty_vol, gm_data, empty_vol, empty_vol), axis = 1)
+    gen_5tt_data = np.concatenate((gm_data, empty_vol, wm_data, csf_data, empty_vol), axis = 1)
 
     print(gen_5tt_data.shape)
     0/0
