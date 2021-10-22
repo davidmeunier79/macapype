@@ -366,3 +366,36 @@ if __name__ == '__main__':
     val = seg_at.run().outputs
 
     print(val)
+
+def compute_5tt(gm_file, wm_file, csf_file):
+
+    import os
+
+    import nibabel as nib
+    import numpy as np
+
+    gm_img = nib.load(gm_file)
+    gm_data = gm_img.get_fdata()
+
+    print(gm_data.shape)
+
+    empty_vol = np.zeros(shape = gm_data.shape)
+
+    wm_img = nib.load(wm_file)
+    wm_data = wm_img.get_fdata()
+
+    wm_img = nib.load(wm_file)
+    wm_data = wm_img.get_fdata()
+
+    gen_5tt_data = np.concatenate((wm_data, empty_vol, gm_data, empty_vol, empty_vol), axis = 1)
+
+    print(gen_5tt_data.shape)
+    0/0
+
+    gen_5tt_img = nib.Nifti1Image(gen_5tt_data, affine = gm_img.affine, header = gm_img.header)
+
+    gen_5tt_file = os.path.abspath("gen_5tt.nii.gz")
+
+    nib.save()
+
+    return gen_5tt_file

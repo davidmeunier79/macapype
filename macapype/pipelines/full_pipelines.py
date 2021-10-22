@@ -22,7 +22,8 @@ from .segment import (create_old_segment_pipe,
                       create_native_old_segment_pipe,
                       create_segment_atropos_pipe,
                       create_segment_atropos_seg_pipe,
-                      create_mask_from_seg_pipe)
+                      create_mask_from_seg_pipe,
+                      create_5tt_pipe)
 
 from .correct_bias import (create_masked_correct_bias_pipe,
                            create_correct_bias_pipe)
@@ -840,6 +841,26 @@ def create_brain_segment_from_mask_pipe(
         brain_segment_pipe.connect(
             register_NMT_pipe, 'norm_intensity.output_image',
             segment_atropos_pipe, "inputnode.brain_file")
+
+
+    if "export_5tt_pipe" in params.keys()
+        export_5tt_pipe = create_5tt_pipe(
+            params=parse_key(params, "export_5tt_pipe")))
+
+
+        pe.Node(niu.Function(
+            input_names=["gm_file", "wm_file", "csf_file"],
+            output_names = ["gen_5tt_file"]
+            function = compute_5tt)
+
+        segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_gm',
+                             export_5tt_pipe, 'inputnode.gm_file')
+
+        segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_wm',
+                             export_5tt_pipe, 'inputnode.wm_file')
+
+        segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_csf',
+                             export_5tt_pipe, 'inputnode.csf_file')
 
     outputnode = pe.Node(
         niu.IdentityInterface(
