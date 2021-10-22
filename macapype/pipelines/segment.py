@@ -254,7 +254,7 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe",
 
     return segment_pipe
 
-def create_5tt_pipe(name="export_5tt_pipe"):
+def create_5tt_pipe(params = {}, name="export_5tt_pipe"):
 
     # creating pipeline
     export_5tt_pipe = pe.Workflow(name=name)
