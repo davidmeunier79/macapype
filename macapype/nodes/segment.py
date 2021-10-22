@@ -387,7 +387,7 @@ def compute_5tt(gm_file, wm_file, csf_file):
     csf_img = nib.load(csf_file)
     csf_data = csf_img.get_fdata()
 
-    gen_5tt_data = np.concatenate((gm_data, empty_vol, wm_data, csf_data, empty_vol), axis = 1)
+    gen_5tt_data = np.stack((gm_data, empty_vol, wm_data, csf_data, empty_vol), axis = -1)
 
     print(gen_5tt_data.shape)
     0/0
