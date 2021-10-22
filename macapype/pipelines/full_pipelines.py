@@ -848,12 +848,6 @@ def create_brain_segment_from_mask_pipe(
         export_5tt_pipe = create_5tt_pipe(
             params=parse_key(params, "export_5tt_pipe"))
 
-
-        pe.Node(niu.Function(
-            input_names=["gm_file", "wm_file", "csf_file"],
-            output_names = ["gen_5tt_file"]
-            function = compute_5tt)
-
         segment_pipe.connect(segment_atropos_pipe, 'outputnode.threshold_gm',
                              export_5tt_pipe, 'inputnode.gm_file')
 

@@ -268,7 +268,7 @@ def create_5tt_pipe(name="export_5tt_pipe"):
 
     export_5tt = pe.Node(niu.Function(
         input_names=["gm_file", "wm_file", "csf_file"],
-        output_names = ["gen_5tt_file"]
+        output_names = ["gen_5tt_file"],
         function = compute_5tt)
 
     export_5tt_pipe.connect(inputnode, 'gm_file',
