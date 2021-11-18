@@ -33,11 +33,7 @@ jobs:
         run:
             flake8 --count macapype
             
-      - name: Download dataset
-        run:
-            wget --no-check-certificate --content-disposition  "https://amubox.univ-amu.fr/public.php?service=files&t=3NLBXgFGdxPBRC2&download" -O macapype_CI.zip
-            unzip -o macapype_CI.zip -d macapype_CI
 
-      - name: Running all test pipelines
+      - name: Running test pipeline
         run:
-            python workflows/segment_pnh.py -data /home/runner/work/macapype/macapype/macapype_CI -out /home/runner/work/macapype/macapype/macapype_CI/resulsts -soft ANTS_test -species macaque -indiv /home/runner/work/macapype/macapype/macapype_CI/indiv_params_segment_macaque.json -sub 032140 -ses 001 -deriv
+            python workflows/segment_pnh.py -data /home/runner/work/macapype/macapype/ -out /home/runner/work/macapype/macapype/resulsts -soft ANTS_test -species macaque 
