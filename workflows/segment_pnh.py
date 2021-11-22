@@ -184,8 +184,6 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
 
     params = json.load(open(params_file))
 
-    pprint.pprint(params)
-
     # indiv_params
     indiv_params = {}
 
@@ -330,11 +328,16 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
 
     # prep for testing only preparation part
     if "prep" in ssoft:
+        print("Found prep in soft")
+        
         if "brain_extraction_pipe" in params.keys():
             del params["brain_extraction_pipe"]
+            print("Deleting brain_extraction_pipe")
+        
             
-        if "brain_segment_pipe" in params.keys:
+        if "brain_segment_pipe" in params.keys():
             del params["brain_segment_pipe"]
+            print("Deleting brain_segment_pipe")
             
     pprint.pprint(params)
             
