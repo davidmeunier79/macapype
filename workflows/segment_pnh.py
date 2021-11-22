@@ -320,8 +320,17 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
 
                 del params["short_preparation_pipe"]
 
-            pprint.pprint(params)
 
+    # prep for testing only preparation part
+    if "prep" in ssoft:
+        if "brain_extraction_pipe" in params.keys():
+            del params["brain_extraction_pipe"]
+            
+        if "brain_segment_pipe" in params.keys:
+            del params["brain_segment_pipe"]
+            
+    pprint.pprint(params)
+            
     # params_template
     assert ("general" in params.keys() and \
         "template_name" in params["general"].keys()), \
