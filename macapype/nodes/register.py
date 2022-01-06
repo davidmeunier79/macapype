@@ -658,7 +658,7 @@ class NwarpApplyPriors(AFNICommandBase):
                 print("Not a list for out_file {}".format(value))
 
                 path, fname, ext = split_f(value)
-                new_value = os.path.abspath(fname + "_Nwarp" + ext)
+                new_value = os.path.join(cur_dir, fname + "_Nwarp" + ext)
                 print(new_value)
 
             self.new_value = new_value
