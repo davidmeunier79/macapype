@@ -474,8 +474,8 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
         if "transfo_MD_pipe" in params.keys():
             print("Found transfo_MD_pipe")
             
-        transfo_MD_pipe = create_transfo_MD_pipe(params=parse_key(params, "transfo_MD_pipe"),,
-                                        params_template=params_template)
+        transfo_MD_pipe = create_transfo_MD_pipe(params=parse_key(params, "transfo_MD_pipe"),
+                                                 params_template=params_template)
 
         main_workflow.connect(segment_pnh_pipe,
                                 "old_segment_pipe.outputnode.threshold_wm",
