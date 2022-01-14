@@ -991,7 +991,7 @@ def create_short_preparation_MD_pipe(params,
     # Creating input node
     inputnode = pe.Node(
         niu.IdentityInterface(fields=['SS_T2', 'MD',
-                                      'b0mean']),
+                                      'b0mean', 'native_wm_mask']),
         name='inputnode'
     )
 
@@ -1000,7 +1000,7 @@ def create_short_preparation_MD_pipe(params,
                                             params=parse_key(params, "init_align_b0mean_on_T2"), 
                                             name="init_align_b0mean_on_T2")
 
-    data_preparation_pipe.connect(inputnode, 'SS_T2',
+    data_preparation_pipe.connect(inputnode, 'orig_T2',
                                   init_align_b0mean_on_T2, 'reference')
     data_preparation_pipe.connect(inputnode, 'b0mean',
                                   init_align_b0mean_on_T2, 'in_file')
