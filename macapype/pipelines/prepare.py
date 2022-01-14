@@ -914,7 +914,7 @@ def create_short_preparation_FLAIR_pipe(params,
     )
 
     # align FLAIR on avg T1
-    align_FLAIR_on_T1 = pe.NodeParams(fsl.FLIRT(), name="align_FLAIR_on_T1", params=parse_key(params, "align_FLAIR_on_T1"))
+    align_FLAIR_on_T1 = NodeParams(fsl.FLIRT(), name="align_FLAIR_on_T1", params=parse_key(params, "align_FLAIR_on_T1"))
 
     data_preparation_pipe.connect(inputnode, 'orig_T1',
                                   align_FLAIR_on_T1, 'reference')
@@ -996,7 +996,7 @@ def create_short_preparation_MD_pipe(params,
     )
 
     # init_align_b0mean_on_T2
-    init_align_b0mean_on_T2 = pe.NodeParams(fsl.FLIRT(),
+    init_align_b0mean_on_T2 = NodeParams(fsl.FLIRT(),
                                             params=parse_key(params, "init_align_b0mean_on_T2"), 
                                             name="init_align_b0mean_on_T2")
 
@@ -1006,7 +1006,7 @@ def create_short_preparation_MD_pipe(params,
                                   init_align_b0mean_on_T2, 'in_file')
 
     # align_b0mean_on_T2
-    align_b0mean_on_T2 = pe.NodeParams(fsl.FLIRT(), 
+    align_b0mean_on_T2 = NodeParams(fsl.FLIRT(), 
                                        params=parse_key(params, "align_b0mean_on_T2"),
                                        name="align_b0mean_on_T2")
     
