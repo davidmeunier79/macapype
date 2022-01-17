@@ -276,7 +276,11 @@ def padding_cropped_img(cropped_img_file, orig_img_file, indiv_crop):
 def reg_aladin_dirty(reference, in_file):
     
     import os
-    os.chmod(os.path.abspath(""))
+    
+    cwd = os.path.abspath("")
+    print("cwd:", cwd)
+    
+    os.chdir(cwd)
     
     cmd = "reg_aladin -flo {} -ref {}".format(in_file, ref_file)
     print(cmd)
