@@ -9,7 +9,7 @@ from nipype.interfaces.ants.segmentation import DenoiseImage
 from ..utils.utils_nodes import NodeParams, MapNodeParams
 from ..utils.misc import parse_key
 
-from ..nodes.prepare import average_align, FslOrient
+from ..nodes.prepare import average_align, FslOrient, reg_aladin_dirty
 from ..nodes.extract_brain import T1xT2BET
 
 
@@ -913,15 +913,29 @@ def create_short_preparation_FLAIR_pipe(params,
         name='inputnode'
     )
 
-    # align FLAIR on avg T1
-    align_FLAIR_on_T1 = NodeParams(fsl.FLIRT(), name="align_FLAIR_on_T1", params=parse_key(params, "align_FLAIR_on_T1"))
+    if "align_FLAIR_on_T1" in params.keys():
+        
+        # align FLAIR on avg T1
+        align_FLAIR_on_T1 = NodeParams(fsl.FLIRT(), name="align_FLAIR_on_T1", params=parse_key(params, "align_FLAIR_on_T1"))
 
-    data_preparation_pipe.connect(inputnode, 'orig_T1',
-                                  align_FLAIR_on_T1, 'reference')
+        data_preparation_pipe.connect(inputnode, 'orig_T1',
+                                    align_FLAIR_on_T1, 'reference')
 
-    data_preparation_pipe.connect(inputnode, 'FLAIR',
-                                  align_FLAIR_on_T1, 'in_file')
+        data_preparation_pipe.connect(inputnode, 'FLAIR',
+                                    align_FLAIR_on_T1, 'in_file')
+        
+    elif "reg_aladin_FLAIR_on_T1" in params.keys():
+        
+        align_FLAIR_on_T1 = pe.Node(
+            niu.Function(input_names["reference", "in_file"], output_names = ["out_file"], function = reg_aladin_dirty), name="reg_aladin_FLAIR_on_T1", )
 
+        data_preparation_pipe.connect(inputnode, 'orig_T1',
+                                    align_FLAIR_on_T1, 'reference')
+
+        data_preparation_pipe.connect(inputnode, 'FLAIR',
+                                    align_FLAIR_on_T1, 'in_file')
+        
+    
     # Creating output node
     outputnode = pe.Node(
         niu.IdentityInterface(

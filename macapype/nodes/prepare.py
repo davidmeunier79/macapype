@@ -273,6 +273,22 @@ def padding_cropped_img(cropped_img_file, orig_img_file, indiv_crop):
 
     return padded_img_file
 
+def reg_aladin_dirty(reference, in_file):
+    
+    import os
+    os.chmod(os.path.abspath(""))
+    
+    cmd = "reg_aladin -flo {} -ref {}".format(in_file, ref_file)
+    print(cmd)
+    
+    os.system(cmd)
+    
+    out_file = os.path.abspath("outputResult.nii.gz")
+    print(out_file)
+    
+    assert os.path.exists(out_file)
+    
+    return out_file
 
 if __name__ == '__main__':
 
