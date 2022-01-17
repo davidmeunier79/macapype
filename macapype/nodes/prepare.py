@@ -282,7 +282,7 @@ def reg_aladin_dirty(reference, in_file):
     
     os.chdir(cwd)
     
-    cmd = "reg_aladin -flo {} -ref {}".format(in_file, ref_file)
+    cmd = "reg_aladin -flo {} -ref {}".format(in_file, reference)
     print(cmd)
     
     os.system(cmd)
