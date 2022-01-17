@@ -914,6 +914,7 @@ def create_short_preparation_FLAIR_pipe(params,
     )
 
     if "align_FLAIR_on_T1" in params.keys():
+        print("in align_FLAIR_on_T1")
         
         # align FLAIR on avg T1
         align_FLAIR_on_T1 = NodeParams(fsl.FLIRT(), name="align_FLAIR_on_T1", params=parse_key(params, "align_FLAIR_on_T1"))
@@ -925,7 +926,7 @@ def create_short_preparation_FLAIR_pipe(params,
                                     align_FLAIR_on_T1, 'in_file')
         
     elif "reg_aladin_FLAIR_on_T1" in params.keys():
-        
+        print("in reg_aladin_FLAIR_on_T1")
         align_FLAIR_on_T1 = pe.Node(
             niu.Function(input_names["reference", "in_file"], output_names = ["out_file"], function = reg_aladin_dirty), name="reg_aladin_FLAIR_on_T1", )
 
@@ -934,6 +935,9 @@ def create_short_preparation_FLAIR_pipe(params,
 
         data_preparation_pipe.connect(inputnode, 'FLAIR',
                                     align_FLAIR_on_T1, 'in_file')
+    else:
+        print("no align_FLAIR_on_T1 or reg_aladin_FLAIR_on_T1, breaking")
+        exit(0)
         
     
     # Creating output node
