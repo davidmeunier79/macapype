@@ -282,7 +282,7 @@ def reg_aladin_dirty(reference, in_file):
     
     os.chdir(cwd)
     
-    out_file = os.path.abspath("outputResult.nii.gz")
+    out_file = os.path.abspath("outputResult.nii")
     
     cmd = "reg_aladin -flo {} -ref {} -res {}".format(in_file, reference, out_file)
     print(cmd)
