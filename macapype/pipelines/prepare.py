@@ -3,6 +3,7 @@ import nipype.interfaces.utility as niu
 import nipype.pipeline.engine as pe
 
 import nipype.interfaces.fsl as fsl
+from interfaces.niftyreg import reg
 
 from nipype.interfaces.ants.segmentation import DenoiseImage
 
@@ -929,7 +930,9 @@ def create_short_preparation_FLAIR_pipe(params,
         print("in reg_aladin_FLAIR_on_T1")
         align_FLAIR_on_T1 = pe.Node(
             niu.Function(input_names = ["reference", "in_file"], output_names = ["out_file"], function = reg_aladin_dirty), name="reg_aladin_FLAIR_on_T1", )
-
+        
+        #align_FLAIR_on_T1 = pe.Node(reg.RegAladin(),  name="reg_aladin_FLAIR_on_T1")
+        
         data_preparation_pipe.connect(inputnode, 'orig_T1',
                                     align_FLAIR_on_T1, 'reference')
 
