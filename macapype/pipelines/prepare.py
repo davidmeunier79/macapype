@@ -3,7 +3,7 @@ import nipype.interfaces.utility as niu
 import nipype.pipeline.engine as pe
 
 import nipype.interfaces.fsl as fsl
-from interfaces.niftyreg import reg
+#from nipype.interfaces.niftyreg import reg
 
 from nipype.interfaces.ants.segmentation import DenoiseImage
 
