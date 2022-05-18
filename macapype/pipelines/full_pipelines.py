@@ -1858,6 +1858,23 @@ def create_full_T1_ants_subpipes(params_template, params={},
     seg_pipe.connect(brain_extraction_pipe, "outputnode.debiased_T1",
                      outputnode, "debiased_T1")
 
+
+    if params["general"]["template_name"].split("_")[0] == "NMT":
+        print("found NMT template")
+        NMT_version = params["general"]["template_name"].split("_")[1]
+
+        if NMT_version.startswith("v1.3"):
+            NMT_version = "v1.3"
+
+    else:
+        print("Not NMT template, NMT version used by default for processing")
+        NMT_version = "v1.3"
+
+    print("NMT_version:", NMT_version)
+
+
+
+
     # full_segment (restarting from the avg_align files)
     if "brain_segment_pipe" not in params.keys():
         print("Error, brain_segment_pipe was not found in params, \
@@ -1865,7 +1882,7 @@ def create_full_T1_ants_subpipes(params_template, params={},
         return seg_pipe
 
     brain_segment_pipe = create_brain_segment_from_mask_T1_pipe(
-        params_template=params_template,
+        params_template=params_template, NMT_version=NMT_version
         params=parse_key(params, "brain_segment_pipe"), space=space)
 
     seg_pipe.connect(brain_extraction_pipe, "outputnode.debiased_T1",
