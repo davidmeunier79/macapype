@@ -9,15 +9,11 @@ on:
 
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
   run-test:
     name: Test one pipeline in macapype_CI.zip
     needs: docker-build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
       - name: Pull latest docker image
         run:
             docker pull macatools/macapype:latest
