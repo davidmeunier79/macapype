@@ -1,0 +1,46 @@
+
+name: Running test pipeline from github version
+
+on:
+
+  push:
+    branches:
+      - test_swap
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+  run-test:
+    name: Test one pipeline in macapype_CI.zip
+    needs: docker-build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Pull latest docker image
+        run:
+            docker pull macatools/macapype:latest
+
+      - name: Download dataset
+        run: |
+            wget --no-check-certificate --content-disposition  "https://amubox.univ-amu.fr/public.php?service=files&t=KJ2L5j6L6orPXxM&download" -O macapype_CI.zip
+            unzip -o macapype_CI.zip -d macapype_CI
+
+      - name: Set up swap space
+        uses: pierotofy/set-swap-space@49819abfb41bd9b44fb781159c033dba90353a7c
+        with:
+        swap-size-gb: 10
+
+
+      - name: Running all test pipelines
+        run: |
+            pwd
+            echo ""
+            ls macapype_CI
+            echo ""
+            ls macapype_CI/macaque_prime-de
+            echo ""
+
+            docker run -i -v /home/runner/work/macapype/macapype/macapype_CI:/data macatools/macapype:latest segment_pnh -data /data/macaque_prime-de/ -out /data/macaque_prime-de/results -soft ANTS -species macaque -indiv /data/macaque_prime-de/indiv_params_segment_macaque.json -sub 032140 -ses 001
+
