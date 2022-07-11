@@ -10,7 +10,6 @@ on:
 jobs:
   run-test:
     name: Running all existing pipelines in macapype_CI.zip
-    needs: docker-build
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
