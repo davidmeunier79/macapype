@@ -1,5 +1,5 @@
 
-name: Running test pipeline from github version
+name: Checking unit-tests, PEP8 and standard pipeline congruency
 
 on:
 
