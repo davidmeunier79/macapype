@@ -36,4 +36,4 @@ jobs:
 
       - name: Cleaning dataset
         run:
-            sudo rm -rf /home/ubuntu/actions-runner/_work/macapype/macapype/macapype_CI
+            sudo rm -rf /home/ubuntu/actions-runner/_work/macapype/macapype
