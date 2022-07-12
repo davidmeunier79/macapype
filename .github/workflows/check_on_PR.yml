@@ -10,19 +10,19 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python 3.10.5
+      - name: Set up Python 3.6
         uses: actions/setup-python@v2
         with:
-          python-version: 3.10.5
+          python-version: 3.6
       - name: Install dependencies
         run: |
             pip install codecov pytest pytest-cov
             pip install -e .
             pip install flake8
-            sudo apt-get install -y build-essential graphviz libgraphviz-dev
+            sudo apt-get install graphviz libgraphviz-dev
             pip install --upgrade pygraphviz graphviz
 
       - name: Test with pytest
