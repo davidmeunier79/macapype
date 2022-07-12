@@ -8,7 +8,7 @@ jobs:
 
   build-n-publish-testpypi:
     name: Build and publish Python to Test PyPI
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@master
@@ -68,7 +68,7 @@ jobs:
   run-test:
     name: Running all existing pipelines in macapype_CI.zip
     needs: docker-build
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v2
       - name: Pull latest docker image
