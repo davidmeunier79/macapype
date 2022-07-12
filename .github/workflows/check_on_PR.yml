@@ -22,7 +22,7 @@ jobs:
             pip install codecov pytest pytest-cov
             pip install -e .
             pip install flake8
-            sudo apt-get install graphviz libgraphviz-dev
+            sudo apt-get install -y graphviz libgraphviz-dev
             pip install --upgrade pygraphviz graphviz
 
       - name: Test with pytest
