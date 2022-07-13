@@ -94,3 +94,8 @@ jobs:
 
             docker run -i -v /home/ubuntu/actions-runner/_work/macapype/macapype/macapype_CI:/data macatools/macapype:latest segment_pnh -data /data/marmo-marmobrain -out /data/marmo-marmobrain/results -soft ANTS -species marmo -indiv /data/marmo-marmobrain/indiv_params_segment_marmo.json -sub 8034 -ses 01 -deriv -pad
 
+      - name: Cleaning dataset
+        run:
+            sudo rm -rf /home/ubuntu/actions-runner/_work/macapype/macapype/macapype_CI
+            sudo rm -f /home/ubuntu/actions-runner/_work/macapype/macapype/macapype_CI.zip
+
