@@ -30,7 +30,6 @@ from .segment import (create_old_segment_pipe,
                       create_mask_from_seg_pipe,
                       create_5tt_pipe)
 
-
 from .correct_bias import (create_masked_correct_bias_pipe,
                            create_correct_bias_pipe)
 

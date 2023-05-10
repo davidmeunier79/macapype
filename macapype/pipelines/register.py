@@ -528,7 +528,7 @@ def create_reg_seg_pipe(name="reg_seg_pipe"):
     return reg_pipe
 
 
-def create_native_to_stereotax_pipe(name="native_to_stereo_pipe", params = {}):
+def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params = {}):
 
     reg_pipe = pe.Workflow(name=name)
 
