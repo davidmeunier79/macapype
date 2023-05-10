@@ -2350,9 +2350,11 @@ def create_full_ants_subpipes(
 
             seg_pipe.connect(pad_mask, 'out_file',
                              stereo_mask, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'transfo_native_to_stereo',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.transfo_native_to_stereo',
                              stereo_mask, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'padded_stereo_T1',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.padded_stereo_T1',
                              stereo_mask, "ref_file")
 
         if "brain_segment_pipe" in params.keys() and pad:
@@ -2363,9 +2365,11 @@ def create_full_ants_subpipes(
 
             seg_pipe.connect(pad_prob_gm, 'res_file',
                              stereo_prob_gm, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'transfo_native_to_stereo',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.transfo_native_to_stereo',
                              stereo_prob_gm, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'padded_stereo_T1',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.padded_stereo_T1',
                              stereo_prob_gm, "ref_file")
 
             # apply transfo to list
@@ -2374,31 +2378,37 @@ def create_full_ants_subpipes(
 
             seg_pipe.connect(pad_prob_wm, 'res_file',
                              stereo_prob_wm, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'transfo_native_to_stereo',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnodetransfo_native_to_stereo',
                              stereo_prob_wm, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'padded_stereo_T1',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.padded_stereo_T1',
                              stereo_prob_wm, "ref_file")
 
             # apply transfo to list
             stereo_prob_csf = pe.Node(RegResample(inter_val="LIN"),
-                                  name='stereo_prob_csf')
+                                      name='stereo_prob_csf')
 
             seg_pipe.connect(pad_prob_csf, 'res_file',
                              stereo_prob_csf, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'transfo_native_to_stereo',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.transfo_native_to_stereo',
                              stereo_prob_csf, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'padded_stereo_T1',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.padded_stereo_T1',
                              stereo_prob_csf, "ref_file")
 
             # apply transfo to list
             stereo_seg_mask = pe.Node(RegResample(inter_val="NN"),
-                                  name='stereo_seg_mask')
+                                      name='stereo_seg_mask')
 
             seg_pipe.connect(pad_seg_mask, 'res_file',
                              stereo_seg_mask, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'transfo_native_to_stereo',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.transfo_native_to_stereo',
                              stereo_seg_mask, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe, 'padded_stereo_T1',
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.padded_stereo_T1',
                              stereo_seg_mask, "ref_file")
 
             if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
@@ -2412,10 +2422,11 @@ def create_full_ants_subpipes(
                                  stereo_wmgm_mask, "flo_file")
 
                 seg_pipe.connect(native_to_stereo_pipe,
-                                 'transfo_native_to_stereo',
+                                 'outputnode.transfo_native_to_stereo',
                                  stereo_wmgm_mask, "trans_file")
 
-                seg_pipe.connect(native_to_stereo_pipe, 'padded_stereo_T1',
+                seg_pipe.connect(native_to_stereo_pipe,
+                                 'outputnode.padded_stereo_T1',
                                  stereo_wmgm_mask, "ref_file")
 
     return seg_pipe
