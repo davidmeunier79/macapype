@@ -748,23 +748,132 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
                 rename_prob_csf, ('out_file', show_files),
                 datasink, '@prob_csf')
 
-            ## rename 5tt
-            #if "export_5tt_pipe" in params["brain_segment_pipe"]:
-                #print("Renaming 5tt file")
+        if "native_to_stereo_pipe" in params.keys():
 
-                #rename_gen_5tt = pe.Node(niu.Rename(), name = "rename_gen_5tt")
-                #rename_gen_5tt.inputs.format_string = pref_deriv + "_space-{}_desc-5tt_dseg".format(space)
-                #rename_gen_5tt.inputs.parse_string = parse_str
-                #rename_gen_5tt.inputs.keep_ext = True
+            # rename stereo_native_T1
+            rename_stereo_native_T1 = pe.Node(niu.Rename(),
+                                              name="rename_stereo_native_T1")
+            rename_stereo_native_T1.inputs.format_string = \
+                pref_deriv + "_space-stereo_T1"
+            rename_stereo_native_T1.inputs.parse_string = parse_str
+            rename_stereo_native_T1.inputs.keep_ext = True
 
-                #main_workflow.connect(
-                    #segment_pnh_pipe, 'outputnode.gen_5tt',
-                    #rename_gen_5tt, 'in_file')
+            main_workflow.connect(
+                segment_pnh_pipe, 'outputnode.stereo_native_T1',
+                rename_stereo_native_T1, 'in_file')
 
-                #main_workflow.connect(
-                    #rename_gen_5tt, 'out_file',
-                    #datasink, '@gen_5tt')
+            main_workflow.connect(
+                rename_stereo_native_T1, 'out_file',
+                datasink, '@stereo_native_T1')
 
+            if "brain_extraction_pipe" in params.keys():
+                # rename stereo_brain_mask
+                rename_stereo_brain_mask = pe.Node(
+                    niu.Rename(),
+                    name="rename_stereo_brain_mask")
+                rename_stereo_brain_mask.inputs.format_string = \
+                    pref_deriv + "_space-stereo_desc-brain_mask"
+                rename_stereo_brain_mask.inputs.parse_string = parse_str
+                rename_stereo_brain_mask.inputs.keep_ext = True
+
+                main_workflow.connect(
+                    segment_pnh_pipe, 'outputnode.stereo_brain_mask',
+                    rename_stereo_brain_mask, 'in_file')
+
+                main_workflow.connect(
+                    rename_stereo_brain_mask, 'out_file',
+                    datasink, '@stereo_brain_mask')
+
+            if "brain_segment_pipe" in params.keys():
+
+                # rename stereo_segmented_brain_mask
+                rename_stereo_segmented_brain_mask = pe.Node(
+                    niu.Rename(),
+                    name="rename_stereo_segmented_brain_mask")
+
+                rename_stereo_segmented_brain_mask.inputs.format_string =\
+                    pref_deriv + "_space-stereo_desc-brain_dseg"
+                rename_stereo_segmented_brain_mask.inputs.parse_string = \
+                    parse_str
+                rename_stereo_segmented_brain_mask.inputs.keep_ext = True
+
+                main_workflow.connect(
+                    segment_pnh_pipe, 'outputnode.stereo_segmented_brain_mask',
+                    rename_stereo_segmented_brain_mask, 'in_file')
+
+                main_workflow.connect(
+                    rename_stereo_segmented_brain_mask, 'out_file',
+                    datasink, '@stereo_segmented_brain_mask')
+
+                # rename stereo_prob_gm
+                print("Renaming stereo_prob_gm file")
+                rename_stereo_prob_gm = pe.Node(niu.Rename(),
+                                                name="rename_stereo_prob_gm")
+                rename_stereo_prob_gm.inputs.format_string = \
+                    pref_deriv + "_space-stereo_label-GM_probseg"
+                rename_stereo_prob_gm.inputs.parse_string = parse_str
+                rename_stereo_prob_gm.inputs.keep_ext = True
+
+                main_workflow.connect(
+                    segment_pnh_pipe, 'outputnode.stereo_prob_gm',
+                    rename_stereo_prob_gm, 'in_file')
+
+                main_workflow.connect(
+                    rename_stereo_prob_gm, ('out_file', show_files),
+                    datasink, '@stereo_prob_gm')
+
+                # rename stereo_prob_wm
+                print("Renaming stereo_prob_wm file")
+                rename_stereo_prob_wm = pe.Node(niu.Rename(),
+                                                name="rename_stereo_prob_wm")
+                rename_stereo_prob_wm.inputs.format_string = \
+                    pref_deriv + "_space-stereo_label-WM_probseg"
+                rename_stereo_prob_wm.inputs.parse_string = parse_str
+                rename_stereo_prob_wm.inputs.keep_ext = True
+
+                main_workflow.connect(
+                    segment_pnh_pipe, 'outputnode.stereo_prob_wm',
+                    rename_stereo_prob_wm, 'in_file')
+
+                main_workflow.connect(
+                    rename_stereo_prob_wm, ('out_file', show_files),
+                    datasink, '@stereo_prob_wm')
+
+                # rename stereo_prob_csf
+                print("Renaming stereo_prob_csf file")
+                rename_stereo_prob_csf = pe.Node(niu.Rename(),
+                                                 name="rename_stereo_prob_csf")
+                rename_stereo_prob_csf.inputs.format_string = \
+                    pref_deriv + "_space-stereo_label-CSF_probseg"
+                rename_stereo_prob_csf.inputs.parse_string = parse_str
+                rename_stereo_prob_csf.inputs.keep_ext = True
+
+                main_workflow.connect(
+                    segment_pnh_pipe, 'outputnode.stereo_prob_csf',
+                    rename_stereo_prob_csf, 'in_file')
+
+                main_workflow.connect(
+                    rename_stereo_prob_csf, ('out_file', show_files),
+                    datasink, '@stereo_prob_csf')
+
+                if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
+
+                    print("Renaming stereo_wmgm_mask file")
+                    rename_stereo_wmgm_mask = pe.Node(
+                        niu.Rename(),
+                        name="rename_stereo_wmgm_mask")
+                    rename_stereo_wmgm_mask.inputs.format_string = \
+                        pref_deriv + "_space-stereo_desc-wmgm_mask"
+                    rename_stereo_wmgm_mask.inputs.parse_string = parse_str
+                    rename_stereo_wmgm_mask.inputs.keep_ext = True
+
+                    main_workflow.connect(
+                        segment_pnh_pipe, 'outputnode.stereo_wmgm_mask',
+                        rename_stereo_wmgm_mask, 'in_file')
+
+                    main_workflow.connect(
+                        rename_stereo_wmgm_mask, 'out_file',
+                        datasink, '@stereo_wmgm_mask')
 
         if "mask_from_seg_pipe" in params.keys():
 

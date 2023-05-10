@@ -1629,7 +1629,11 @@ def create_full_ants_subpipes(
             fields=['brain_mask', 'segmented_brain_mask', 'prob_gm', 'prob_wm',
                     'prob_csf', "gen_5tt", "debiased_brain", "debiased_T1",
                     "cropped_brain_mask", "cropped_debiased_T1",
-                    "wmgm_stl", "wmgm_nii"]),
+                    "wmgm_stl", "wmgm_nii",
+                    'stereo_native_T1',
+                    'stereo_brain_mask', 'stereo_segmented_brain_mask',
+                    'stereo_prob_gm', 'stereo_prob_wm',
+                    'stereo_prob_csf', "stereo_wmgm_mask"]),
         name='outputnode')
 
     # preprocessing
@@ -2342,6 +2346,10 @@ def create_full_ants_subpipes(
         native_to_stereo_pipe.inputs.inputnode.stereo_T1 = \
             params_template["template_head"]
 
+        seg_pipe.connect(native_to_stereo_pipe,
+                         "outputnode.stereo_native_T1",
+                         outputnode, "stereo_native_T1")
+
         if "brain_extraction_pipe" in params.keys() and pad:
 
             # apply transfo to list
@@ -2353,9 +2361,13 @@ def create_full_ants_subpipes(
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
                              stereo_mask, "trans_file")
+
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.padded_stereo_T1',
                              stereo_mask, "ref_file")
+
+            seg_pipe.connect(stereo_mask, "out_file",
+                             outputnode, "stereo_brain_mask")
 
         if "brain_segment_pipe" in params.keys() and pad:
 
@@ -2372,6 +2384,9 @@ def create_full_ants_subpipes(
                              'outputnode.padded_stereo_T1',
                              stereo_prob_gm, "ref_file")
 
+            seg_pipe.connect(stereo_prob_gm, "out_file",
+                             outputnode, "stereo_prob_gm")
+
             # apply transfo to list
             stereo_prob_wm = pe.Node(RegResample(inter_val="LIN"),
                                   name='stereo_prob_wm')
@@ -2384,6 +2399,9 @@ def create_full_ants_subpipes(
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.padded_stereo_T1',
                              stereo_prob_wm, "ref_file")
+
+            seg_pipe.connect(stereo_prob_wm, "out_file",
+                             outputnode, "stereo_prob_wm")
 
             # apply transfo to list
             stereo_prob_csf = pe.Node(RegResample(inter_val="LIN"),
@@ -2398,6 +2416,9 @@ def create_full_ants_subpipes(
                              'outputnode.padded_stereo_T1',
                              stereo_prob_csf, "ref_file")
 
+            seg_pipe.connect(stereo_prob_csf, "out_file",
+                             outputnode, "stereo_prob_csf")
+
             # apply transfo to list
             stereo_seg_mask = pe.Node(RegResample(inter_val="NN"),
                                       name='stereo_seg_mask')
@@ -2410,6 +2431,12 @@ def create_full_ants_subpipes(
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.padded_stereo_T1',
                              stereo_seg_mask, "ref_file")
+
+            seg_pipe.connect(stereo_seg_mask, "out_file",
+                             outputnode, "stereo_segmented_brain_mask")
+
+            'stereo_segmented_brain_mask',
+            "stereo_wmgm_mask"
 
             if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
 
@@ -2428,6 +2455,9 @@ def create_full_ants_subpipes(
                 seg_pipe.connect(native_to_stereo_pipe,
                                  'outputnode.padded_stereo_T1',
                                  stereo_wmgm_mask, "ref_file")
+
+                seg_pipe.connect(stereo_wmgm_mask, "out_file",
+                                 outputnode, "stereo_wmgm_mask")
 
     return seg_pipe
 
