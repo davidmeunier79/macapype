@@ -2330,6 +2330,30 @@ def create_full_ants_subpipes(
         seg_pipe.connect(inputnode, 'indiv_params',
                          nii_to_mesh_fs_pipe, 'inputnode.indiv_params')
 
+    if "native_to_stereo_pipe" in params.keys():
+
+        native_to_stereo_pipe = create_native_to_stereo_pipe(
+            params=parse_key(params["native_to_stereo_pipe"],
+                             "native_to_stereo_pipe"))
+
+        seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
+                         native_to_stereo_pipe, 'inputnode.native_T1')
+
+        native_to_stereo_pipe.inputs.inputnode.stereo_T1 = \
+            params_template["head"]
+
+        if "brain_extraction_pipe" and pad:
+
+            # apply transfo to list
+            stereo_mask = pe.Node(RegResample(inter_val="NN"),
+                                  name='stereo_mask')
+
+            seg_pipe.connect(pad_mask, 'res_file',
+                             stereo_mask, "flo_file")
+            seg_pipe.connect(native_to_stereo_pipe, 'transfo_native_to_stereo',
+                             stereo_mask, "trans_file")
+            seg_pipe.connect(native_to_stereo_pipe, 'padded_stereo_T1',
+                             stereo_mask, "ref_file")
     return seg_pipe
 
 

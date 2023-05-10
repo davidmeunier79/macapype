@@ -7,12 +7,14 @@ import nipype.interfaces.fsl as fsl
 import nipype.interfaces.afni as afni
 import nipype.interfaces.ants as ants
 
+from nipype.interfaces.niftyreg import reg
+
 from ..utils.misc import get_elem
 from ..utils.utils_nodes import NodeParams, parse_key
 
 from ..nodes.register import (interative_flirt, NMTSubjectAlign,
                               NMTSubjectAlign2, NwarpApplyPriors,
-                              animal_warper)
+                              animal_warper, pad_zero_mri)
 
 
 def create_iterative_register_pipe(
@@ -397,6 +399,7 @@ def create_register_NMT_pipe(params_template, params={},
     return register_NMT_pipe
 
 
+
 def create_reg_seg_pipe(name="reg_seg_pipe"):
 
     reg_pipe = pe.Workflow(name=name)
@@ -523,3 +526,63 @@ def create_reg_seg_pipe(name="reg_seg_pipe"):
     reg_pipe.connect(align_prob_csf, 'out_file', outputnode, "norm_prob_csf")
 
     return reg_pipe
+
+
+def create_native_to_stereotax_pipe(name="native_to_stereo_pipe", params = {}):
+
+    reg_pipe = pe.Workflow(name=name)
+
+    # creating inputnode
+    inputnode = pe.Node(
+        niu.IdentityInterface(fields=['native_T1',
+                                      'stereo_T1']),
+        name='inputnode')
+
+    # pad_stereo_T1
+    pad_template_T1 = NodeParams(
+        interface=niu.Function(
+            input_names=["img_file", "pad_val"],
+            output_names=["img_padded_file"],
+            function=pad_zero_mri),
+        params=parse_key(params, "pad_template_T1"),
+        name="pad_template_T1")
+
+    reg_pipe.connect(inputnode, 'stereo_T1',
+                     pad_template_T1, "img_file")
+
+    # align T1 on template
+    reg_T1_on_template = NodeParams(reg.RegAladin(),
+                                    params=parse_key(params, "reg_T1_on_template"),
+                                    name='reg_T1_on_template')
+
+    reg_T1_on_template.inputs.rig_only_flag = True
+    reg_T1_on_template.inputs.nosym_flag = True
+    reg_T1_on_template.inputs.ln_val = 12
+    reg_T1_on_template.inputs.lp_val = 10
+    reg_T1_on_template.inputs.smoo_r_val = 1.0
+
+    reg_pipe.connect(inputnode, 'native_T1',
+                     reg_T1_on_template, "flo_file")
+
+    reg_pipe.connect(pad_template_T1, 'img_padded_file',
+                     reg_T1_on_template, "ref_file")
+
+    # outputnode
+    outputnode = pe.Node(
+        niu.IdentityInterface(fields=['stereo_native_T1',
+                                      'padded_stereo_T1',
+                                      'transfo_native_to_stereo']),
+        name='outputnode')
+
+    reg_pipe.connect(reg_T1_on_template, 'res_file',
+                     outputnode, "stereo_native_T1")
+
+    reg_pipe.connect(pad_template_T1, 'img_padded_file',
+                     outputnode, "padded_stereo_T1")
+
+    reg_pipe.connect(reg_T1_on_template, 'transfo_file',
+                     outputnode, "transfo_native_to_stereo")
+
+    return reg_pipe
+
+
