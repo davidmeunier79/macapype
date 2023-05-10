@@ -528,7 +528,7 @@ def create_reg_seg_pipe(name="reg_seg_pipe"):
     return reg_pipe
 
 
-def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params = {}):
+def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params={}):
 
     reg_pipe = pe.Workflow(name=name)
 
@@ -580,7 +580,7 @@ def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params = {}):
     reg_pipe.connect(pad_template_T1, 'img_padded_file',
                      outputnode, "padded_stereo_T1")
 
-    reg_pipe.connect(reg_T1_on_template, 'transfo_file',
+    reg_pipe.connect(reg_T1_on_template, 'aff_file',
                      outputnode, "transfo_native_to_stereo")
 
     return reg_pipe
