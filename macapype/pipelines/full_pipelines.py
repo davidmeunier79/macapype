@@ -2333,8 +2333,8 @@ def create_full_ants_subpipes(
     if "native_to_stereo_pipe" in params.keys():
 
         native_to_stereo_pipe = create_native_to_stereo_pipe(
-            params=parse_key(params["native_to_stereo_pipe"],
-                             "native_to_stereo_pipe"))
+            "native_to_stereo_pipe",
+            params=parse_key(params, "native_to_stereo_pipe"))
 
         seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
                          native_to_stereo_pipe, 'inputnode.native_T1')
