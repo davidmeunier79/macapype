@@ -2,7 +2,6 @@
 import nipype.pipeline.engine as pe
 import nipype.interfaces.utility as niu
 
-from macapype.utils.misc import parse_key, list_input_files, show_files
 
 def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                            datasink, pref_deriv, parse_str, space, ssoft):
