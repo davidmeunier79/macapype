@@ -2363,7 +2363,7 @@ def create_full_ants_subpipes(
             stereo_prob_gm = pe.Node(RegResample(inter_val="LIN"),
                                   name='stereo_prob_gm')
 
-            seg_pipe.connect(pad_prob_gm, 'res_file',
+            seg_pipe.connect(pad_prob_gm, 'out_file',
                              stereo_prob_gm, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
@@ -2376,7 +2376,7 @@ def create_full_ants_subpipes(
             stereo_prob_wm = pe.Node(RegResample(inter_val="LIN"),
                                   name='stereo_prob_wm')
 
-            seg_pipe.connect(pad_prob_wm, 'res_file',
+            seg_pipe.connect(pad_prob_wm, 'out_file',
                              stereo_prob_wm, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnodetransfo_native_to_stereo',
@@ -2389,7 +2389,7 @@ def create_full_ants_subpipes(
             stereo_prob_csf = pe.Node(RegResample(inter_val="LIN"),
                                       name='stereo_prob_csf')
 
-            seg_pipe.connect(pad_prob_csf, 'res_file',
+            seg_pipe.connect(pad_prob_csf, 'out_file',
                              stereo_prob_csf, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
@@ -2402,7 +2402,7 @@ def create_full_ants_subpipes(
             stereo_seg_mask = pe.Node(RegResample(inter_val="NN"),
                                       name='stereo_seg_mask')
 
-            seg_pipe.connect(pad_seg_mask, 'res_file',
+            seg_pipe.connect(pad_seg_mask, 'out_file',
                              stereo_seg_mask, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
