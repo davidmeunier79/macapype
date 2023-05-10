@@ -4,7 +4,7 @@ import nipype.interfaces.utility as niu
 
 
 def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
-                           datasink, pref_deriv, parse_str):
+                           datasink, pref_deriv, parse_str, space):
 
     if "brain_extraction_pipe" in params.keys():
 

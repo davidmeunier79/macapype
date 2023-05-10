@@ -433,16 +433,18 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
                                                        params_template=params_template)
 
         if "t1" in ssoft:
-            main_workflow.connect(segment_pnh_pipe, "short_preparation_pipe.outputnode.preproc_T1",
-                                transfo_FLAIR_pipe, 'inputnode.orig_T1')
+            main_workflow.connect(
+                segment_pnh_pipe, "short_preparation_pipe.outputnode.preproc_T1",
+                transfo_FLAIR_pipe, 'inputnode.orig_T1')
 
         else:
-            main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_file",
-                                transfo_FLAIR_pipe, 'inputnode.orig_T1')
+            main_workflow.connect(
+                segment_pnh_pipe, "debias.t1_debiased_file",
+                transfo_FLAIR_pipe, 'inputnode.orig_T1')
 
-
-        main_workflow.connect(segment_pnh_pipe, "reg.transfo_file",
-                              transfo_FLAIR_pipe, 'inputnode.lin_transfo_file')
+        main_workflow.connect(
+            segment_pnh_pipe, "reg.transfo_file",
+            transfo_FLAIR_pipe, 'inputnode.lin_transfo_file')
 
         main_workflow.connect(datasource, ('FLAIR', get_first_elem),
                               transfo_FLAIR_pipe, 'inputnode.FLAIR')
@@ -452,30 +454,38 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
         if "transfo_MD_pipe" in params.keys():
             print("Found transfo_MD_pipe")
 
-        transfo_MD_pipe = create_transfo_MD_pipe(params=parse_key(params, "transfo_MD_pipe"),
-                                                 params_template=params_template)
+        transfo_MD_pipe = create_transfo_MD_pipe(
+            params=parse_key(params, "transfo_MD_pipe"),
+            params_template=params_template)
 
-        main_workflow.connect(segment_pnh_pipe,
-                                "old_segment_pipe.outputnode.threshold_wm",
-                                transfo_MD_pipe, 'inputnode.threshold_wm')
+        main_workflow.connect(
+            segment_pnh_pipe,
+            "old_segment_pipe.outputnode.threshold_wm",
+            transfo_MD_pipe, 'inputnode.threshold_wm')
 
-        main_workflow.connect(datasource, ('MD', get_first_elem),
-                                transfo_MD_pipe, 'inputnode.MD')
+        main_workflow.connect(
+            datasource, ('MD', get_first_elem),
+            transfo_MD_pipe, 'inputnode.MD')
 
-        main_workflow.connect(datasource, ('b0mean', get_first_elem),
-                                transfo_MD_pipe, 'inputnode.b0mean')
+        main_workflow.connect(
+            datasource, ('b0mean', get_first_elem),
+            transfo_MD_pipe, 'inputnode.b0mean')
 
-        main_workflow.connect(segment_pnh_pipe, "debias.t1_debiased_file",
-                            transfo_MD_pipe, 'inputnode.orig_T1')
+        main_workflow.connect(
+            segment_pnh_pipe, "debias.t1_debiased_file",
+            transfo_MD_pipe, 'inputnode.orig_T1')
 
-        main_workflow.connect(segment_pnh_pipe, "debias.t2_debiased_brain_file",
-                            transfo_MD_pipe, 'inputnode.SS_T2')
+        main_workflow.connect(
+            segment_pnh_pipe, "debias.t2_debiased_brain_file",
+            transfo_MD_pipe, 'inputnode.SS_T2')
 
-        main_workflow.connect(segment_pnh_pipe, "reg.transfo_file",
-                            transfo_MD_pipe, 'inputnode.lin_transfo_file')
+        main_workflow.connect(
+            segment_pnh_pipe, "reg.transfo_file",
+            transfo_MD_pipe, 'inputnode.lin_transfo_file')
 
-        main_workflow.connect(segment_pnh_pipe, "reg.inv_transfo_file",
-                            transfo_MD_pipe, 'inputnode.inv_lin_transfo_file')
+        main_workflow.connect(
+            segment_pnh_pipe, "reg.inv_transfo_file",
+            transfo_MD_pipe, 'inputnode.inv_lin_transfo_file')
 
     if deriv:
 
@@ -484,14 +494,14 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
         if "regex_subs" in params.keys():
             params_regex_subs = params["regex_subs"]
         else:
-            params_regex_subs={}
+            params_regex_subs = {}
 
         if "subs" in params.keys():
             params_subs = params["rsubs"]
         else:
-            params_subs={}
+            params_subs = {}
 
-        print (datasource.iterables)
+        print(datasource.iterables)
 
         datasink = create_datasink(iterables=datasource.iterables,
                                    name=datasink_name,
@@ -508,8 +518,7 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
             parse_str = r"sub-(?P<sub>\w*)_ses-(?P<ses>\w*)_.*"
 
         rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
-                               datasink, pref_deriv , parse_str)
-
+                               datasink, pref_deriv, parse_str, space)
 
     main_workflow.write_graph(graph2use="colored")
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
