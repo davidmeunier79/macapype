@@ -555,12 +555,6 @@ def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params={}):
                                     params=parse_key(params, "reg_T1_on_template"),
                                     name='reg_T1_on_template')
 
-    reg_T1_on_template.inputs.rig_only_flag = True
-    reg_T1_on_template.inputs.nosym_flag = True
-    reg_T1_on_template.inputs.ln_val = 12
-    reg_T1_on_template.inputs.lp_val = 10
-    reg_T1_on_template.inputs.smoo_r_val = 1.0
-
     reg_pipe.connect(inputnode, 'native_T1',
                      reg_T1_on_template, "flo_file")
 

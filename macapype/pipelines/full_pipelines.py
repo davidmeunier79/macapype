@@ -2340,7 +2340,7 @@ def create_full_ants_subpipes(
                          native_to_stereo_pipe, 'inputnode.native_T1')
 
         native_to_stereo_pipe.inputs.inputnode.stereo_T1 = \
-            params_template["head"]
+            params_template["template_head"]
 
         if "brain_extraction_pipe" and pad:
 
