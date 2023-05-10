@@ -2,9 +2,10 @@
 import nipype.pipeline.engine as pe
 import nipype.interfaces.utility as niu
 
+from macapype.utils.misc import parse_key, list_input_files, show_files
 
 def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
-                           datasink, pref_deriv, parse_str, space):
+                           datasink, pref_deriv, parse_str, space, ssoft):
 
     if "brain_extraction_pipe" in params.keys():
 
@@ -97,7 +98,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
 
         # rename debiased_T1
         rename_debiased_T1 = pe.Node(niu.Rename(),
-                                        name="rename_debiased_T1")
+                                     name="rename_debiased_T1")
         rename_debiased_T1.inputs.format_string = \
             pref_deriv + "_space-native_desc-debiased_T1w"
         rename_debiased_T1.inputs.parse_string = parse_str
@@ -140,7 +141,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_prob_wm, 'in_file')
 
         main_workflow.connect(
-            rename_prob_wm, ('out_file', show_files),
+            rename_prob_wm, 'out_file',
             datasink, '@prob_wm')
 
         # rename prob_gm
@@ -155,7 +156,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_prob_gm, 'in_file')
 
         main_workflow.connect(
-            rename_prob_gm, ('out_file', show_files),
+            rename_prob_gm, 'out_file',
             datasink, '@prob_gm')
 
         # rename prob_csf
@@ -170,13 +171,14 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_prob_csf, 'in_file')
 
         main_workflow.connect(
-            rename_prob_csf, ('out_file', show_files),
+            rename_prob_csf, 'out_file',
             datasink, '@prob_csf')
 
         # rename 5tt
         if "export_5tt_pipe" in params["brain_segment_pipe"]:
             rename_gen_5tt = pe.Node(niu.Rename(), name="rename_gen_5tt")
-            rename_gen_5tt.inputs.format_string = pref_deriv + "_space-{}_desc-5tt_dseg".format(space)
+            rename_gen_5tt.inputs.format_string = \
+                pref_deriv + "_space-{}_desc-5tt_dseg".format(space)
             rename_gen_5tt.inputs.parse_string = parse_str
             rename_gen_5tt.inputs.keep_ext = True
 
@@ -191,8 +193,10 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
         if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
             print("Renaming wmgm_stl file")
 
-            rename_wmgm_stl = pe.Node(niu.Rename(), name = "rename_wmgm_stl")
-            rename_wmgm_stl.inputs.format_string = pref_deriv + "_space-{}_desc-wmgm_mask".format(space)
+            rename_wmgm_stl = pe.Node(niu.Rename(),
+                                      name="rename_wmgm_stl")
+            rename_wmgm_stl.inputs.format_string = \
+                pref_deriv + "_space-{}_desc-wmgm_mask".format(space)
             rename_wmgm_stl.inputs.parse_string = parse_str
             rename_wmgm_stl.inputs.keep_ext = True
 
@@ -205,8 +209,10 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                 datasink, '@wmgm_stl')
 
             print("Renaming wmgm_nii file")
-            rename_wmgm_nii = pe.Node(niu.Rename(), name = "rename_wmgm_nii")
-            rename_wmgm_nii.inputs.format_string = pref_deriv + "_space-{}_desc-wmgm_mask".format(space)
+            rename_wmgm_nii = pe.Node(niu.Rename(),
+                                      name="rename_wmgm_nii")
+            rename_wmgm_nii.inputs.format_string = \
+                pref_deriv + "_space-{}_desc-wmgm_mask".format(space)
             rename_wmgm_nii.inputs.parse_string = parse_str
             rename_wmgm_nii.inputs.keep_ext = True
 
@@ -222,8 +228,10 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
 
         # rename prob_wm
         print("Renaming prob_wm file")
-        rename_prob_wm = pe.Node(niu.Rename(), name="rename_prob_wm")
-        rename_prob_wm.inputs.format_string = pref_deriv+"_space-{}_label-WM_probseg".format(space)
+        rename_prob_wm = pe.Node(niu.Rename(),
+                                 name="rename_prob_wm")
+        rename_prob_wm.inputs.format_string = \
+            pref_deriv+"_space-{}_label-WM_probseg".format(space)
         rename_prob_wm.inputs.parse_string = parse_str
         rename_prob_wm.inputs.keep_ext = True
 
@@ -232,13 +240,14 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_prob_wm, 'in_file')
 
         main_workflow.connect(
-            rename_prob_wm, ('out_file', show_files),
+            rename_prob_wm, 'out_file',
             datasink, '@prob_wm')
 
         # rename prob_gm
         print("Renaming prob_gm file")
         rename_prob_gm = pe.Node(niu.Rename(), name="rename_prob_gm")
-        rename_prob_gm.inputs.format_string = pref_deriv+"_space-{}_label-GM_probseg".format(space)
+        rename_prob_gm.inputs.format_string = \
+            pref_deriv+"_space-{}_label-GM_probseg".format(space)
         rename_prob_gm.inputs.parse_string = parse_str
         rename_prob_gm.inputs.keep_ext = True
 
@@ -247,13 +256,14 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_prob_gm, 'in_file')
 
         main_workflow.connect(
-            rename_prob_gm, ('out_file', show_files),
+            rename_prob_gm, 'out_file',
             datasink, '@prob_gm')
 
-        ### rename prob_csf
+        # rename prob_csf
         print("Renaming prob_csf file")
-        rename_prob_csf = pe.Node(niu.Rename(), name = "rename_prob_csf")
-        rename_prob_csf.inputs.format_string = pref_deriv + "_space-{}_label-CSF_probseg".format(space)
+        rename_prob_csf = pe.Node(niu.Rename(), name="rename_prob_csf")
+        rename_prob_csf.inputs.format_string = \
+            pref_deriv + "_space-{}_label-CSF_probseg".format(space)
         rename_prob_csf.inputs.parse_string = parse_str
         rename_prob_csf.inputs.keep_ext = True
 
@@ -262,14 +272,14 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_prob_csf, 'in_file')
 
         main_workflow.connect(
-            rename_prob_csf, ('out_file', show_files),
+            rename_prob_csf, 'out_file',
             datasink, '@prob_csf')
 
     if "native_to_stereo_pipe" in params.keys():
 
         # rename stereo_native_T1
         rename_stereo_native_T1 = pe.Node(niu.Rename(),
-                                            name="rename_stereo_native_T1")
+                                          name="rename_stereo_native_T1")
         rename_stereo_native_T1.inputs.format_string = \
             pref_deriv + "_space-stereo_T1"
         rename_stereo_native_T1.inputs.parse_string = parse_str
@@ -336,7 +346,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                 rename_stereo_prob_gm, 'in_file')
 
             main_workflow.connect(
-                rename_stereo_prob_gm, ('out_file', show_files),
+                rename_stereo_prob_gm, 'out_file',
                 datasink, '@stereo_prob_gm')
 
             # rename stereo_prob_wm
@@ -353,13 +363,13 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                 rename_stereo_prob_wm, 'in_file')
 
             main_workflow.connect(
-                rename_stereo_prob_wm, ('out_file', show_files),
+                rename_stereo_prob_wm, 'out_file',
                 datasink, '@stereo_prob_wm')
 
             # rename stereo_prob_csf
             print("Renaming stereo_prob_csf file")
             rename_stereo_prob_csf = pe.Node(niu.Rename(),
-                                                name="rename_stereo_prob_csf")
+                                             name="rename_stereo_prob_csf")
             rename_stereo_prob_csf.inputs.format_string = \
                 pref_deriv + "_space-stereo_label-CSF_probseg"
             rename_stereo_prob_csf.inputs.parse_string = parse_str
@@ -370,7 +380,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                 rename_stereo_prob_csf, 'in_file')
 
             main_workflow.connect(
-                rename_stereo_prob_csf, ('out_file', show_files),
+                rename_stereo_prob_csf, 'out_file',
                 datasink, '@stereo_prob_csf')
 
             if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
