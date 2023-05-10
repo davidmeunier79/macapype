@@ -547,6 +547,8 @@ def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params={}):
         params=parse_key(params, "pad_template_T1"),
         name="pad_template_T1")
 
+    pad_template_T1.inputs.pad_val = 20
+
     reg_pipe.connect(inputnode, 'stereo_T1',
                      pad_template_T1, "img_file")
 
