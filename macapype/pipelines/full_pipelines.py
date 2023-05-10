@@ -2379,7 +2379,7 @@ def create_full_ants_subpipes(
             seg_pipe.connect(pad_prob_wm, 'out_file',
                              stereo_prob_wm, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnodetransfo_native_to_stereo',
+                             'outputnode.transfo_native_to_stereo',
                              stereo_prob_wm, "trans_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.padded_stereo_T1',
