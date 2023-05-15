@@ -2369,6 +2369,24 @@ def create_full_ants_subpipes(
             seg_pipe.connect(stereo_mask, "out_file",
                              outputnode, "stereo_brain_mask")
 
+            # apply transfo to list
+            stereo_debiased_T1 = pe.Node(RegResample(inter_val="NN"),
+                                  name='stereo_debiased_T1')
+
+            seg_pipe.connect(pad_debiased_T1, 'out_file',
+                             stereo_debiased_T1, "flo_file")
+
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.transfo_native_to_stereo',
+                             stereo_debiased_T1, "trans_file")
+
+            seg_pipe.connect(native_to_stereo_pipe,
+                             'outputnode.padded_stereo_T1',
+                             stereo_debiased_T1, "ref_file")
+
+            seg_pipe.connect(stereo_debiased_T1, "out_file",
+                             outputnode, "stereo_brain_debiased_T1")
+
         if "brain_segment_pipe" in params.keys() and pad:
 
             # apply transfo to list

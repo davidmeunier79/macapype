@@ -280,7 +280,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
         rename_stereo_native_T1 = pe.Node(niu.Rename(),
                                           name="rename_stereo_native_T1")
         rename_stereo_native_T1.inputs.format_string = \
-            pref_deriv + "_space-stereo_T1"
+            pref_deriv + "_space-stereo_T1w"
         rename_stereo_native_T1.inputs.parse_string = parse_str
         rename_stereo_native_T1.inputs.keep_ext = True
 
@@ -309,6 +309,24 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             main_workflow.connect(
                 rename_stereo_brain_mask, 'out_file',
                 datasink, '@stereo_brain_mask')
+
+            # rename stereo_debiased_T1
+            rename_stereo_debiased_T1 = pe.Node(
+                niu.Rename(),
+                name="rename_stereo_debiased_T1")
+            rename_stereo_debiased_T1.inputs.format_string = \
+                pref_deriv + "_space-stereo_desc-debiased_T1w"
+            rename_stereo_debiased_T1.inputs.parse_string = parse_str
+            rename_stereo_debiased_T1.inputs.keep_ext = True
+
+            main_workflow.connect(
+                segment_pnh_pipe, 'outputnode.stereo_debiased_T1',
+                rename_stereo_debiased_T1, 'in_file')
+
+            main_workflow.connect(
+                rename_stereo_debiased_T1, 'out_file',
+                datasink, '@stereo_debiased_T1')
+
 
         if "brain_segment_pipe" in params.keys():
 
