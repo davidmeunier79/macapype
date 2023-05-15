@@ -726,6 +726,37 @@ def pad_zero_mri(img_file, pad_val=10):
 
     img = nib.load(img_file)
     img_arr = np.array(img.dataobj)
+    img_arr_copy = np.copy(img_arr)
+
+    img_arr_copy_padded = np.pad(
+        img_arr_copy,
+        pad_width=[(pad_val, pad_val), (pad_val, pad_val), (pad_val, pad_val)],
+        mode='constant',
+        constant_values=[(0, 0), (0, 0), (0, 0)])
+
+    img_padded = nib.Nifti1Image(img_arr_copy_padded,
+                                 header=img.header,
+                                 affine=img.affine)
+
+    path, fname, ext = split_f(img_file)
+
+    img_padded_file = os.path.abspath("padded_" + fname + ext)
+
+    nib.save(img_padded, img_padded_file)
+
+    return img_padded_file
+
+"""
+def pad_zero_mri(img_file, pad_val=10):
+
+    import os
+    import nibabel as nib
+    import numpy as np
+
+    from nipype.utils.filemanip import split_filename as split_f
+
+    img = nib.load(img_file)
+    img_arr = np.array(img.dataobj)
     img_header = img.header
     print("Pad_val {}".format(pad_val))
 
@@ -752,3 +783,4 @@ def pad_zero_mri(img_file, pad_val=10):
     nib.save(img_padded, img_padded_file)
 
     return img_padded_file
+"""
