@@ -731,15 +731,15 @@ def pad_zero_mri(img_file, pad_val=10):
 
     print(img_arr.shape)
 
-    img_arr_copy_padded = np.pad(
+    img_arr_padded = np.pad(
         img_arr,
         pad_width=[(pad_val, pad_val), (pad_val, pad_val), (pad_val, pad_val)],
         mode='constant',
         constant_values=[(0, 0), (0, 0), (0, 0)])
 
-    print(img_arr_copy_padded.shape)
+    print(img_arr_padded.shape)
 
-    img_padded = nib.Nifti1Image(img_arr_copy_padded,
+    img_padded = nib.Nifti1Image(img_arr_padded,
                                  header=img.header,
                                  affine=img.affine)
 
