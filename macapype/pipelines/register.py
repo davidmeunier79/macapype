@@ -562,17 +562,17 @@ def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params={}):
     reg_pipe.connect(pad_template_T1, 'img_padded_file',
                      reg_T1_on_template, "ref_file")
 
-    # align T1 on template
-    reg_T1_on_template2 = NodeParams(
-        reg.RegAladin(),
-        params=parse_key(params, "reg_T1_on_template"),
-        name='reg_T1_on_template2')
+    ## align T1 on template
+    #reg_T1_on_template2 = NodeParams(
+        #reg.RegAladin(),
+        #params=parse_key(params, "reg_T1_on_template"),
+        #name='reg_T1_on_template2')
 
-    reg_pipe.connect(reg_T1_on_template, 'res_file',
-                     reg_T1_on_template2, "flo_file")
+    #reg_pipe.connect(reg_T1_on_template, 'res_file',
+                     #reg_T1_on_template2, "flo_file")
 
-    reg_pipe.connect(pad_template_T1, 'img_padded_file',
-                     reg_T1_on_template2, "ref_file")
+    #reg_pipe.connect(pad_template_T1, 'img_padded_file',
+                     #reg_T1_on_template2, "ref_file")
 
     # outputnode
     outputnode = pe.Node(
@@ -584,7 +584,8 @@ def create_native_to_stereo_pipe(name="native_to_stereo_pipe", params={}):
     reg_pipe.connect(pad_template_T1, 'img_padded_file',
                      outputnode, "padded_stereo_T1")
 
-    reg_pipe.connect(reg_T1_on_template2, 'res_file',
+    # reg_pipe.connect(reg_T1_on_template2, 'res_file',
+    reg_pipe.connect(reg_T1_on_template, 'res_file',
                      outputnode, "stereo_native_T1")
 
     reg_pipe.connect(reg_T1_on_template, 'aff_file',
