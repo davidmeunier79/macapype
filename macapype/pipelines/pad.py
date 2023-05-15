@@ -529,7 +529,7 @@ def pad_brain_segment_pipe(seg_pipe, params,
 def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
                               data_preparation_pipe, native_to_stereo_pipe):
 
-        if "brain_extraction_pipe" in params.keys() and pad:
+        if "brain_extraction_pipe" in params.keys():
 
             # apply transfo to list
             stereo_mask = pe.Node(RegResample(inter_val="NN"),
@@ -566,7 +566,7 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
             seg_pipe.connect(stereo_debiased_T1, "out_file",
                              outputnode, "stereo_brain_debiased_T1")
 
-        if "brain_segment_pipe" in params.keys() and pad:
+        if "brain_segment_pipe" in params.keys():
 
             # apply transfo to list
             stereo_prob_gm = pe.Node(RegResample(inter_val="LIN"),
