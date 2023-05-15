@@ -1712,6 +1712,26 @@ def create_full_ants_subpipes(
 
             seg_pipe.connect(brain_extraction_pipe, "outputnode.debiased_T1",
                              outputnode, "debiased_T1")
+    # linking to stereo
+    if "native_to_stereo_pipe" in params.keys():
+
+        native_to_stereo_pipe = create_native_to_stereo_pipe(
+            "native_to_stereo_pipe",
+            params=parse_key(params, "native_to_stereo_pipe"))
+
+        seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
+                         native_to_stereo_pipe, 'inputnode.native_T1')
+
+        native_to_stereo_pipe.inputs.inputnode.stereo_T1 = \
+            params_template["template_head"]
+
+        seg_pipe.connect(native_to_stereo_pipe,
+                         "outputnode.stereo_native_T1",
+                         outputnode, "stereo_native_T1")
+
+        if pad:
+            pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
+                                      data_preparation_pipe, native_to_stereo_pipe)
 
     # full_segment (restarting from the avg_align files)
     if "brain_segment_pipe" not in params.keys():
@@ -1827,26 +1847,6 @@ def create_full_ants_subpipes(
 
         seg_pipe.connect(inputnode, 'indiv_params',
                          nii_to_mesh_fs_pipe, 'inputnode.indiv_params')
-
-    if "native_to_stereo_pipe" in params.keys():
-
-        native_to_stereo_pipe = create_native_to_stereo_pipe(
-            "native_to_stereo_pipe",
-            params=parse_key(params, "native_to_stereo_pipe"))
-
-        seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
-                         native_to_stereo_pipe, 'inputnode.native_T1')
-
-        native_to_stereo_pipe.inputs.inputnode.stereo_T1 = \
-            params_template["template_head"]
-
-        seg_pipe.connect(native_to_stereo_pipe,
-                         "outputnode.stereo_native_T1",
-                         outputnode, "stereo_native_T1")
-
-        if pad:
-            pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
-                                      data_preparation_pipe, native_to_stereo_pipe)
 
 
     return seg_pipe
