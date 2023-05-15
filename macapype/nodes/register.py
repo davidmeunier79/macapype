@@ -746,7 +746,9 @@ def pad_zero_mri(img_file, pad_val=10):
 
     return img_padded_file
 
+
 """
+
 def pad_zero_mri(img_file, pad_val=10):
 
     import os
@@ -783,4 +785,5 @@ def pad_zero_mri(img_file, pad_val=10):
     nib.save(img_padded, img_padded_file)
 
     return img_padded_file
+
 """
