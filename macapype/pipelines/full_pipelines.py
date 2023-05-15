@@ -1731,7 +1731,8 @@ def create_full_ants_subpipes(
 
         if pad:
             pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
-                                      data_preparation_pipe, native_to_stereo_pipe)
+                                      data_preparation_pipe,
+                                      native_to_stereo_pipe)
 
     # full_segment (restarting from the avg_align files)
     if "brain_segment_pipe" in params.keys():
@@ -1789,13 +1790,8 @@ def create_full_ants_subpipes(
             params=parse_key(params["brain_segment_pipe"],
                              "nii2mesh_brain_pipe"))
 
-        if pad and space == "native":
-            seg_pipe.connect(pad_seg_mask, "out_file",
+        seg_pipe.connect(outputnode, "segmented_brain_mask",
                              nii2mesh_brain_pipe, 'inputnode.segmented_file')
-        else:
-            seg_pipe.connect(
-                brain_segment_pipe, "outputnode.segmented_file",
-                nii2mesh_brain_pipe, 'inputnode.segmented_file')
 
         seg_pipe.connect(nii2mesh_brain_pipe, "outputnode.wmgm_stl",
                          outputnode, 'wmgm_stl')

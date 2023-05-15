@@ -527,129 +527,107 @@ def pad_brain_segment_pipe(seg_pipe, params,
 
 
 def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
-                              data_preparation_pipe, native_to_stereo_pipe,
-                              nii2mesh_brain_pipe):
+                              data_preparation_pipe, native_to_stereo_pipe):
 
-        if "brain_extraction_pipe" in params.keys():
+    if "brain_extraction_pipe" in params.keys():
 
-            # apply transfo to list
-            stereo_mask = pe.Node(RegResample(inter_val="NN"),
-                                  name='stereo_mask')
+        # apply transfo to list
+        stereo_mask = pe.Node(RegResample(inter_val="NN"),
+                                name='stereo_mask')
 
-            seg_pipe.connect(outputnode, "brain_mask",
-                             stereo_mask, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.transfo_native_to_stereo',
-                             stereo_mask, "trans_file")
+        seg_pipe.connect(outputnode, "brain_mask",
+                            stereo_mask, "flo_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.transfo_native_to_stereo',
+                            stereo_mask, "trans_file")
 
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.padded_stereo_T1',
-                             stereo_mask, "ref_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.padded_stereo_T1',
+                            stereo_mask, "ref_file")
 
-            seg_pipe.connect(stereo_mask, "out_file",
-                             outputnode, "stereo_brain_mask")
+        seg_pipe.connect(stereo_mask, "out_file",
+                            outputnode, "stereo_brain_mask")
 
-            # apply transfo to list
-            stereo_debiased_T1 = pe.Node(RegResample(inter_val="NN"),
-                                  name='stereo_debiased_T1')
+        # apply transfo to list
+        stereo_debiased_T1 = pe.Node(RegResample(inter_val="NN"),
+                                name='stereo_debiased_T1')
 
-            seg_pipe.connect(outputnode, "debiased_T1",
-                             stereo_debiased_T1, "flo_file")
+        seg_pipe.connect(outputnode, "debiased_T1",
+                            stereo_debiased_T1, "flo_file")
 
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.transfo_native_to_stereo',
-                             stereo_debiased_T1, "trans_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.transfo_native_to_stereo',
+                            stereo_debiased_T1, "trans_file")
 
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.padded_stereo_T1',
-                             stereo_debiased_T1, "ref_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.padded_stereo_T1',
+                            stereo_debiased_T1, "ref_file")
 
-            seg_pipe.connect(stereo_debiased_T1, "out_file",
-                             outputnode, "stereo_brain_debiased_T1")
+        seg_pipe.connect(stereo_debiased_T1, "out_file",
+                            outputnode, "stereo_brain_debiased_T1")
 
-        if "brain_segment_pipe" in params.keys():
+    if "brain_segment_pipe" in params.keys():
 
-            # apply transfo to list
-            stereo_prob_gm = pe.Node(RegResample(inter_val="LIN"),
-                                  name='stereo_prob_gm')
+        # apply transfo to list
+        stereo_prob_gm = pe.Node(RegResample(inter_val="LIN"),
+                                name='stereo_prob_gm')
 
-            seg_pipe.connect(outputnode, "prob_gm",
-                             stereo_prob_gm, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.transfo_native_to_stereo',
-                             stereo_prob_gm, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.padded_stereo_T1',
-                             stereo_prob_gm, "ref_file")
+        seg_pipe.connect(outputnode, "prob_gm",
+                            stereo_prob_gm, "flo_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.transfo_native_to_stereo',
+                            stereo_prob_gm, "trans_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.padded_stereo_T1',
+                            stereo_prob_gm, "ref_file")
 
-            seg_pipe.connect(stereo_prob_gm, "out_file",
-                             outputnode, "stereo_prob_gm")
+        seg_pipe.connect(stereo_prob_gm, "out_file",
+                            outputnode, "stereo_prob_gm")
 
-            # apply transfo to list
-            stereo_prob_wm = pe.Node(RegResample(inter_val="LIN"),
-                                  name='stereo_prob_wm')
+        # apply transfo to list
+        stereo_prob_wm = pe.Node(RegResample(inter_val="LIN"),
+                                name='stereo_prob_wm')
 
-            seg_pipe.connect(outputnode, "prob_wm",
-                             stereo_prob_wm, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.transfo_native_to_stereo',
-                             stereo_prob_wm, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.padded_stereo_T1',
-                             stereo_prob_wm, "ref_file")
+        seg_pipe.connect(outputnode, "prob_wm",
+                            stereo_prob_wm, "flo_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.transfo_native_to_stereo',
+                            stereo_prob_wm, "trans_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.padded_stereo_T1',
+                            stereo_prob_wm, "ref_file")
 
-            seg_pipe.connect(stereo_prob_wm, "out_file",
-                             outputnode, "stereo_prob_wm")
+        seg_pipe.connect(stereo_prob_wm, "out_file",
+                            outputnode, "stereo_prob_wm")
 
-            # apply transfo to list
-            stereo_prob_csf = pe.Node(RegResample(inter_val="LIN"),
-                                      name='stereo_prob_csf')
+        # apply transfo to list
+        stereo_prob_csf = pe.Node(RegResample(inter_val="LIN"),
+                                    name='stereo_prob_csf')
 
-            seg_pipe.connect(outputnode, "prob_csf",
-                             stereo_prob_csf, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.transfo_native_to_stereo',
-                             stereo_prob_csf, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.padded_stereo_T1',
-                             stereo_prob_csf, "ref_file")
+        seg_pipe.connect(outputnode, "prob_csf",
+                            stereo_prob_csf, "flo_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.transfo_native_to_stereo',
+                            stereo_prob_csf, "trans_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.padded_stereo_T1',
+                            stereo_prob_csf, "ref_file")
 
-            seg_pipe.connect(stereo_prob_csf, "out_file",
-                             outputnode, "stereo_prob_csf")
+        seg_pipe.connect(stereo_prob_csf, "out_file",
+                            outputnode, "stereo_prob_csf")
 
-            # apply transfo to list
-            stereo_seg_mask = pe.Node(RegResample(inter_val="NN"),
-                                      name='stereo_seg_mask')
+        # apply transfo to list
+        stereo_seg_mask = pe.Node(RegResample(inter_val="NN"),
+                                    name='stereo_seg_mask')
 
-            seg_pipe.connect(outputnode, "segmented_brain_mask",
-                             stereo_seg_mask, "flo_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.transfo_native_to_stereo',
-                             stereo_seg_mask, "trans_file")
-            seg_pipe.connect(native_to_stereo_pipe,
-                             'outputnode.padded_stereo_T1',
-                             stereo_seg_mask, "ref_file")
+        seg_pipe.connect(outputnode, "segmented_brain_mask",
+                            stereo_seg_mask, "flo_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.transfo_native_to_stereo',
+                            stereo_seg_mask, "trans_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                            'outputnode.padded_stereo_T1',
+                            stereo_seg_mask, "ref_file")
 
-            seg_pipe.connect(stereo_seg_mask, "out_file",
-                             outputnode, "stereo_segmented_brain_mask")
-
-            if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
-
-                # apply transfo to list
-                stereo_wmgm_mask = pe.Node(RegResample(inter_val="NN"),
-                                           name='stereo_wmgm_mask')
-
-                seg_pipe.connect(nii2mesh_brain_pipe,
-                                 "outputnode.wmgm_nii",
-                                 stereo_wmgm_mask, "flo_file")
-
-                seg_pipe.connect(native_to_stereo_pipe,
-                                 'outputnode.transfo_native_to_stereo',
-                                 stereo_wmgm_mask, "trans_file")
-
-                seg_pipe.connect(native_to_stereo_pipe,
-                                 'outputnode.padded_stereo_T1',
-                                 stereo_wmgm_mask, "ref_file")
-
-                seg_pipe.connect(stereo_wmgm_mask, "out_file",
-                                 outputnode, "stereo_wmgm_mask")
+        seg_pipe.connect(stereo_seg_mask, "out_file",
+                            outputnode, "stereo_segmented_brain_mask")
