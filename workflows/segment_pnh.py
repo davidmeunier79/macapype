@@ -518,8 +518,9 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
             pref_deriv = "sub-%(sub)s_ses-%(ses)s"
             parse_str = r"sub-(?P<sub>\w*)_ses-(?P<ses>\w*)_.*"
 
-        rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
-                               datasink, pref_deriv, parse_str, space, ssoft)
+        main_workflow = rename_all_derivatives(
+            params, main_workflow, segment_pnh_pipe,
+            datasink, pref_deriv, parse_str, space, ssoft)
 
     main_workflow.write_graph(graph2use="colored")
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
