@@ -151,7 +151,6 @@ def pad_brain_extraction_pipe(seg_pipe, params, inputnode, outputnode,
             seg_pipe.connect(pad_debiased_T1, "padded_img_file",
                              outputnode, "debiased_T1")
 
-
 def pad_brain_segment_pipe(seg_pipe, params,
                            inputnode, outputnode,
                            data_preparation_pipe,
@@ -526,7 +525,9 @@ def pad_brain_segment_pipe(seg_pipe, params,
                     seg_pipe.connect(pad_gen_5tt, "out_file",
                                      outputnode, "gen_5tt")
 
-def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode, data_preparation_pipe, native_to_stereo_pipe):
+
+def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
+                              data_preparation_pipe, native_to_stereo_pipe):
 
         if "brain_extraction_pipe" in params.keys() and pad:
 

@@ -3,8 +3,8 @@ import nipype.pipeline.engine as pe
 import nipype.interfaces.utility as niu
 
 
-def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
-                           datasink, pref_deriv, parse_str, space, ssoft):
+def rename_all_derivatives(main_workflow, datasink, params, segment_pnh_pipe,
+                           pref_deriv, parse_str, space):
 
     if "brain_extraction_pipe" in params.keys():
 
@@ -327,7 +327,6 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                 rename_stereo_debiased_T1, 'out_file',
                 datasink, '@stereo_debiased_T1')
 
-
         if "brain_segment_pipe" in params.keys():
 
             # rename stereo_segmented_brain_mask
@@ -437,11 +436,5 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
         main_workflow.connect(
             rename_segmented_brain_mask, 'out_file',
             datasink, '@segmented_brain_mask')
-
-    if 'flair' in ssoft:
-
-        main_workflow.connect(
-            transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
-            datasink, '@norm_flair')
 
     return main_workflow

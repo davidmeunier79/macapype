@@ -519,8 +519,15 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
             parse_str = r"sub-(?P<sub>\w*)_ses-(?P<ses>\w*)_.*"
 
         main_workflow = rename_all_derivatives(
-            params, main_workflow, segment_pnh_pipe,
-            datasink, pref_deriv, parse_str, space, ssoft)
+            main_workflow, datasink, params, segment_pnh_pipe,
+            pref_deriv, parse_str, space)
+
+        if 'flair' in ssoft:
+
+            # no renaming so far
+            main_workflow.connect(
+                transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
+                datasink, '@norm_flair')
 
     main_workflow.write_graph(graph2use="colored")
     main_workflow.config['execution'] = {'remove_unnecessary_outputs': 'false'}
