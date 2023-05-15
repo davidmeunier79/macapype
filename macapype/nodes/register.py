@@ -733,7 +733,7 @@ def pad_zero_mri(img_file, pad_val=10):
 
     img_arr_padded = np.pad(
         img_arr,
-        pad_width=[(pad_val, pad_val), (pad_val, pad_val), (pad_val, pad_val)],
+        pad_width=pad_val,
         mode='constant',
         constant_values=[(0, 0), (0, 0), (0, 0)])
 
