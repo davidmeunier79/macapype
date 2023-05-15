@@ -518,7 +518,7 @@ def create_main_workflow(data_dir, process_dir, soft, species, subjects, session
             pref_deriv = "sub-%(sub)s_ses-%(ses)s"
             parse_str = r"sub-(?P<sub>\w*)_ses-(?P<ses>\w*)_.*"
 
-        main_workflow = rename_all_derivatives(
+        rename_all_derivatives(
             main_workflow, datasink, params, segment_pnh_pipe,
             pref_deriv, parse_str, space)
 

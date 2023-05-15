@@ -437,4 +437,3 @@ def rename_all_derivatives(main_workflow, datasink, params, segment_pnh_pipe,
             rename_segmented_brain_mask, 'out_file',
             datasink, '@segmented_brain_mask')
 
-    return main_workflow

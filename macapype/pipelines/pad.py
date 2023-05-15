@@ -151,6 +151,7 @@ def pad_brain_extraction_pipe(seg_pipe, params, inputnode, outputnode,
             seg_pipe.connect(pad_debiased_T1, "padded_img_file",
                              outputnode, "debiased_T1")
 
+
 def pad_brain_segment_pipe(seg_pipe, params,
                            inputnode, outputnode,
                            data_preparation_pipe,
