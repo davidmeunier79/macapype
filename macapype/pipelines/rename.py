@@ -443,3 +443,5 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
         main_workflow.connect(
             transfo_FLAIR_pipe, 'outputnode.norm_FLAIR',
             datasink, '@norm_flair')
+
+    return main_workflow
