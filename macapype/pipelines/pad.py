@@ -239,23 +239,23 @@ def pad_brain_segment_pipe(seg_pipe, params,
             pad_debiased_brain = pe.Node(
                 niu.Function(
                     input_names=['cropped_img_file', 'orig_img_file',
-                                'indiv_crop'],
+                                 'indiv_crop'],
                     output_names=['padded_img_file'],
                     function=padding_cropped_img),
                 name="pad_debiased_brain")
 
             seg_pipe.connect(brain_segment_pipe,
-                            "outputnode.debiased_brain",
-                            pad_debiased_brain, "cropped_img_file")
+                             "outputnode.debiased_brain",
+                             pad_debiased_brain, "cropped_img_file")
 
             seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
-                            pad_debiased_brain, "orig_img_file")
+                             pad_debiased_brain, "orig_img_file")
 
             seg_pipe.connect(inputnode, "indiv_params",
-                            pad_debiased_brain, "indiv_crop")
+                             pad_debiased_brain, "indiv_crop")
 
             seg_pipe.connect(pad_debiased_brain, "padded_img_file",
-                            outputnode, "debiased_brain")
+                             outputnode, "debiased_brain")
 
         elif "bet_crop" in params["short_preparation_pipe"].keys():
             print("Not implemented yet")
@@ -264,22 +264,22 @@ def pad_brain_segment_pipe(seg_pipe, params,
             print("Using reg_aladin transfo to pad debiased_brain back")
 
             pad_debiased_brain = pe.Node(RegResample(),
-                                        name="pad_debiased_brain")
+                                         name="pad_debiased_brain")
 
             seg_pipe.connect(brain_segment_pipe,
-                            "outputnode.debiased_brain",
-                            pad_debiased_brain, "flo_file")
+                             "outputnode.debiased_brain",
+                             pad_debiased_brain, "flo_file")
 
             seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
-                            pad_debiased_brain, "ref_file")
+                             pad_debiased_brain, "ref_file")
 
             seg_pipe.connect(data_preparation_pipe,
-                            "inv_tranfo.out_file",
-                            pad_debiased_brain, "trans_file")
+                             "inv_tranfo.out_file",
+                             pad_debiased_brain, "trans_file")
 
             # outputnode
             seg_pipe.connect(pad_debiased_brain, "out_file",
-                            outputnode, "debiased_brain")
+                             outputnode, "debiased_brain")
 
     if "short_preparation_pipe" in params.keys():
         if "crop_T1" in params["short_preparation_pipe"].keys():
@@ -289,22 +289,22 @@ def pad_brain_segment_pipe(seg_pipe, params,
             pad_prob_csf = pe.Node(
                 niu.Function(
                     input_names=['cropped_img_file', 'orig_img_file',
-                                    'indiv_crop'],
+                                 'indiv_crop'],
                     output_names=['padded_img_file'],
                     function=padding_cropped_img),
                 name="pad_prob_csf")
 
             seg_pipe.connect(brain_segment_pipe, "outputnode.prob_csf",
-                                pad_prob_csf, "cropped_img_file")
+                             pad_prob_csf, "cropped_img_file")
 
             seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
-                                pad_prob_csf, "orig_img_file")
+                             pad_prob_csf, "orig_img_file")
 
             seg_pipe.connect(inputnode, "indiv_params",
-                                pad_prob_csf, "indiv_crop")
+                             pad_prob_csf, "indiv_crop")
 
             seg_pipe.connect(pad_prob_csf, "padded_img_file",
-                                outputnode, "prob_csf")
+                             outputnode, "prob_csf")
 
         elif "bet_crop" in params["short_preparation_pipe"].keys():
             print("Not implemented yet")
@@ -313,21 +313,21 @@ def pad_brain_segment_pipe(seg_pipe, params,
             print("Using reg_aladin transfo to pad prob_csf back")
 
             pad_prob_csf = pe.Node(RegResample(),
-                                    name="pad_prob_csf")
+                                   name="pad_prob_csf")
 
             seg_pipe.connect(brain_segment_pipe, "outputnode.prob_csf",
-                                pad_prob_csf, "flo_file")
+                             pad_prob_csf, "flo_file")
 
             seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
-                                pad_prob_csf, "ref_file")
+                             pad_prob_csf, "ref_file")
 
             seg_pipe.connect(data_preparation_pipe,
-                                "inv_tranfo.out_file",
-                                pad_prob_csf, "trans_file")
+                             "inv_tranfo.out_file",
+                             pad_prob_csf, "trans_file")
 
             # outputnode
             seg_pipe.connect(pad_prob_csf, "out_file",
-                                outputnode, "prob_csf")
+                             outputnode, "prob_csf")
 
     elif "long_single_preparation_pipe" in params.keys():
         if "prep_T1" in params["long_single_preparation_pipe"].keys():
@@ -337,22 +337,22 @@ def pad_brain_segment_pipe(seg_pipe, params,
             pad_prob_csf = pe.Node(
                 niu.Function(
                     input_names=['cropped_img_file', 'orig_img_file',
-                                    'indiv_crop'],
+                                 'indiv_crop'],
                     output_names=['padded_img_file'],
                     function=padding_cropped_img),
                 name="pad_prob_csf")
 
             seg_pipe.connect(brain_segment_pipe, "outputnode.prob_csf",
-                                pad_prob_csf, "cropped_img_file")
+                             pad_prob_csf, "cropped_img_file")
 
             seg_pipe.connect(data_preparation_pipe, "av_T1.avg_img",
-                                pad_prob_csf, "orig_img_file")
+                             pad_prob_csf, "orig_img_file")
 
             seg_pipe.connect(inputnode, "indiv_params",
-                                pad_prob_csf, "indiv_crop")
+                             pad_prob_csf, "indiv_crop")
 
             seg_pipe.connect(pad_prob_csf, "padded_img_file",
-                                outputnode, "prob_csf")
+                             outputnode, "prob_csf")
 
     if "short_preparation_pipe" in params.keys():
         if "crop_T1" in params["short_preparation_pipe"].keys():
@@ -527,7 +527,8 @@ def pad_brain_segment_pipe(seg_pipe, params,
 
 
 def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
-                              data_preparation_pipe, native_to_stereo_pipe):
+                              data_preparation_pipe, native_to_stereo_pipe,
+                              nii2mesh_brain_pipe):
 
         if "brain_extraction_pipe" in params.keys():
 
@@ -535,7 +536,7 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
             stereo_mask = pe.Node(RegResample(inter_val="NN"),
                                   name='stereo_mask')
 
-            seg_pipe.connect(pad_mask, 'out_file',
+            seg_pipe.connect(outputnode, "brain_mask",
                              stereo_mask, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
@@ -552,7 +553,7 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
             stereo_debiased_T1 = pe.Node(RegResample(inter_val="NN"),
                                   name='stereo_debiased_T1')
 
-            seg_pipe.connect(pad_debiased_T1, 'out_file',
+            seg_pipe.connect(outputnode, "debiased_T1",
                              stereo_debiased_T1, "flo_file")
 
             seg_pipe.connect(native_to_stereo_pipe,
@@ -572,7 +573,7 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
             stereo_prob_gm = pe.Node(RegResample(inter_val="LIN"),
                                   name='stereo_prob_gm')
 
-            seg_pipe.connect(pad_prob_gm, 'out_file',
+            seg_pipe.connect(outputnode, "prob_gm",
                              stereo_prob_gm, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
@@ -588,7 +589,7 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
             stereo_prob_wm = pe.Node(RegResample(inter_val="LIN"),
                                   name='stereo_prob_wm')
 
-            seg_pipe.connect(pad_prob_wm, 'out_file',
+            seg_pipe.connect(outputnode, "prob_wm",
                              stereo_prob_wm, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
@@ -604,7 +605,7 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
             stereo_prob_csf = pe.Node(RegResample(inter_val="LIN"),
                                       name='stereo_prob_csf')
 
-            seg_pipe.connect(pad_prob_csf, 'out_file',
+            seg_pipe.connect(outputnode, "prob_csf",
                              stereo_prob_csf, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
@@ -620,7 +621,7 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
             stereo_seg_mask = pe.Node(RegResample(inter_val="NN"),
                                       name='stereo_seg_mask')
 
-            seg_pipe.connect(pad_seg_mask, 'out_file',
+            seg_pipe.connect(outputnode, "segmented_brain_mask",
                              stereo_seg_mask, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.transfo_native_to_stereo',
@@ -631,9 +632,6 @@ def pad_native_to_stereo_pipe(seg_pipe, params, inputnode, outputnode,
 
             seg_pipe.connect(stereo_seg_mask, "out_file",
                              outputnode, "stereo_segmented_brain_mask")
-
-            'stereo_segmented_brain_mask',
-            "stereo_wmgm_mask"
 
             if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
 

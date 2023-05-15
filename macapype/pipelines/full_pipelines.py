@@ -1734,7 +1734,7 @@ def create_full_ants_subpipes(
                                       data_preparation_pipe, native_to_stereo_pipe)
 
     # full_segment (restarting from the avg_align files)
-    if "brain_segment_pipe" not in params.keys():
+    if "brain_segment_pipe" in params.keys():
         return seg_pipe
 
     brain_segment_pipe = create_brain_segment_from_mask_pipe(
