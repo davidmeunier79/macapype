@@ -1714,11 +1714,13 @@ def create_full_ants_subpipes(
                 print("using skull_stripped_template for stereotaxic norm")
 
                 if "use_T2" in params["native_to_stereo_pipe"].keys():
-                    seg_pipe.connect(pad_masked_debiased_T2, "out_file",
+                    seg_pipe.connect(outputnode, "masked_debiased_T2",
+                                     # pad_masked_debiased_T2, "out_file",
                                      native_to_stereo_pipe,
                                      'inputnode.native_T1')
                 else:
-                    seg_pipe.connect(pad_masked_debiased_T1, "out_file",
+                    seg_pipe.connect(outputnode, "masked_debiased_T1",
+                                     # pad_masked_debiased_T1, "out_file",
                                      native_to_stereo_pipe,
                                      'inputnode.native_T1')
 

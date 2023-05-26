@@ -7,7 +7,8 @@ from macapype.nodes.prepare import padding_cropped_img
 
 
 def create_pad_brain_extraction_pipe(seg_pipe, params, data_preparation_pipe,
-                                     brain_extraction_pipe, inputnode, outputnode):
+                                     brain_extraction_pipe, inputnode,
+                                     outputnode):
 
     if "short_preparation_pipe" in params.keys():
         if "crop_T1" in params["short_preparation_pipe"].keys():
