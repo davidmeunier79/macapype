@@ -1775,7 +1775,8 @@ def create_full_ants_subpipes(
             apply_stereo_mask = pe.Node(RegResample(inter_val="NN"),
                                         name='apply_stereo_mask')
 
-            seg_pipe.connect(pad_mask, 'out_file',
+            seg_pipe.connect(outputnode, "brain_mask",
+                             # pad_mask, 'out_file',
                              apply_stereo_mask, "flo_file")
             seg_pipe.connect(native_to_stereo_pipe,
                              'outputnode.native_to_stereo_trans',
