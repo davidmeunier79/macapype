@@ -1793,7 +1793,7 @@ def create_full_ants_subpipes(
             apply_stereo_debiased_T1 = pe.Node(RegResample(),
                                                name='apply_stereo_debiased_T1')
 
-            seg_pipe.connect(pad_debiased_T1, 'out_file',
+            seg_pipe.connect(outputnode, "debiased_T1",
                              apply_stereo_debiased_T1, "flo_file")
 
             seg_pipe.connect(native_to_stereo_pipe,
