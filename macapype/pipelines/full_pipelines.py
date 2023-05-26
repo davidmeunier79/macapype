@@ -1683,7 +1683,9 @@ def create_full_ants_subpipes(
 
         if pad:
 
-            create_pad_brain_extraction_pipe()
+            create_pad_brain_extraction_pipe(
+                seg_pipe, params, data_preparation_pipe,
+                brain_extraction_pipe, inputnode, outputnode)
 
         else:
             seg_pipe.connect(brain_extraction_pipe, "outputnode.brain_mask",
