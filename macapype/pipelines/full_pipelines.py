@@ -2021,7 +2021,7 @@ def create_full_ants_subpipes(
         if "short_preparation_pipe" in params.keys():
             if "crop_T1" in params["short_preparation_pipe"].keys():
 
-                print("Padding seg_mask in native space")
+                print("Padding smooth_bias in native space")
 
                 pad_smooth_bias = pe.Node(
                     niu.Function(
@@ -2045,7 +2045,7 @@ def create_full_ants_subpipes(
                                  outputnode, "smooth_bias")
 
             else:
-                print("Using reg_aladin transfo to pad seg_mask back")
+                print("Using reg_aladin transfo to pad smooth_bias back")
 
                 pad_smooth_bias = pe.Node(RegResample(inter_val="NN"),
                                        name="pad_smooth_bias")
