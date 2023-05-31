@@ -1611,6 +1611,7 @@ def create_full_ants_subpipes(
                     "wmgm_stl", "wmgm_nii",
                     'stereo_native_T1', 'stereo_debiased_T1',
                     'stereo_brain_mask', 'stereo_segmented_brain_mask',
+                    'stereo_smooth_bias',
                     'stereo_prob_gm', 'stereo_prob_wm',
                     'stereo_prob_csf', "stereo_wmgm_mask",
                     "native_to_stereo_trans"]),
@@ -2089,7 +2090,6 @@ def create_full_ants_subpipes(
 
                 seg_pipe.connect(pad_smooth_bias, "padded_img_file",
                                  outputnode, "smooth_bias")
-
     else:
         seg_pipe.connect(brain_segment_pipe, 'outputnode.smooth_bias',
                          outputnode, 'smooth_bias')
@@ -2542,6 +2542,22 @@ def create_full_ants_subpipes(
                          nii_to_mesh_fs_pipe, 'inputnode.indiv_params')
 
     if "native_to_stereo_pipe" in params.keys() and pad:
+
+        # apply transfo to list
+        apply_stereo_smooth_bias = pe.Node(RegResample(inter_val="LIN"),
+                                       name='apply_stereo_smooth_bias')
+
+        seg_pipe.connect(pad_smooth_bias, 'out_file',
+                         apply_stereo_smooth_bias, "flo_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                         'outputnode.native_to_stereo_trans',
+                         apply_stereo_smooth_bias, "trans_file")
+        seg_pipe.connect(native_to_stereo_pipe,
+                         'outputnode.padded_stereo_T1',
+                         apply_stereo_smooth_bias, "ref_file")
+
+        seg_pipe.connect(apply_stereo_smooth_bias, "out_file",
+                         outputnode, "stereo_smooth_bias")
 
         # apply transfo to list
         apply_stereo_prob_gm = pe.Node(RegResample(inter_val="LIN"),
