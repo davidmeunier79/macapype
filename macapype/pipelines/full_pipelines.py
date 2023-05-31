@@ -1603,17 +1603,19 @@ def create_full_ants_subpipes(
     # output node
     outputnode = pe.Node(
         niu.IdentityInterface(
-            fields=['brain_mask', 'segmented_brain_mask', 'prob_gm', 'prob_wm',
-                    'prob_csf', "gen_5tt", "debiased_brain", "debiased_T1",
-                    "masked_debiased_T1", "masked_debiased_T2", "smooth_bias",
+            fields=["native_T1", "native_T2", "cropped_to_native_trans",
+                    'brain_mask', "debiased_brain", "debiased_T1",
                     "cropped_brain_mask", "cropped_debiased_T1",
-                    "native_T1", "native_T2", "cropped_to_native_trans",
+                    "masked_debiased_T1", "masked_debiased_T2", "smooth_bias",
+                    'segmented_brain_mask', 'prob_gm', 'prob_wm', 'prob_csf',
+                    "gen_5tt",
                     "wmgm_stl", "wmgm_nii",
                     'stereo_native_T1', 'stereo_debiased_T1',
-                    'stereo_brain_mask', 'stereo_segmented_brain_mask',
+                    'stereo_brain_mask',
                     'stereo_smooth_bias',
-                    'stereo_prob_gm', 'stereo_prob_wm',
-                    'stereo_prob_csf', "stereo_wmgm_mask",
+                    'stereo_segmented_brain_mask',
+                    'stereo_prob_gm', 'stereo_prob_wm', 'stereo_prob_csf',
+                    "stereo_wmgm_mask",
                     "native_to_stereo_trans"]),
         name='outputnode')
 
@@ -1657,7 +1659,7 @@ def create_full_ants_subpipes(
     seg_pipe.connect(data_preparation_pipe, 'outputnode.native_T1',
                      outputnode, 'native_T1')
 
-    seg_pipe.connect(data_preparation_pipe, 'outputnode.native_T1',
+    seg_pipe.connect(data_preparation_pipe, 'outputnode.native_T2',
                      outputnode, 'native_T2')
 
     if "short_preparation_pipe" in params.keys():
