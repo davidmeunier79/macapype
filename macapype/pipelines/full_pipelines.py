@@ -1296,7 +1296,8 @@ def create_brain_segment_from_mask_pipe(
     # creating outputnode
     outputnode = pe.Node(
         niu.IdentityInterface(
-            fields=["segmented_file", "threshold_gm", "threshold_wm",
+            fields=['smooth_bias', "segmented_file",
+                    "threshold_gm", "threshold_wm",
                     "threshold_csf", "prob_gm", "prob_wm",
                     "prob_csf", "gen_5tt", "debiased_brain"]),
         name='outputnode')
@@ -1316,6 +1317,10 @@ def create_brain_segment_from_mask_pipe(
             inputnode, 'brain_mask',
             masked_correct_bias_pipe, "inputnode.brain_mask")
 
+        brain_segment_pipe.connect(
+            masked_correct_bias_pipe, "outputnode.smooth_bias",
+            outputnode, 'smooth_bias')
+
     elif "debias" in params.keys():
         # Bias correction of cropped images
         debias = NodeParams(T1xT2BiasFieldCorrection(),
@@ -1332,6 +1337,10 @@ def create_brain_segment_from_mask_pipe(
         brain_segment_pipe.connect(
             inputnode, ('indiv_params', parse_key, "debias"),
             debias, 'indiv_params')
+
+        brain_segment_pipe.connect(
+            debias, "smooth_bias_file",
+            outputnode, 'smooth_bias')
 
     else:
         print("**** Error, masked_correct_bias_pipe or debias \
@@ -1596,7 +1605,7 @@ def create_full_ants_subpipes(
         niu.IdentityInterface(
             fields=['brain_mask', 'segmented_brain_mask', 'prob_gm', 'prob_wm',
                     'prob_csf', "gen_5tt", "debiased_brain", "debiased_T1",
-                    "masked_debiased_T1", "masked_debiased_T2",
+                    "masked_debiased_T1", "masked_debiased_T2", "smooth_bias",
                     "cropped_brain_mask", "cropped_debiased_T1",
                     "native_T1", "native_T2", "cropped_to_native_trans",
                     "wmgm_stl", "wmgm_nii",
@@ -2007,6 +2016,83 @@ def create_full_ants_subpipes(
 
     seg_pipe.connect(inputnode, 'indiv_params',
                      brain_segment_pipe, 'inputnode.indiv_params')
+
+    if pad and space == "native":
+        if "short_preparation_pipe" in params.keys():
+            if "crop_T1" in params["short_preparation_pipe"].keys():
+
+                print("Padding seg_mask in native space")
+
+                pad_smooth_bias = pe.Node(
+                    niu.Function(
+                        input_names=['cropped_img_file', 'orig_img_file',
+                                     'indiv_crop'],
+                        output_names=['padded_img_file'],
+                        function=padding_cropped_img),
+                    name="pad_smooth_bias")
+
+                seg_pipe.connect(brain_segment_pipe,
+                                 "outputnode.smooth_bias",
+                                 pad_smooth_bias, "cropped_img_file")
+
+                seg_pipe.connect(data_preparation_pipe, "outputnode.native_T1",
+                                 pad_smooth_bias, "orig_img_file")
+
+                seg_pipe.connect(inputnode, "indiv_params",
+                                 pad_smooth_bias, "indiv_crop")
+
+                seg_pipe.connect(pad_smooth_bias, "padded_img_file",
+                                 outputnode, "smooth_bias")
+
+            else:
+                print("Using reg_aladin transfo to pad seg_mask back")
+
+                pad_smooth_bias = pe.Node(RegResample(inter_val="NN"),
+                                       name="pad_smooth_bias")
+
+                seg_pipe.connect(brain_segment_pipe,
+                                 "outputnode.smooth_bias",
+                                 pad_smooth_bias, "flo_file")
+
+                seg_pipe.connect(data_preparation_pipe, "outputnode.native_T1",
+                                 pad_smooth_bias, "ref_file")
+
+                seg_pipe.connect(data_preparation_pipe, "inv_tranfo.out_file",
+                                 pad_smooth_bias, "trans_file")
+
+                # outputnode
+                seg_pipe.connect(pad_smooth_bias, "out_file",
+                                 outputnode, "smooth_bias")
+
+        elif "long_single_preparation_pipe" in params.keys():
+            if "prep_T1" in params["long_single_preparation_pipe"].keys():
+
+                print("Padding seg_mask in native space")
+
+                pad_smooth_bias = pe.Node(
+                    niu.Function(
+                        input_names=['cropped_img_file', 'orig_img_file',
+                                     'indiv_crop'],
+                        output_names=['padded_img_file'],
+                        function=padding_cropped_img),
+                    name="pad_smooth_bias")
+
+                seg_pipe.connect(brain_segment_pipe,
+                                 "outputnode.smooth_bias",
+                                 pad_smooth_bias, "cropped_img_file")
+
+                seg_pipe.connect(data_preparation_pipe, "outputnode.native_T1",
+                                 pad_smooth_bias, "orig_img_file")
+
+                seg_pipe.connect(inputnode, "indiv_params",
+                                 pad_smooth_bias, "indiv_crop")
+
+                seg_pipe.connect(pad_smooth_bias, "padded_img_file",
+                                 outputnode, "smooth_bias")
+
+    else:
+        seg_pipe.connect(brain_segment_pipe, 'outputnode.smooth_bias',
+                         outputnode, 'smooth_bias')
 
     if pad and space == "native":
         if "short_preparation_pipe" in params.keys():

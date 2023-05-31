@@ -433,7 +433,7 @@ def create_masked_correct_bias_pipe(params={},
     outputnode = pe.Node(
         niu.IdentityInterface(
             fields=["debiased_T1", "debiased_T2", "mask_debiased_T1",
-                    "mask_debiased_T2"]),
+                    "mask_debiased_T2", "smooth_bias"]),
         name='outputnode')
 
     masked_correct_bias_pipe.connect(debiased_T1, 'out_file', outputnode,
@@ -446,4 +446,6 @@ def create_masked_correct_bias_pipe(params={},
     masked_correct_bias_pipe.connect(mask_debiased_T2, 'out_file', outputnode,
                                      'mask_debiased_T2')
 
+    masked_correct_bias_pipe.connect(smooth_bias, 'out_file', outputnode,
+                                     'smooth_bias')
     return masked_correct_bias_pipe

@@ -77,7 +77,7 @@ class T1xT2BiasFieldCorrectionInputSpec(CommandLineInputSpec):
         argstr="-g %f", mandatory=False)
 
     k = traits.Bool(
-        False, usedefault=True, argstr="-k",
+        True, usedefault=True, argstr="-k",
         desc="Will keep temporary files",
         mandatory=False)
 
@@ -107,6 +107,9 @@ class T1xT2BiasFieldCorrectionOutputSpec(TraitedSpec):
 
     debiased_mask_file = File(
         desc="debiased bet mask")
+
+    smooth_bias_file = File(
+        desc="smooth bias")
 
 
 class T1xT2BiasFieldCorrection(CommandLine):
@@ -216,4 +219,9 @@ class T1xT2BiasFieldCorrection(CommandLine):
                 t1_fname + self.inputs.os + "_brain.nii.gz")
             outputs["t2_debiased_brain_file"] = os.path.abspath(
                 t2_fname + self.inputs.os + "_brain.nii.gz")
+
+        if self.inputs.k:
+            outputs["smooth_bias_file"] = os.path.abspath(
+                t2_fname + self.inputs.os + "_OutputBiasField.nii.gz")
+
         return outputs
