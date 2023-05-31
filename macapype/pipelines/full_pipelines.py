@@ -2067,7 +2067,7 @@ def create_full_ants_subpipes(
         elif "long_single_preparation_pipe" in params.keys():
             if "prep_T1" in params["long_single_preparation_pipe"].keys():
 
-                print("Padding seg_mask in native space")
+                print("Padding smooth_bias in native space")
 
                 pad_smooth_bias = pe.Node(
                     niu.Function(

@@ -43,7 +43,8 @@
     {
         "debias":
         {
-            "s": 4
+            "s": 4,
+            "k": true
         },
         "register_NMT_pipe":
         {
@@ -56,7 +57,6 @@
             {
                 "dimension": 3
             },
-
             "tissue_dict":
             {
                 "gm": [1,2],
