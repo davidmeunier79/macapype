@@ -220,8 +220,10 @@ class T1xT2BiasFieldCorrection(CommandLine):
             outputs["t2_debiased_brain_file"] = os.path.abspath(
                 t2_fname + self.inputs.os + "_brain.nii.gz")
 
-        if self.inputs.k:
-            outputs["smooth_bias_file"] = os.path.abspath(
-                t2_fname + self.inputs.os + "_OutputBiasField.nii.gz")
+        outputs["smooth_bias_file"] = os.path.abspath(
+            t2_fname + self.inputs.os + "_OutputBiasField.nii.gz")
+
+        assert os.path.exists(["smooth_bias_file"]), \
+            "error with {}".format(outputs["smooth_bias_file"])
 
         return outputs
