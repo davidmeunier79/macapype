@@ -415,6 +415,25 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                 rename_stereo_prob_csf, 'out_file',
                 datasink, '@stereo_prob_csf')
 
+            # rename stereo_smooth_bias
+            rename_stereo_smooth_bias = pe.Node(
+                niu.Rename(),
+                name="rename_stereo_smooth_bias")
+
+            rename_stereo_smooth_bias.inputs.format_string = \
+                pref_deriv + "_space-native_desc-stereo_smooth_biasfield"
+            rename_stereo_smooth_bias.inputs.parse_string = parse_str
+            rename_stereo_smooth_bias.inputs.keep_ext = True
+
+            main_workflow.connect(
+                segment_pnh_pipe, 'outputnode.stereo_smooth_bias',
+                rename_stereo_smooth_bias, 'in_file')
+
+            main_workflow.connect(
+                rename_stereo_smooth_bias, 'out_file',
+                datasink, '@stereo_smooth_bias')
+
+
             if "nii2mesh_brain_pipe" in params["brain_segment_pipe"]:
 
                 print("Renaming stereo_wmgm_mask file")

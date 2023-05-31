@@ -41,10 +41,20 @@
     },
     "brain_segment_pipe":
     {
-        "debias":
+        "masked_correct_bias_pipe":
         {
-            "s": 4,
-            "k": true
+            "smooth":
+            {
+                "args": "-bin -s 2"
+            },
+            "norm_smooth":
+            {
+                "op_string": "-s 2 -div %s"
+            },
+            "smooth_bias":
+            {
+                    "sigma": 2
+            }
         },
         "register_NMT_pipe":
         {

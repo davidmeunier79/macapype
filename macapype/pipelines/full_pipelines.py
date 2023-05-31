@@ -1658,7 +1658,6 @@ def create_full_ants_subpipes(
 
     seg_pipe.connect(data_preparation_pipe, 'outputnode.native_T1',
                      outputnode, 'native_T1')
-
     seg_pipe.connect(data_preparation_pipe, 'outputnode.native_T2',
                      outputnode, 'native_T2')
 
@@ -2547,7 +2546,7 @@ def create_full_ants_subpipes(
 
         # apply transfo to list
         apply_stereo_smooth_bias = pe.Node(RegResample(inter_val="LIN"),
-                                       name='apply_stereo_smooth_bias')
+                                           name='apply_stereo_smooth_bias')
 
         seg_pipe.connect(pad_smooth_bias, 'out_file',
                          apply_stereo_smooth_bias, "flo_file")
