@@ -111,6 +111,22 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_debiased_T1, 'out_file',
             datasink, '@debiased_T1')
 
+        # rename smooth_bias
+        rename_smooth_bias = pe.Node(niu.Rename(),
+                                     name="rename_smooth_bias")
+        rename_smooth_bias.inputs.format_string = \
+            pref_deriv + "_space-native_desc-smooth_biasfield"
+        rename_smooth_bias.inputs.parse_string = parse_str
+        rename_smooth_bias.inputs.keep_ext = True
+
+        main_workflow.connect(
+            segment_pnh_pipe, 'outputnode.smooth_bias',
+            rename_smooth_bias, 'in_file')
+
+        main_workflow.connect(
+            rename_smooth_bias, 'out_file',
+            datasink, '@smooth_bias')
+
         # rename segmented_brain_mask
         rename_segmented_brain_mask = pe.Node(
             niu.Rename(),
