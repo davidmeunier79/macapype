@@ -221,7 +221,7 @@ class T1xT2BiasFieldCorrection(CommandLine):
                 t2_fname + self.inputs.os + "_brain.nii.gz")
 
         outputs["smooth_bias_file"] = os.path.abspath(
-            t2_fname + self.inputs.os + "_OutputBiasField.nii.gz")
+            t2_fname + "_OutputBiasField.nii.gz")
 
         assert os.path.exists(outputs["smooth_bias_file"]), \
             "error with {}".format(outputs["smooth_bias_file"])
