@@ -115,7 +115,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
         rename_smooth_bias = pe.Node(niu.Rename(),
                                      name="rename_smooth_bias")
         rename_smooth_bias.inputs.format_string = \
-            pref_deriv + "_space-native_desc-smooth_biasfield"
+            pref_deriv + "_space-native_biasfield"
         rename_smooth_bias.inputs.parse_string = parse_str
         rename_smooth_bias.inputs.keep_ext = True
 
@@ -421,7 +421,7 @@ def rename_all_derivatives(params, main_workflow, segment_pnh_pipe,
                 name="rename_stereo_smooth_bias")
 
             rename_stereo_smooth_bias.inputs.format_string = \
-                pref_deriv + "_space-native_desc-stereo_smooth_biasfield"
+                pref_deriv + "_space-stereo_biasfield"
             rename_stereo_smooth_bias.inputs.parse_string = parse_str
             rename_stereo_smooth_bias.inputs.keep_ext = True
 
