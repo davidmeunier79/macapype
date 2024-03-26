@@ -125,8 +125,6 @@ def create_full_spm_subpipes(
     outputnode = pe.Node(
         niu.IdentityInterface(fields=[
             'native_T1', 'native_T2', 'stereo_T1', 'stereo_T2',
-            "stereo_padded_T1",
-            "stereo_padded_T2",
 
             'stereo_brain_mask', 'stereo_debiased_T1',
             'stereo_debiased_T2',
@@ -197,12 +195,6 @@ def create_full_spm_subpipes(
 
     seg_pipe.connect(data_preparation_pipe, 'outputnode.preproc_T2',
                      outputnode, 'stereo_T2')
-
-    seg_pipe.connect(data_preparation_pipe, "outputnode.stereo_padded_T1",
-                     outputnode, "stereo_padded_T1")
-
-    seg_pipe.connect(data_preparation_pipe, "outputnode.stereo_padded_T2",
-                     outputnode, "stereo_padded_T2")
 
     if "short_preparation_pipe" in params.keys():
         if "crop_T1" not in params["short_preparation_pipe"].keys():
@@ -829,8 +821,6 @@ def create_full_ants_subpipes(
             fields=[
                     "native_T1", "native_T2",
                     'stereo_T1', 'stereo_T2',
-                    "stereo_padded_T1",
-                    "stereo_padded_T2",
 
                     'stereo_debiased_T1', 'stereo_debiased_T2',
                     "native_debiased_T1", "native_debiased_T2",
@@ -906,12 +896,6 @@ def create_full_ants_subpipes(
 
     seg_pipe.connect(data_preparation_pipe, 'outputnode.preproc_T1',
                      outputnode, "stereo_T2")
-
-    seg_pipe.connect(data_preparation_pipe, "outputnode.stereo_padded_T1",
-                     outputnode, "stereo_padded_T1")
-
-    seg_pipe.connect(data_preparation_pipe, "outputnode.stereo_padded_T2",
-                     outputnode, "stereo_padded_T2")
 
     if "short_preparation_pipe" in params.keys():
         if "crop_T1" not in params["short_preparation_pipe"].keys():
@@ -1613,8 +1597,6 @@ def create_full_T1_ants_subpipes(params_template, params_template_stereo,
             fields=[
                     "native_T1",
                     'stereo_T1',
-                    "stereo_padded_T1",
-
                     'stereo_brain_mask', 'native_brain_mask',
                     'stereo_debiased_T1', "native_debiased_T1",
 
@@ -1656,9 +1638,6 @@ def create_full_T1_ants_subpipes(params_template, params_template_stereo,
 
     seg_pipe.connect(data_preparation_pipe, 'outputnode.preproc_T1',
                      outputnode, 'stereo_T1')
-
-    seg_pipe.connect(data_preparation_pipe, "outputnode.stereo_padded_T1",
-                     outputnode, "stereo_padded_T1")
 
     if "short_preparation_pipe" in params.keys():
         if "crop_T1" not in params["short_preparation_pipe"].keys():
