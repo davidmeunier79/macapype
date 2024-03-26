@@ -637,24 +637,23 @@ def create_short_preparation_pipe(params, params_template={},
             resample_T2_pad, "trans_file")
 
         # outputnode
-            if "use_T2" in params.keys():
-                data_preparation_pipe.connect(
-                    resample_T1_pad, 'out_file',
-                    outputnode, 'preproc_T2')
+        if "use_T2" in params.keys():
+            data_preparation_pipe.connect(
+                resample_T1_pad, 'out_file',
+                outputnode, 'preproc_T2')
 
-                data_preparation_pipe.connect(
-                    resample_T2_pad, 'out_file',
-                    outputnode, 'preproc_T1')
+            data_preparation_pipe.connect(
+                resample_T2_pad, 'out_file',
+                outputnode, 'preproc_T1')
 
-            else:
-                data_preparation_pipe.connect(
-                    resample_T1_pad, 'out_file',
-                    outputnode, 'preproc_T1')
+        else:
+            data_preparation_pipe.connect(
+                resample_T1_pad, 'out_file',
+                outputnode, 'preproc_T1')
 
-                data_preparation_pipe.connect(
-                    resample_T2_pad, 'out_file',
-                    outputnode, 'preproc_T2')
-
+            data_preparation_pipe.connect(
+                resample_T2_pad, 'out_file',
+                outputnode, 'preproc_T2')
 
     else:
         if "crop_T1" in params.keys():
