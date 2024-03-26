@@ -68,7 +68,7 @@ def rename_all_brain_derivatives(params, main_workflow, segment_pnh_pipe,
         # rename inv_trans
         rename_inv_trans = pe.Node(
             niu.Rename(),
-            name="rename_native_to_stereo_trans")
+            name="rename_stereo_to_native_trans")
         rename_inv_trans.inputs.format_string = \
             pref_deriv + "_space-stereo_target-native_affine"
         rename_inv_trans.inputs.parse_string = parse_str
