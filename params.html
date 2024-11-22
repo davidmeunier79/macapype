@@ -397,145 +397,84 @@
             &quot;operation&quot; : &quot;PadImage&quot;,
             &quot;op2&quot; : &quot;70&quot;
         }
-    },
-}
-</pre>
-<p>For -soft SPM, here is the overall structure of the pipeline:</p>
-<pre class="literal-block">{
-    &quot;general&quot;:
-    {
-        &quot;template_name&quot;: &quot;Haiko_v1.5&quot;
-    },
-    &quot;short_preparation_pipe&quot;:
-    {
-
-        &quot;use_T2&quot;:
-        {
-
-            &quot;comment&quot;: &quot;boolean marker, if present T2 and T1 are exchanged in the process, (T2 is used to register to template, and T1 is registered to T2)&quot;,
-
-            &quot;comment&quot;: &quot;BE CAREFUL, the name of the internal nodes are still using the original names although the files are swapped&quot;,
-            &quot;comment&quot;: &quot;Everything is swapped back as outputs of short_preparation_pipe&quot;,
-        },
-
-        &quot;avg_reorient_pipe&quot;:
-        {
-            &quot;comment&quot;: &quot;OPTIONAL&quot;,
-            &quot;reorient&quot;:
-            {
-                &quot;params&quot;: &quot;SwapDimensions (FSL)&quot;,
-                &quot;new_dims&quot;: &quot;x z -y&quot;
-            }
-        },
-
-        &quot;aladin_T2_on_T1&quot;:
-        {
-            &quot;comment&quot;: &quot;boolean marker, if present RegAladin to coregister T2 on T1 and pad/resample, otherwise use FSL FLIRT (default)&quot;,
-        },
-
-        &quot;crop_T1&quot;:
-        {
-            &quot;comment&quot;: &quot;OPTIONAL&quot;,
-            &quot;comment&quot;: &quot;if present, applied to both T1w and T2w&quot;,
-            &quot;params&quot;: &quot;fslroi (FSL)&quot;,
-
-            &quot;args&quot;: &quot;should be specified in indiv_params&quot;
-        },
-
-        &quot;crop_aladin_pipe&quot;:
-        {
-            &quot;pre_crop_z_T1&quot;:
-            {
-
-                &quot;comment&quot;: &quot;OPTIONAL&quot;,
-                &quot;comment&quot;: &quot;use with caution&quot;,
-                &quot;params&quot;: &quot;RobustFOV (FSL)&quot;,
-
-                &quot;brainsize&quot;: &quot;70&quot;
-            },
-            &quot;reg_T1_on_template&quot;:
-            {
-                &quot;params&quot;: &quot;RegAladin (NiftyReg)&quot;
-
-            },
-            &quot;reg_T1_on_template2&quot;:
-            {
-                &quot;comment&quot;: &quot;OPTIONAL&quot;,
-                &quot;comment&quot;: &quot;typically used with -soft _robustreg &quot;,
-
-                &quot;params&quot;: &quot;RegAladin (NiftyReg)&quot;
-
-            },
-            &quot;crop_z_T1&quot;:
-            {
-                &quot;comment&quot;: &quot;OPTIONAL&quot;,
-                &quot;params&quot;: &quot;RobustFOV (FSL)&quot;,
-
-                &quot;brainsize&quot;: &quot;70&quot;
-            }
-        },
-
-        &quot;inv_transfo_aladin&quot;:
-        {
-            &quot;comment&quot;: &quot;OPTIONAL&quot;,
-            &quot;comment&quot; : &quot;not sure why it is parameterized&quot;,
-            &quot;params&quot;: &quot;RegTransform (NiftyReg)&quot;
-        },
-
-        &quot;denoise&quot;:
-        {
-            &quot;comment&quot;: &quot;OPTIONAL&quot;,
-            &quot;params&quot;: &quot;DenoiseImage (ANTS)&quot;,
-
-            &quot;shrink_factor&quot;: 2
-        },
-
-        &quot;pad_template&quot;:
-        {
-
-            &quot;comment&quot;: &quot;OPTIONAL&quot;,
-            &quot;comment&quot;: &quot;used for skullTo3d to keep an image bigger than brain, but is not used further in brain segmentation&quot;,
-            &quot;params&quot;: &quot;ImageMath (ANTS)&quot;,
-
-            &quot;copy_header&quot; : true,
-            &quot;operation&quot; : &quot;PadImage&quot;,
-            &quot;op2&quot; : &quot;70&quot;
-        }
-    },
-
-    &quot;comment&quot;: &quot;mandatory, performing both debias and brain_extraction&quot;,
-    &quot;debias&quot;:
-    {
-        &quot;params&quot;: &quot;T1xT2BiasFieldCorrection (local wrap of Regis Trapeau tools)&quot;,
-
-        &quot;s&quot;: 2
-    },
-
-    &quot;comment&quot;: &quot;mandatory&quot;,
-    &quot;reg&quot;:
-    {
-        &quot;params&quot;: &quot;IterREGBET (local wrap of Regis Trapeau tools)&quot;,
-        &quot;n&quot;: 2,
-        &quot;m&quot;: &quot;ref&quot;,
-        &quot;dof&quot;: 12
-    },
-
-
-    &quot;old_segment_pipe&quot;:
-    {
-
-        &quot;comment&quot;: &quot;optional (if segmentation in 5tt mrtrix format is required&quot;,
-        &quot;export_5tt_pipe&quot;:
-        {
-        }
-    },
-
-    &quot;comment&quot;: &quot;OPTIONAL&quot;,
-    &quot;mask_from_seg_pipe&quot;:
-    {
     }
 }
 </pre>
+<p>For -soft SPM, here is the overall structure of the pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="s2">&quot;general&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;template_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Haiko_v1.5&quot;</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;mandatory, performing both debias and brain_extraction&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;debias&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="s2">&quot;T1xT2BiasFieldCorrection (local wrap of Regis Trapeau tools)&quot;</span><span class="p">,</span>
+
+        <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">2</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;mandatory&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;reg&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="s2">&quot;IterREGBET (local wrap of Regis Trapeau tools)&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;n&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">&quot;m&quot;</span><span class="p">:</span> <span class="s2">&quot;ref&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;dof&quot;</span><span class="p">:</span> <span class="mi">12</span>
+    <span class="p">},</span>
+
+
+    <span class="s2">&quot;old_segment_pipe&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;segment&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="s2">&quot;Segment (SPM12)&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+
+        <span class="s2">&quot;threshold_gm&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;mandatory if old_segment_pipe is defined&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="s2">&quot;Threshold (FSL)&quot;</span><span class="p">,</span>
+
+            <span class="s2">&quot;thr&quot;</span><span class="p">:</span> <span class="mf">0.5</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;threshold_wm&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;mandatory if old_segment_pipe is defined&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="s2">&quot;Threshold (FSL)&quot;</span><span class="p">,</span>
+
+            <span class="s2">&quot;thr&quot;</span><span class="p">:</span> <span class="mf">0.5</span>
+        <span class="p">},</span>
+        <span class="s2">&quot;threshold_csf&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;mandatory if old_segment_pipe is defined&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="s2">&quot;Threshold (FSL)&quot;</span><span class="p">,</span>
+
+            <span class="s2">&quot;thr&quot;</span><span class="p">:</span> <span class="mf">0.5</span>
+        <span class="p">},</span>
+
+        <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;optional (if segmentation in 5tt mrtrix format is required&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;export_5tt_pipe&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;commment&quot;</span><span class="p">:</span> <span class="s2">&quot;no node are parametrized&quot;</span>
+        <span class="p">}</span>
+    <span class="p">},</span>
+
+    <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;OPTIONAL&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;mask_from_seg_pipe&quot;</span><span class="p">:</span>
+    <span class="p">{</span>
+        <span class="s2">&quot;merge_indexed_mask&quot;</span><span class="p">:</span>
+        <span class="p">{</span>
+            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;never used, not sure if modifying default parameters works&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;default : index_csf=1, index_gm=2, index_wm=3&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;params&quot;</span><span class="p">:</span> <span class="s2">&quot;merge_masks (python)&quot;</span><span class="p">,</span>
+
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</div>
 <p>For -soft ANTS, here is the overall structure of the pipeline:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
     <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;the following nodes are mutually exclusive, and are optional&quot;</span><span class="p">,</span>
@@ -736,6 +675,7 @@
         <span class="s2">&quot;comment&quot;</span><span class="p">:</span> <span class="s2">&quot;optional (if segmentation in 5tt mrtrix format is required&quot;</span><span class="p">,</span>
         <span class="s2">&quot;export_5tt_pipe&quot;</span><span class="p">:</span>
         <span class="p">{</span>
+            <span class="s2">&quot;commment&quot;</span><span class="p">:</span> <span class="s2">&quot;no node are parametrized&quot;</span>
         <span class="p">}</span>
     <span class="p">},</span>
 
