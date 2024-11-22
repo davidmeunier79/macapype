@@ -279,6 +279,127 @@
 <p>For advanced user, it is however possible to pass the pipeline sequence as a params.json file. In this case all further alteration will be canceled.</p>
 <p>Here is json file with all possible nodes to be tuned; Some node are optional, some nodes are exclusive with each other (XOR). All parameters given here are give as examples and may vary:</p>
 <p>The beginning of a params include a keyword “general”, and the definition of “short_data_preparation” is also required for both -soft ANTS and SPM:</p>
+<pre class="literal-block">{
+    &quot;general&quot;:
+    {
+        &quot;comment&quot;: &quot;OPTIONAL&quot;,
+        &quot;comment&quot;: &quot;specify a path on where to put the template after download&quot;,
+        &quot;comment&quot;: &quot;By default set to the home directory of the user&quot;,
+
+        &quot;my_path&quot; : &quot;/path/to/template&quot;,
+
+
+        &quot;comment&quot;: &quot;MANDOTORY, if not set as -template_path / template_files in command line&quot;,
+        &quot;comment&quot;: &quot;Template used for priors segmentation&quot;,
+        &quot;comment&quot;: &quot;see macapype/utils/templates.json for available names&quot;,
+
+        &quot;template_name&quot;: &quot;bma_padded&quot;,
+
+
+        &quot;comment&quot;: &quot;OPTIONAL&quot;,
+        &quot;comment&quot;: &quot;if not set, template_name will be used by default&quot;,
+        &quot;comment&quot;: &quot;Template used for crop_aladin / projection in stereo space&quot;,
+
+        &quot;template_stereo_name&quot;: &quot;MBM_3.0&quot;,
+    },
+    &quot;short_preparation_pipe&quot;:
+    {
+
+        &quot;use_T2&quot;:
+        {
+
+            &quot;comment&quot;: &quot;boolean marker, if present T2 and T1 are exchanged in the process, (T2 is used to register to template, and T1 is registered to T2)&quot;,
+
+            &quot;comment&quot;: &quot;BE CAREFUL, the name of the internal nodes are still using the original names although the files are swapped&quot;,
+            &quot;comment&quot;: &quot;Everything is swapped back as outputs of short_preparation_pipe&quot;,
+        },
+
+        &quot;avg_reorient_pipe&quot;:
+        {
+            &quot;comment&quot;: &quot;OPTIONAL&quot;,
+            &quot;reorient&quot;:
+            {
+                &quot;params&quot;: &quot;SwapDimensions (FSL)&quot;,
+                &quot;new_dims&quot;: &quot;x z -y&quot;
+            }
+        },
+
+        &quot;aladin_T2_on_T1&quot;:
+        {
+            &quot;comment&quot;: &quot;boolean marker, if present RegAladin to coregister T2 on T1 and pad/resample, otherwise use FSL FLIRT (default)&quot;,
+        },
+
+        &quot;crop_T1&quot;:
+        {
+            &quot;comment&quot;: &quot;OPTIONAL&quot;,
+            &quot;comment&quot;: &quot;if present, applied to both T1w and T2w&quot;,
+            &quot;params&quot;: &quot;fslroi (FSL)&quot;,
+
+            &quot;args&quot;: &quot;should be specified in indiv_params&quot;
+        },
+
+        &quot;crop_aladin_pipe&quot;:
+        {
+            &quot;pre_crop_z_T1&quot;:
+            {
+
+                &quot;comment&quot;: &quot;OPTIONAL&quot;,
+                &quot;comment&quot;: &quot;use with caution&quot;,
+                &quot;params&quot;: &quot;RobustFOV (FSL)&quot;,
+
+                &quot;brainsize&quot;: &quot;70&quot;
+            },
+            &quot;reg_T1_on_template&quot;:
+            {
+                &quot;params&quot;: &quot;RegAladin (NiftyReg)&quot;
+
+            },
+            &quot;reg_T1_on_template2&quot;:
+            {
+                &quot;comment&quot;: &quot;OPTIONAL&quot;,
+                &quot;comment&quot;: &quot;typically used with -soft _robustreg &quot;,
+
+                &quot;params&quot;: &quot;RegAladin (NiftyReg)&quot;
+
+            },
+            &quot;crop_z_T1&quot;:
+            {
+                &quot;comment&quot;: &quot;OPTIONAL&quot;,
+                &quot;params&quot;: &quot;RobustFOV (FSL)&quot;,
+
+                &quot;brainsize&quot;: &quot;70&quot;
+            }
+        },
+
+        &quot;inv_transfo_aladin&quot;:
+        {
+            &quot;comment&quot;: &quot;OPTIONAL&quot;,
+            &quot;comment&quot; : &quot;not sure why it is parameterized&quot;,
+            &quot;params&quot;: &quot;RegTransform (NiftyReg)&quot;
+        },
+
+        &quot;denoise&quot;:
+        {
+            &quot;comment&quot;: &quot;OPTIONAL&quot;,
+            &quot;params&quot;: &quot;DenoiseImage (ANTS)&quot;,
+
+            &quot;shrink_factor&quot;: 2
+        },
+
+        &quot;pad_template&quot;:
+        {
+
+            &quot;comment&quot;: &quot;OPTIONAL&quot;,
+            &quot;comment&quot;: &quot;used for skullTo3d to keep an image bigger than brain, but is not used further in brain segmentation&quot;,
+            &quot;params&quot;: &quot;ImageMath (ANTS)&quot;,
+
+            &quot;copy_header&quot; : true,
+            &quot;operation&quot; : &quot;PadImage&quot;,
+            &quot;op2&quot; : &quot;70&quot;
+        }
+    },
+}
+</pre>
 <p>For -soft SPM, here is the overall structure of the pipeline:</p>
 <pre class="literal-block">{
     &quot;general&quot;:
