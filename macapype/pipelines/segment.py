@@ -67,6 +67,37 @@ def create_segment_atropos_seg_pipe(params={}, name="segment_atropos_pipe"):
     segment_pipe.connect(inputnode, "brain_file",
                          bin_norm_intensity, "in_file")
 
+    if "use_wm_mask" in params.keys():
+
+        # merging priors as a list
+        split_seg = pe.Node(niu.Function(
+            input_names=['nii_file'],
+            output_names=['list_split_files'],
+            function=split_indexed_mask), name='split_seg')
+
+        # segment_pipe.connect(copy_header_to_seg, 'modified_img',
+        segment_pipe.connect(inputnode, "seg_file",
+                             split_seg, "nii_file")
+
+        # bin_norm_intensity (a cheat from Kepkee if I understood well!)
+        bin_norm_intensity = pe.Node(fsl.UnaryMaths(),
+                                     name="bin_norm_intensity")
+        bin_norm_intensity.inputs.operation = "bin"
+
+        segment_pipe.connect(split_seg,
+                             ('list_split_files', get_index, 2),
+                             bin_norm_intensity, "in_file")
+
+    else:
+        # bin_norm_intensity (a cheat from Kepkee if I understood well!)
+        # seg_at requires a mask so we binarized the masked_T1
+        bin_norm_intensity = pe.Node(fsl.UnaryMaths(),
+                                     name="bin_norm_intensity")
+        bin_norm_intensity.inputs.operation = "bin"
+
+        segment_pipe.connect(inputnode, "brain_file",
+                             bin_norm_intensity, "in_file")
+
     if "use_priors" in params.keys():
 
         # merging priors as a list
