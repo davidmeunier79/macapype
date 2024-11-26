@@ -264,13 +264,46 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
                     "csf_prior_file"]),
         name='inputnode')
 
-    # bin_norm_intensity (a cheat from Kepkee if I understood well!)
-    # seg_at requires a mask so we binarized the masked_T1
-    bin_norm_intensity = pe.Node(fsl.UnaryMaths(), name="bin_norm_intensity")
-    bin_norm_intensity.inputs.operation = "bin"
+    if "use_wm_mask" in params.keys():
 
-    segment_pipe.connect(inputnode, "brain_file",
-                         bin_norm_intensity, "in_file")
+        reorient_wm = pe.Node(fsl.utils.Reorient2Std(), name="reorient_wm")
+
+        segment_pipe.connect(inputnode, 'wm_prior_file',
+                             reorient_wm, "in_file")
+
+        # copying header from img to wm_prior_file
+        copy_header_to_wm = pe.Node(niu.Function(
+            input_names=['ref_img', 'img_to_modify'],
+            output_names=['modified_img'],
+            function=copy_header), name='copy_header_to_wm')
+
+        segment_pipe.connect(inputnode, "brain_file",
+                             copy_header_to_wm, "ref_img")
+        segment_pipe.connect(reorient_wm, 'out_file',
+                             copy_header_to_wm, "img_to_modify")
+
+        # possible threshold before
+        thr_wm = pe.Node(fsl.Threshold(),
+                         name='thr_wm')
+
+        thr_wm.inputs_thresh = 0.5
+
+        # wm_mask
+        wm_mask = pe.Node(fsl.UnaryMaths(), name="wm_mask")
+        wm_mask.inputs.operation = "bin"
+
+        segment_pipe.connect(thr_wm, "out_file",
+                            wm_mask, "in_file")
+
+
+    else:
+        # bin_norm_intensity (a cheat from Kepkee if I understood well!)
+        # seg_at requires a mask so we binarized the masked_T1
+        bin_norm_intensity = pe.Node(fsl.UnaryMaths(), name="bin_norm_intensity")
+        bin_norm_intensity.inputs.operation = "bin"
+
+        segment_pipe.connect(inputnode, "brain_file",
+                            bin_norm_intensity, "in_file")
 
     if "use_priors" in params.keys():
 
@@ -342,8 +375,14 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
                         name='seg_at')
 
     segment_pipe.connect(inputnode, "brain_file", seg_at, "brain_file")
-    segment_pipe.connect(bin_norm_intensity, 'out_file',
-                         seg_at, "brainmask_file")
+
+    if "use_wm_mask" in params.keys():
+
+        segment_pipe.connect(bin_norm_intensity, 'out_file',
+                             wm_mask, "out_file")
+    else:
+        segment_pipe.connect(bin_norm_intensity, 'out_file',
+                             seg_at, "brainmask_file")
 
     if "use_priors" in params.keys():
         if "Atropos" in params.keys():
