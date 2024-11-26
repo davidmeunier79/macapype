@@ -324,8 +324,7 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
         wm_mask.inputs.operation = "bin"
 
         segment_pipe.connect(thr_wm, "out_file",
-                            wm_mask, "in_file")
-
+                             wm_mask, "in_file")
 
     else:
         # bin_norm_intensity (a cheat from Kepkee if I understood well!)

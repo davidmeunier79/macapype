@@ -650,8 +650,9 @@ def create_brain_segment_from_mask_pipe(
         segment_atropos_pipe = create_segment_atropos_pipe(
             params=parse_key(params, "segment_atropos_pipe"))
 
-        # linking priors if "use_priors" in params
-        if "use_priors" in params["segment_atropos_pipe"].keys():
+        # linking priors if "use_priors" or "use_wm_mask" in params
+        if "use_priors" in params["segment_atropos_pipe"].keys() or
+            "use_wm_mask" in params["segment_atropos_pipe"].keys():
 
             if "register_NMT_pipe" in params:
                 brain_segment_pipe.connect(
