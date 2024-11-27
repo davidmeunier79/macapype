@@ -319,6 +319,9 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
 
         thr_wm.inputs.thresh = 0.5
 
+        segment_pipe.connect(copy_header_to_wm, "modified_img",
+                             thr_wm, "in_file")
+
         # wm_mask
         wm_mask = pe.Node(fsl.UnaryMaths(), name="wm_mask")
         wm_mask.inputs.operation = "bin"
