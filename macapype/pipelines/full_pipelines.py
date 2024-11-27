@@ -512,7 +512,10 @@ def create_brain_segment_from_mask_pipe(
                     "prob_csf", "gen_5tt"]),
         name='outputnode')
 
-    if "use_priors" in params["segment_atropos_pipe"].keys():
+    if "use_priors" in params["segment_atropos_pipe"].keys() or \
+            "use_wm_mask" in params["segment_atropos_pipe"].keys():
+
+        print("Using priors reg")
 
         if "register_NMT_pipe" in params:
 

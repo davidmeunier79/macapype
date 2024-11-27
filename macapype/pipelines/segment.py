@@ -408,8 +408,8 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
 
     if "use_wm_mask" in params.keys():
 
-        segment_pipe.connect(bin_norm_intensity, 'out_file',
-                             wm_mask, "out_file")
+        segment_pipe.connect(wm_mask, "out_file",
+                             seg_at, "brainmask_file")
     else:
         segment_pipe.connect(bin_norm_intensity, 'out_file',
                              seg_at, "brainmask_file")
