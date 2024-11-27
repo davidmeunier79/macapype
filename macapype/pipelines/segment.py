@@ -317,7 +317,7 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
         thr_wm = pe.Node(fsl.Threshold(),
                          name='thr_wm')
 
-        thr_wm.inputs_thresh = 0.5
+        thr_wm.inputs.thresh = 0.5
 
         # wm_mask
         wm_mask = pe.Node(fsl.UnaryMaths(), name="wm_mask")
