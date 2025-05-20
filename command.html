@@ -241,8 +241,8 @@
 <p>All the data have to be in BIDS format to run properly (see <a class="reference external" href="https://bids-specification.readthedocs.io/en/stable/index.html">BIDS specification</a> for more details)</p>
 <p>In particular:</p>
 <ul class="simple">
-<li><p>_T1w (BIDS) extension is expected for T1 weighted images (BIDS)</p></li>
-<li><p>_T2w (BIDS) extension is expected for T2 weighted images (BIDS)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_T1w</span></code> (BIDS) extension is expected for T1 weighted images (BIDS)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_T2w</span></code> (BIDS) extension is expected for T2 weighted images (BIDS)</p></li>
 </ul>
 <a class="reference internal image-reference" href="_images/BIDS_orga.jpg"><img alt="_images/BIDS_orga.jpg" class="align-center" src="_images/BIDS_orga.jpg" style="width: 600px;" />
 </a>
@@ -253,24 +253,24 @@
 <section id="mandatory-parameters">
 <h3>mandatory parameters<a class="headerlink" href="#mandatory-parameters" title="Link to this heading">¶</a></h3>
 <ul>
-<li><p>-data : path to your data dataset (existing BIDS format directory)</p></li>
-<li><p>-out : path to the output results (an existing path)</p></li>
-<li><p>-soft : can be one of these : SPM or ANTS (<a href="#id1"><span class="problematic" id="id2">**</span></a>NB: ** SPM requires a specific version of macapype/skullTo3d, not available by default)</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">-data</span></code> : path to your data dataset (existing BIDS format directory)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-out</span></code> : path to the output results (an existing path)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-soft</span></code> : can be one of these : SPM or ANTS (<a href="#id1"><span class="problematic" id="id2">**</span></a>NB: ** SPM requires a specific version of macapype/skullTo3d, not available by default)</p>
 <blockquote>
 <div><p>In addition, all these option are available (to place after SPM or ANTS, e.g) and will change the brain extraction:</p>
 <ul class="simple">
-<li><p>_4animal :  will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
-<li><p>_quick : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) (<a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_4animal</span></code> :  will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_quick</span></code> : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) (<a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default)</p></li>
 </ul>
 <p>This option should be used if the coregistration to template in preparation is not performed correctly:</p>
 <ul class="simple">
-<li><p>_robustreg (at the end) to have a more robust registration (in two steps)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_robustreg</span></code> (at the end) to have a more robust registration (in two steps)</p></li>
 </ul>
 <p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:</p>
 <ul class="simple">
-<li><p>_test : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)</p></li>
-<li><p>_prep (at the end) will perform data preparation (no brain extraction and segmentation)</p></li>
-<li><p>_noseg (at the end) will perform data preparation and brain extraction (no segmentation)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_test</span></code> : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_prep</span></code> (at the end) will perform data preparation (no brain extraction and segmentation)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_noseg</span></code> (at the end) will perform data preparation and brain extraction (no segmentation)</p></li>
 </ul>
 </div></blockquote>
 </li>
@@ -291,7 +291,7 @@ and matching</p>
 <h3>optional parameters<a class="headerlink" href="#optional-parameters" title="Link to this heading">¶</a></h3>
 <p><em>(but highly recommanded)</em></p>
 <ul class="simple">
-<li><p>-dt : specifies the datatype available to perform brain segmentation (can be “T1”, or “T1 T2”).</p></li>
+<li><p>-dt : specifies the datatype available to perform brain segmentation (can be “T1”, or “T1 T2”)</p></li>
 </ul>
 <p><strong>Note</strong> : default is T1 if the attribute is omitted</p>
 <ul class="simple">
