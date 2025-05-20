@@ -266,13 +266,8 @@
 <li><p>-out</p></li>
 </ul>
 <p>the path to the output results (an existing path)</p>
-<ul>
-<li><dl class="option-list">
-<dt><kbd><span class="option">-s<var>oft</var></span></kbd></dt>
-<dd><p><em>like in macapype</em></p>
-</dd>
-</dl>
-</li>
+<ul class="simple">
+<li><p>-soft</p></li>
 </ul>
 <p>can be one of these : SPM or ANTS (<strong>NB</strong> SPM requires a specific version of macapype/skullTo3d, not available by default)</p>
 <blockquote>
@@ -291,48 +286,40 @@
 <section id="the-following-parameters-are-exclusive">
 <h3>The following parameters are exclusive<a class="headerlink" href="#the-following-parameters-are-exclusive" title="Link to this heading">¶</a></h3>
 <p><em>(but one is mandatory)</em></p>
-<ul>
-<li><dl class="option-list">
-<dt><kbd><span class="option">-p<var>arams</var></span></kbd></dt>
-<dd><p><em>(mandatory if -species is omitted)</em></p>
-</dd>
-</dl>
-</li>
+<ul class="simple">
+<li><p>-params</p></li>
 </ul>
-<p>a json file specifiying the global parameters of the analysis. See <a class="reference internal" href="params.html#params"><span class="std std-ref">Parameters</span></a> for more details</p>
-<ul>
-<li><dl class="option-list">
-<dt><kbd><span class="option">-s<var>pecies</var></span></kbd></dt>
-<dd><p><em>(mandatory if -params is omitted)</em></p>
-</dd>
-</dl>
-</li>
+<p><em>(mandatory if -species is omitted)</em>
+a json file specifiying the global parameters of the analysis. See <a class="reference internal" href="params.html#params"><span class="std std-ref">Parameters</span></a> for more details</p>
+<ul class="simple">
+<li><p>-species</p></li>
 </ul>
-<p>followed the NHP species corresponding to the image, e.g. {macaque | marmo | baboon | chimp}
+<p><em>(mandatory if -params is omitted)</em>
+followed the NHP species corresponding to the image, e.g. {macaque | marmo | baboon | chimp}
 In extra, marmoT2 can be used for segmenting from the T2w image (by default, T1w is used)</p>
+<p><strong>Note</strong> : baboon0, baboon1, baboon2 baboon3 can be used for template <a class="reference external" href="doi:10.18112/openneuro.ds005424.v1.0.0">Baba21</a>
+and matching</p>
+<p><strong>Note2</strong> : some templates are available in downgraded versions: baboon1_0p6, baboon2_0p6 baboon3_0p6 and macaque_0p5 and show significant decrease in processing time with low redection in quality. However, not all combinations are available</p>
 </section>
 <section id="the-following-parameters-are-optional">
 <h3>The following parameters are optional<a class="headerlink" href="#the-following-parameters-are-optional" title="Link to this heading">¶</a></h3>
 <p><em>(but highly recommanded)</em></p>
 <ul class="simple">
+<li><ul>
 <li><p>dt</p></li>
+</ul>
+</li>
 </ul>
 <p>specifies the datatype available to perform brain segmentation (can be “T1”, or “T1 T2”).
 <strong>Note</strong> : default is T1 if the attribute is omitted</p>
-<ul>
-<li><dl class="option-list">
-<dt><kbd><span class="option">-d<var>eriv</var></span></kbd></dt>
-<dd><p>creates a derivatives directory, with all important files, properly named following BIDS derivatives convertion</p>
-</dd>
-</dl>
-</li>
-<li><dl class="option-list">
-<dt><kbd><span class="option">-p<var>ad</var></span></kbd></dt>
-<dd><p>exports (in derivatives) important files in native (original) space</p>
-</dd>
-</dl>
-</li>
+<ul class="simple">
+<li><p>-deriv</p></li>
 </ul>
+<p>creates a derivatives directory, with all important files, properly named following BIDS derivatives convertion</p>
+<ul class="simple">
+<li><p>-pad</p></li>
+</ul>
+<p>exports most important files in native (original) space</p>
 </section>
 <section id="id1">
 <h3>The following parameters are optional<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
