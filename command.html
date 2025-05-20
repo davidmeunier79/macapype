@@ -110,12 +110,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#mandatory-parameters">mandatory parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters-are">exclusive parameters are</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-parameters">optional parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a></li>
 </ul>
 </li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a><ul>
@@ -151,12 +149,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#mandatory-parameters">mandatory parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters-are">exclusive parameters are</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-parameters">optional parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a></li>
 </ul>
 </li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
@@ -206,12 +202,10 @@
 <li class="toctree-l3"><a class="reference internal" href="#mandatory-parameters">mandatory parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters-are">exclusive parameters are</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-parameters">optional parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a><ul>
-<li class="toctree-l4"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a></li>
 </ul>
 </li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
@@ -263,15 +257,21 @@
 <li><p>-out : path to the output results (an existing path)</p></li>
 <li><p>-soft : can be one of these : SPM or ANTS (<a href="#id1"><span class="problematic" id="id2">**</span></a>NB: ** SPM requires a specific version of macapype/skullTo3d, not available by default)</p>
 <blockquote>
-<div><p>In addition, all these option are available (to place after SPM or ANTS, e.g) and will change the brain extraction:
-* _4animal :  will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)
-* _quick : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) (<a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default)</p>
-<p>This option should be used if the coregistration to template in preparation is not performed correctly:
-* _robustreg (at the end) to have a more robust registration (in two steps)</p>
-<p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:
-* _test : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)
-* _prep (at the end) will perform data preparation (no brain extraction and segmentation)
-* _noseg (at the end) will perform data preparation and brain extraction (no segmentation)</p>
+<div><p>In addition, all these option are available (to place after SPM or ANTS, e.g) and will change the brain extraction:</p>
+<ul class="simple">
+<li><p>_4animal :  will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
+<li><p>_quick : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) (<a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default)</p></li>
+</ul>
+<p>This option should be used if the coregistration to template in preparation is not performed correctly:</p>
+<ul class="simple">
+<li><p>_robustreg (at the end) to have a more robust registration (in two steps)</p></li>
+</ul>
+<p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:</p>
+<ul class="simple">
+<li><p>_test : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)</p></li>
+<li><p>_prep (at the end) will perform data preparation (no brain extraction and segmentation)</p></li>
+<li><p>_noseg (at the end) will perform data preparation and brain extraction (no segmentation)</p></li>
+</ul>
 </div></blockquote>
 </li>
 </ul>
@@ -301,25 +301,25 @@ and matching</p>
 </section>
 <section id="more-optional-parameters">
 <h3>More optional parameters<a class="headerlink" href="#more-optional-parameters" title="Link to this heading">¶</a></h3>
-<ul class="simple">
+<ul>
 <li><p>-indiv or -indiv_params : a json file overwriting the default parameters (both macapype default and parameters specified in -params json file) for specific subjects/sessions. See <a class="reference internal" href="indiv_params.html#indiv-params"><span class="std std-ref">Individual Parameters</span></a> for more details</p></li>
 <li><p>-sub (-subjects), -ses (-sessions), -acq (-acquisions), -rec (-reconstructions) allows to specifiy a subset of the BIDS dataset respectively to a range of subjects, session, acquision types and reconstruction types. The arguments can be listed with space seperator. <strong>Note</strong> if not specified, the full BIDS dataset will be processed</p></li>
-<li><p>-mask allows to specify a precomputed binary mask file (skipping brain extraction). The best usage of this option is: precomputing the pipeline till brain_extraction_pipe, modify by hand the mask and use the mask for segmentation. Better if only one subject*session is specified (one file is specified at a time…).</p></li>
-</ul>
-<p><strong>Warning: the mask should be in the same space as the data. And only works with -soft ANTS so far</strong></p>
-<ul class="simple">
-<li><dl class="simple">
-<dt>-nprocs<span class="classifier">an integer, to specifiy the number of processes that should be allocated by the parralel engine of macapype</span></dt><dd><ul>
+<li><p>-nprocs : an integer, to specifiy the number of processes that should be allocated by the parralel engine of macapype</p>
+<blockquote>
+<div><ul class="simple">
 <li><p>typically equals to the number of subjects*session (i.e. iterables).</p></li>
 <li><p>can be multiplied by 2 if T1*T2 pipelines are run (the first steps at least will benefit from it)</p></li>
 <li><p>default = 4 if unspecified ; if is put to 0, then the sequential processing is used (equivalent to -soft with _seq, see before)</p></li>
 </ul>
-</dd>
-</dl>
+</div></blockquote>
 </li>
+<li><p>-mask allows to specify a precomputed binary mask file (skipping brain extraction). The best usage of this option is: precomputing the pipeline till brain_extraction_pipe, modify by hand the mask and use the mask for segmentation. Better if only one subject*session is specified (one file is specified at a time…).</p></li>
 </ul>
+<p><strong>Warning: the mask should be in the same space as the data. And only works with -soft ANTS so far</strong></p>
+</section>
+</section>
 <section id="command-line-examples">
-<h4>Command line examples<a class="headerlink" href="#command-line-examples" title="Link to this heading">¶</a></h4>
+<h2>Command line examples<a class="headerlink" href="#command-line-examples" title="Link to this heading">¶</a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>workflows/segment_pnh.py<span class="w"> </span>-data<span class="w"> </span>~/Data_maca<span class="w"> </span>-out<span class="w"> </span>./local_test<span class="w"> </span>-soft<span class="w"> </span>ANTS<span class="w"> </span>-params<span class="w"> </span>params.json
 </pre></div>
 </div>
@@ -329,8 +329,6 @@ and matching</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>python<span class="w"> </span>workflows/segment_pnh.py<span class="w"> </span>-data<span class="w"> </span>~/Data_maca<span class="w"> </span>-out<span class="w"> </span>./local_test<span class="w"> </span>-soft<span class="w"> </span>ANTS<span class="w"> </span>-params<span class="w"> </span>params.json<span class="w"> </span>-sub<span class="w"> </span>Apache<span class="w"> </span>Baron<span class="w"> </span>-ses<span class="w"> </span><span class="m">01</span><span class="w"> </span>-rec<span class="w"> </span>mean<span class="w"> </span>-deriv<span class="w"> </span>-pad
 </pre></div>
 </div>
-</section>
-</section>
 </section>
 </section>
 
