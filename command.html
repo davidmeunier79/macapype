@@ -260,16 +260,17 @@
 <div><p>In addition, all these option are available (to place after SPM or ANTS, e.g) and will change the brain extraction:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">_4animal</span></code> :  will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_quick</span></code> : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) (<a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_quick</span></code> : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
 </ul>
-<blockquote>
-<div><p>This option should be used if the coregistration to template in preparation is not performed correctly:
+<p><a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default</p>
+</div></blockquote>
+<p>This option should be used if the coregistration to template in preparation is not performed correctly:
 * <code class="docutils literal notranslate"><span class="pre">_robustreg</span></code> (at the end) to have a more robust registration (in two steps)</p>
-<p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:
+<blockquote>
+<div><p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:
 * <code class="docutils literal notranslate"><span class="pre">_test</span></code> : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)
 * <code class="docutils literal notranslate"><span class="pre">_prep</span></code> (at the end) will perform data preparation (no brain extraction and segmentation)
 * <code class="docutils literal notranslate"><span class="pre">_noseg</span></code> (at the end) will perform data preparation and brain extraction (no segmentation)</p>
-</div></blockquote>
 </div></blockquote>
 </li>
 </ul>
@@ -300,15 +301,16 @@ and matching
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-indiv</span></code> or <code class="docutils literal notranslate"><span class="pre">-indiv_params</span></code> : a json file overwriting the default parameters (both macapype default and parameters specified in -params json file) for specific subjects/sessions. See <a class="reference internal" href="indiv_params.html#indiv-params"><span class="std std-ref">Individual Parameters</span></a> for more details</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-sub</span></code> (-subjects), <code class="docutils literal notranslate"><span class="pre">-ses</span></code> (-sessions), <code class="docutils literal notranslate"><span class="pre">-acq</span></code> (-acquisions), <code class="docutils literal notranslate"><span class="pre">-rec</span></code> (-reconstructions) allows to specifiy a subset of the BIDS dataset respectively to a range of subjects, session, acquision types and reconstruction types. The arguments can be listed with space seperator. <strong>Note</strong> if not specified, the full BIDS dataset will be processed</p></li>
-<li><dl class="simple">
-<dt><code class="docutils literal notranslate"><span class="pre">-nprocs</span></code><span class="classifier">an integer, to specifiy the number of processes that should be allocated by the parralel engine of macapype</span></dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">-nprocs</span></code> : an integer, to specifiy the number of processes that should be allocated by the parralel engine of macapype</p></li>
+</ul>
+<blockquote>
+<div><ul class="simple">
 <li><p>typically equals to the number of subjects*session (i.e. iterables).</p></li>
 <li><p>can be multiplied by 2 if T1*T2 pipelines are run (the first steps at least will benefit from it)</p></li>
 <li><p>default = 4 if unspecified ; if is put to 1, then the sequential processing is used</p></li>
 </ul>
-</dd>
-</dl>
-</li>
+</div></blockquote>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-mask</span></code> allows to specify a precomputed binary mask file (skipping brain extraction). The best usage of this option is: precomputing the pipeline till brain_extraction_pipe, modify by hand the mask and use the mask for segmentation. Better if only one subject*session is specified (one file is specified at a time…).</p></li>
 </ul>
 <p><a href="#id5"><span class="problematic" id="id6">**</span></a>Warning: ** the mask should be in the same space as the data. And only works with -soft ANTS so far</p>
