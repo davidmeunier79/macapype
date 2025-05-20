@@ -108,7 +108,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#expected-input-data">Expected input data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#command-line-parameters">Command line parameters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mandatory-parameters">mandatory parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters-are">exclusive parameters are</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters">exclusive parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-parameters">optional parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a></li>
 </ul>
@@ -147,7 +147,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#expected-input-data">Expected input data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#command-line-parameters">Command line parameters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mandatory-parameters">mandatory parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters-are">exclusive parameters are</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters">exclusive parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-parameters">optional parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a></li>
 </ul>
@@ -200,7 +200,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#expected-input-data">Expected input data</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#command-line-parameters">Command line parameters</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#mandatory-parameters">mandatory parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters-are">exclusive parameters are</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#exclusive-parameters">exclusive parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#optional-parameters">optional parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#more-optional-parameters">More optional parameters</a></li>
 </ul>
@@ -252,31 +252,30 @@
 <h2>Command line parameters<a class="headerlink" href="#command-line-parameters" title="Link to this heading">¶</a></h2>
 <section id="mandatory-parameters">
 <h3>mandatory parameters<a class="headerlink" href="#mandatory-parameters" title="Link to this heading">¶</a></h3>
-<ul class="simple">
+<ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">-data</span></code> : path to your data dataset (existing BIDS format directory)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-out</span></code> : path to the output results (an existing path)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-soft</span></code> : can be one of these : SPM or ANTS (<a href="#id1"><span class="problematic" id="id2">**</span></a>NB: ** SPM requires a specific version of macapype/skullTo3d, not available by default)</p></li>
-</ul>
-<dl class="simple">
-<dt>In addition, all these option are available (to place after SPM or ANTS, e.g) and will change the brain extraction:</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-soft</span></code> : can be one of these : SPM or ANTS (<a href="#id1"><span class="problematic" id="id2">**</span></a>NB: ** SPM requires a specific version of macapype/skullTo3d, not available by default)</p>
+<blockquote>
+<div><p>In addition, all these option are available (to place after SPM or ANTS, e.g) and will change the brain extraction:</p>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">_4animal</span></code> :  will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">_quick</span></code> : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) (<a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default)</p></li>
 </ul>
-</dd>
-<dt>This option should be used if the coregistration to template in preparation is not performed correctly:</dt><dd><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">_robustreg</span></code> (at the end) to have a more robust registration (in two steps)</p></li>
+<blockquote>
+<div><p>This option should be used if the coregistration to template in preparation is not performed correctly:
+* <code class="docutils literal notranslate"><span class="pre">_robustreg</span></code> (at the end) to have a more robust registration (in two steps)</p>
+<p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:
+* <code class="docutils literal notranslate"><span class="pre">_test</span></code> : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)
+* <code class="docutils literal notranslate"><span class="pre">_prep</span></code> (at the end) will perform data preparation (no brain extraction and segmentation)
+* <code class="docutils literal notranslate"><span class="pre">_noseg</span></code> (at the end) will perform data preparation and brain extraction (no segmentation)</p>
+</div></blockquote>
+</div></blockquote>
+</li>
 </ul>
-</dd>
-<dt>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:</dt><dd><ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">_test</span></code> : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_prep</span></code> (at the end) will perform data preparation (no brain extraction and segmentation)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_noseg</span></code> (at the end) will perform data preparation and brain extraction (no segmentation)</p></li>
-</ul>
-</dd>
-</dl>
 </section>
-<section id="exclusive-parameters-are">
-<h3>exclusive parameters are<a class="headerlink" href="#exclusive-parameters-are" title="Link to this heading">¶</a></h3>
+<section id="exclusive-parameters">
+<h3>exclusive parameters<a class="headerlink" href="#exclusive-parameters" title="Link to this heading">¶</a></h3>
 <p><em>(but one is mandatory)</em></p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-params</span></code> : <em>(mandatory if -species is omitted)</em> a json file specifiying the global parameters of the analysis. See <a class="reference internal" href="params.html#params"><span class="std std-ref">Parameters</span></a> for more details</p></li>
