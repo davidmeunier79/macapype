@@ -5,14 +5,14 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Launching a processing &#8212; Macapype 0.5.11-rc4 documentation</title>
+    <title>Launching a processing &#8212; Macapype 0.5.11 documentation</title>
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="_static/bootstrap-sphinx.css?v=284a2d1d" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-rendered-html.css?v=1277b6f3" />
-    <script src="_static/documentation_options.js?v=d50f15fa"></script>
+    <script src="_static/documentation_options.js?v=559aaa41"></script>
     <script src="_static/doctools.js?v=9bcbadda"></script>
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
@@ -41,7 +41,7 @@
         </button>
         <a class="navbar-brand" href="index.html">
           Macapype</a>
-        <span class="navbar-text navbar-version pull-left"><b>0.5.11-rc4</b></span>
+        <span class="navbar-text navbar-version pull-left"><b>0.5.11</b></span>
       </div>
 
         <div class="collapse navbar-collapse nav-collapse">
@@ -266,19 +266,27 @@
 <li><p>-out</p></li>
 </ul>
 <p>the path to the output results (an existing path)</p>
-<ul class="simple">
-<li><p>-soft</p></li>
-</ul>
-<dl class="simple">
-<dt>can be one of these<span class="classifier">SPM or ANTS</span></dt><dd><ul class="simple">
-<li><p>with _robustreg (at the end) to have a more robust registration (in two steps)</p></li>
-<li><p>with _test (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)</p></li>
-<li><p>with _prep (at the end) will perform data preparation (no brain extraction and segmentation)</p></li>
-<li><p>with _noseg (at the end) will perform data preparation and brain extraction (no segmentation)</p></li>
-<li><p>with _seq (at the end) to run in sequential mode (all iterables will be processed one after the other; equivalent to -nprocs 1)</p></li>
-</ul>
+<ul>
+<li><dl class="option-list">
+<dt><kbd><span class="option">-s<var>oft</var></span></kbd></dt>
+<dd><p><em>like in macapype</em></p>
 </dd>
 </dl>
+</li>
+</ul>
+<p>can be one of these : SPM or ANTS (<strong>NB</strong> SPM requires a specific version of macapype/skullTo3d, not available by default)</p>
+<blockquote>
+<div><p>In extra, all this option are available (to place after SPM or ANTS):</p>
+<ul class="simple">
+<li><p>_4animal will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
+<li><p>_quick will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) (<strong>NB</strong> hd-bet requires a specific version of macapype/skullTo3d, not available by default)</p></li>
+<li><p>_test (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)</p></li>
+<li><p>_robustreg (at the end) to have a more robust registration (in two steps)</p></li>
+<li><p>_prep (at the end) will perform data preparation (no brain extraction and segmentation)</p></li>
+<li><p>_noseg (at the end) will perform data preparation and brain extraction (no segmentation)</p></li>
+<li><p>_seq (at the end) to run in sequential mode (all iterables will be processed one after the other; equivalent to -nprocs 1)</p></li>
+</ul>
+</div></blockquote>
 </section>
 <section id="the-following-parameters-are-exclusive">
 <h3>The following parameters are exclusive<a class="headerlink" href="#the-following-parameters-are-exclusive" title="Link to this heading">¶</a></h3>
@@ -373,7 +381,7 @@ In extra, marmoT2 can be used for segmenting from the T2w image (by default, T1w
       
     </p>
     <p>
-        &copy; Copyright 2025, Macapype Developers (macatools). Last updated on 2025-05-16.<br/>
+        &copy; Copyright 2025, Macapype Developers (macatools). Last updated on 2025-05-20.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.1.3.<br/>
     </p>
   </div>
