@@ -252,28 +252,32 @@
 <h2>Command line parameters<a class="headerlink" href="#command-line-parameters" title="Link to this heading">¶</a></h2>
 <section id="mandatory-parameters">
 <h3>mandatory parameters<a class="headerlink" href="#mandatory-parameters" title="Link to this heading">¶</a></h3>
-<ul>
+<ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-data</span></code> : path to your data dataset (existing BIDS format directory)</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-out</span></code> : path to the output results (an existing path)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">-soft</span></code> : can be one of these : SPM or ANTS (<a href="#id1"><span class="problematic" id="id2">**</span></a>NB: ** SPM requires a specific version of macapype/skullTo3d, not available by default)</p>
+<li><p><code class="docutils literal notranslate"><span class="pre">-soft</span></code> : can be one of these : SPM or ANTS (<a href="#id1"><span class="problematic" id="id2">**</span></a>NB: ** SPM requires a specific version of macapype/skullTo3d, not available by default)</p></li>
+</ul>
 <blockquote>
 <div><p>In addition, all these option are available (to place after SPM or ANTS, e.g) and will change the brain extraction:</p>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">_4animal</span></code> :  will use bet4animal (FSL) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">_quick</span></code> : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_quick</span></code> : will use hd-bet (Deep Learning) for brain extraction, for faster computation (by default atlas_brex is used) <a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default</p></li>
 </ul>
-<p><a href="#id3"><span class="problematic" id="id4">**</span></a>NB: ** hd-bet requires a specific version of macapype/skullTo3d, not available by default</p>
-</div></blockquote>
-<p>This option should be used if the coregistration to template in preparation is not performed correctly:
-* <code class="docutils literal notranslate"><span class="pre">_robustreg</span></code> (at the end) to have a more robust registration (in two steps)</p>
 <blockquote>
-<div><p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:
-* <code class="docutils literal notranslate"><span class="pre">_test</span></code> : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)
-* <code class="docutils literal notranslate"><span class="pre">_prep</span></code> (at the end) will perform data preparation (no brain extraction and segmentation)
-* <code class="docutils literal notranslate"><span class="pre">_noseg</span></code> (at the end) will perform data preparation and brain extraction (no segmentation)</p>
-</div></blockquote>
-</li>
+<div><p>This option should be used if the coregistration to template in preparation is not performed correctly:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_robustreg</span></code> (at the end) to have a more robust registration (in two steps)</p></li>
 </ul>
+<blockquote>
+<div><p>Finally, these option are available (to place after SPM or ANTS) and will modify the parameters but can be launched in sequence:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">_test</span></code> : (at the end) to check if the full pipeline is coherent (will only generate the graph.dot and graph.png)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_prep</span></code> (at the end) will perform data preparation (no brain extraction and segmentation)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">_noseg</span></code> (at the end) will perform data preparation and brain extraction (no segmentation)</p></li>
+</ul>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
 </section>
 <section id="exclusive-parameters">
 <h3>exclusive parameters<a class="headerlink" href="#exclusive-parameters" title="Link to this heading">¶</a></h3>
@@ -292,9 +296,11 @@ and matching
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">-dt</span></code> : specifies the datatype available to perform brain segmentation (can be “T1”, or “T1 T2”)</p></li>
 </ul>
-<p><strong>Note</strong> : default is T1 if the attribute is omitted
-* <code class="docutils literal notranslate"><span class="pre">-deriv</span></code> : creates a derivatives directory, with all important files, properly named following BIDS derivatives convertion
-* <code class="docutils literal notranslate"><span class="pre">-pad</span></code> : exports most important files in native (original) space</p>
+<p><strong>Note</strong> : default is T1 if the attribute is omitted</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">-deriv</span></code> : creates a derivatives directory, with all important files, properly named following BIDS derivatives convertion</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-pad</span></code> : exports most important files in native (original) space</p></li>
+</ul>
 </section>
 <section id="more-optional-parameters">
 <h3>More optional parameters<a class="headerlink" href="#more-optional-parameters" title="Link to this heading">¶</a></h3>
