@@ -108,7 +108,7 @@
 <li class="toctree-l3"><a class="reference internal" href="command.html#mandatory-parameters">mandatory parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="command.html#exclusive-parameters">exclusive parameters</a></li>
 <li class="toctree-l3"><a class="reference internal" href="command.html#optional-parameters">optional parameters</a></li>
-<li class="toctree-l3"><a class="reference internal" href="command.html#more-optional-parameters">More optional parameters</a></li>
+<li class="toctree-l3"><a class="reference internal" href="command.html#more-optional-parameters">more optional parameters</a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="command.html#command-line-examples">Command line examples</a></li>
@@ -192,44 +192,72 @@
       
   <section id="introduction">
 <span id="derivatives"></span><h1>Introduction<a class="headerlink" href="#introduction" title="Link to this heading">¶</a></h1>
+<p>Depending on the options provided by command line and params.json, different files will ouput</p>
+<p>Derivatives will be output if option <code class="docutils literal notranslate"><span class="pre">-deriv</span></code> is provided to the command line (See <cite>Commands &lt;commands&gt;</cite>):</p>
+<p>All files are by default in stereo space; if option <code class="docutils literal notranslate"><span class="pre">-pad</span></code> is provided to the command line (See <cite>Commands &lt;commands&gt;</cite>), files in native  will also be output.</p>
 </section>
 <section id="data-preparation">
 <h1>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">¶</a></h1>
-<p>Docker allows to provide all necessary softwares in extra to macapype packages. The Docker image we provide include ANTS 2.3.1, FSL 5.0.10 and AFNI (latest version). See at the bottom of this page for docker with SPM Stand-alone.</p>
-<p><strong>Note 1</strong> :the image is quite big (~5GB) so requires some space on your “/” partition.</p>
-<section id="dockerfile">
-<h2>Dockerfile<a class="headerlink" href="#dockerfile" title="Link to this heading">¶</a></h2>
-<p>Downloading Dockerfile and building an image:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Downloading Dockerfile</span>
-$<span class="w"> </span>wget<span class="w"> </span>https://github.com/Macatools/macapype/blob/master/Dockerfile
-
-<span class="c1"># Building your image from the Dockerfile</span>
-$<span class="w"> </span>docker<span class="w"> </span>build<span class="w"> </span>-t<span class="w"> </span>macapype_docker<span class="w"> </span>.
-</pre></div>
-</div>
+<section id="native">
+<h2>Native<a class="headerlink" href="#native" title="Link to this heading">¶</a></h2>
+<p>Original files (possibly after reorientation and avereging):</p>
+<p>sub-Stevie_ses-01_space-native_T1w.nii.gz
+sub-Stevie_ses-01_space-native_T2w.nii.gz</p>
+<p>If -pad is defined in command line (See <cite>Commands &lt;commands&gt;</cite>):</p>
+<p>sub-Stevie_ses-01_space-native_desc-denoised_T1w.nii.gz
+sub-Stevie_ses-01_space-native_desc-denoised_T2w.nii.gz
+sub-Stevie_ses-01_space-native_desc-debiased_T1w.nii.gz
+sub-Stevie_ses-01_space-native_desc-debiased_T2w.nii.gz</p>
+<p><strong>NB:</strong> Both denoise and debias are optional</p>
 </section>
-<section id="docker-image">
-<h2>Docker image<a class="headerlink" href="#docker-image" title="Link to this heading">¶</a></h2>
-<p>A docker image can also be downloaded directly from <a class="reference external" href="https://hub.docker.com/r/macatools/macapype">DockerHub repo</a> :</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>macatools/macapype:latest
-</pre></div>
-</div>
-<p>Starting from the release v0.2.1 on github, the docker images are tagged accordingly on Dockerhub:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>macatools/macapype:version-0.2.1
-</pre></div>
-</div>
-<p>See <a class="reference internal" href="quick_test.html#quick-test"><span class="std std-ref">Quick test</span></a> for testing if your docker installation works properly on test datasets.</p>
+<section id="stereo">
+<h2>Stereo<a class="headerlink" href="#stereo" title="Link to this heading">¶</a></h2>
+<p>Original files in template space:</p>
+<p>sub-Stevie_ses-01_space-stereo_T1w.nii.gz
+sub-Stevie_ses-01_space-stereo_T2w.nii.gz</p>
+<p>After some preprocessing :</p>
+<p>sub-Stevie_ses-01_space-stereo_desc-denoised_T1w.nii.gz
+sub-Stevie_ses-01_space-stereo_desc-denoised_T2w.nii.gz
+sub-Stevie_ses-01_space-stereo_desc-debiased_T1w.nii.gz
+sub-Stevie_ses-01_space-stereo_desc-debiased_T2w.nii.gz</p>
+<p><strong>NB:</strong> Both denoise and debias are optional</p>
 </section>
-<section id="note-on-singularity">
-<h2>Note on Singularity<a class="headerlink" href="#note-on-singularity" title="Link to this heading">¶</a></h2>
-<p>It is possible (and recommanded) to use singularity version of container on shared computers/clusters. macapype docker version has been tested and is compatible with versions of singularity higher than 0.3 (“sif” version)</p>
-<p>Here is an example of a command line to install and convert the docker image to singularity image :</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_TMPDIR</span><span class="o">=</span>/tmp/<span class="p">;</span><span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">SINGULARITY_CACHEDIR</span><span class="o">=</span>/tmp/<span class="p">;</span><span class="w"> </span>sudo<span class="w"> </span>-E<span class="w"> </span>/path/to/bin/singularity<span class="w"> </span>build<span class="w"> </span>/path/to/containers/macapype_v0.4.2.sif<span class="w"> </span>docker://macatools/macapype:v0.4.2
-</pre></div>
-</div>
-<p>It <em>seems</em> the sudo priviliges are required to install and build images, so in case you have trouble, ask the admin of your cluster to perform this operation</p>
-<p>See <a class="reference internal" href="quick_test.html#quick-test"><span class="std std-ref">Quick test</span></a> for testing if your singularity installation works properly on test datasets.</p>
+<section id="transformations">
+<h2>Transformations<a class="headerlink" href="#transformations" title="Link to this heading">¶</a></h2>
+<p>sub-Stevie_ses-01_space-native_target-stereo_affine.txt
+sub-Stevie_ses-01_space-stereo_target-native_affine.txt</p>
 </section>
+</section>
+<section id="brain-extraction">
+<h1>Brain extraction<a class="headerlink" href="#brain-extraction" title="Link to this heading">¶</a></h1>
+<p>Brain mask:</p>
+<p>sub-Stevie_ses-01_space-stereo_desc-brain_mask.nii.gz
+sub-Stevie_ses-01_space-native_desc-brain_mask.nii.gz</p>
+</section>
+<section id="brain-segmentation">
+<h1>Brain segmentation<a class="headerlink" href="#brain-segmentation" title="Link to this heading">¶</a></h1>
+<p>Brainmasked files after T1*T2 Bias correction:</p>
+<p>sub-Stevie_ses-01_space-stereo_desc-debiased_desc-brain_T1w.nii.gz
+sub-Stevie_ses-01_space-stereo_desc-debiased_desc-brain_T2w.nii.gz</p>
+<p>sub-Stevie_ses-01_space-native_desc-debiased_desc-brain_T2w.nii.gz
+sub-Stevie_ses-01_space-native_desc-debiased_desc-brain_T1w.nii.gz</p>
+<p>Segmentated files as probability tisses:</p>
+<p>sub-Stevie_ses-01_space-stereo_label-WM_probseg.nii.gz
+sub-Stevie_ses-01_space-stereo_label-GM_probseg.nii.gz
+sub-Stevie_ses-01_space-stereo_label-CSF_probseg.nii.gz</p>
+<p>sub-Stevie_ses-01_space-native_label-WM_probseg.nii.gz
+sub-Stevie_ses-01_space-native_label-GM_probseg.nii.gz
+sub-Stevie_ses-01_space-native_label-CSF_probseg.nii.gz</p>
+<p>Segmentated files as indexed tisses:</p>
+<p>sub-Stevie_ses-01_space-stereo_desc-brain_dseg.nii.gz
+sub-Stevie_ses-01_space-native_desc-brain_dseg.nii.gz</p>
+<p>Segmented files in mrtrix format:</p>
+<p>sub-Stevie_ses-01_space-stereo_desc-5tt_dseg.nii.gz
+sub-Stevie_ses-01_space-native_desc-5tt_dseg.nii.gz</p>
+<p>White matter + Gray matter binary mask and corresponding mesh:</p>
+<p>sub-Stevie_ses-01_space-stereo_desc-wmgm_mask.nii.gz
+sub-Stevie_ses-01_space-native_desc-wmgm_mask.nii.gz</p>
+<p>sub-Stevie_ses-01_desc-wmgm_mask.stl</p>
 </section>
 
 
