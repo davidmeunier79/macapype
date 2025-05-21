@@ -118,17 +118,12 @@
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Derivatives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data-preparation">Data Preparation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#native">Native</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#stereo">Stereo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformations">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-preparation">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brain-extraction">Brain extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brain-segmentation">Brain segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#brain-extraction">Brain extraction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#brain-segmentation">Brain segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="params.html#adding-params">Adding -params</a></li>
 <li class="toctree-l2"><a class="reference internal" href="params.html#advanced-parameters-settings">Advanced parameters settings</a></li>
@@ -158,17 +153,12 @@
 <li class="toctree-l1"><a class="reference internal" href="command.html">Launching a processing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Derivatives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data-preparation">Data Preparation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#native">Native</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#stereo">Stereo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformations">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-preparation">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brain-extraction">Brain extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brain-segmentation">Brain segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#brain-extraction">Brain extraction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#brain-segmentation">Brain segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="indiv_params.html">Individual Parameters</a></li>
 </ul>
@@ -212,17 +202,12 @@
 <li class="toctree-l1"><a class="reference internal" href="command.html">Launching a processing</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Derivatives</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#introduction">Introduction</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#data-preparation">Data Preparation</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#native">Native</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#stereo">Stereo</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#transformations">Transformations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#data-preparation">Data Preparation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brain-extraction">Brain extraction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#brain-segmentation">Brain segmentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 </ul>
 </li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="#brain-extraction">Brain extraction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#brain-segmentation">Brain segmentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="indiv_params.html">Individual Parameters</a></li>
 </ul>
@@ -241,8 +226,6 @@
 </section>
 <section id="data-preparation">
 <h2>Data Preparation<a class="headerlink" href="#data-preparation" title="Link to this heading">¶</a></h2>
-<section id="native">
-<h3>Native<a class="headerlink" href="#native" title="Link to this heading">¶</a></h3>
 <p>Original files (possibly after reorientation and avereging):</p>
 <p><em>sub-Stevie_ses-01_space-native_T1w.nii.gz</em></p>
 <p><em>sub-Stevie_ses-01_space-native_T2w.nii.gz</em></p>
@@ -252,10 +235,7 @@
 <p><em>sub-Stevie_ses-01_space-native_desc-debiased_T1w.nii.gz</em></p>
 <p><em>sub-Stevie_ses-01_space-native_desc-debiased_T2w.nii.gz</em></p>
 <p><strong>NB:</strong> Both denoise and debias are optional</p>
-</section>
-<section id="stereo">
-<h3>Stereo<a class="headerlink" href="#stereo" title="Link to this heading">¶</a></h3>
-<p>Original files in template space:</p>
+<p>Original files in stereo space:</p>
 <p><em>sub-Stevie_ses-01_space-stereo_T1w.nii.gz</em></p>
 <p><em>sub-Stevie_ses-01_space-stereo_T2w.nii.gz</em></p>
 <p>After some preprocessing :</p>
@@ -264,22 +244,18 @@
 <p><em>sub-Stevie_ses-01_space-stereo_desc-debiased_T1w.nii.gz</em></p>
 <p><em>sub-Stevie_ses-01_space-stereo_desc-debiased_T2w.nii.gz</em></p>
 <p><strong>NB:</strong> Both denoise and debias are optional</p>
-</section>
-<section id="transformations">
-<h3>Transformations<a class="headerlink" href="#transformations" title="Link to this heading">¶</a></h3>
+<p>Transformations:</p>
 <p><em>sub-Stevie_ses-01_space-native_target-stereo_affine.txt</em></p>
 <p><em>sub-Stevie_ses-01_space-stereo_target-native_affine.txt</em></p>
 </section>
-</section>
-</section>
 <section id="brain-extraction">
-<h1>Brain extraction<a class="headerlink" href="#brain-extraction" title="Link to this heading">¶</a></h1>
+<h2>Brain extraction<a class="headerlink" href="#brain-extraction" title="Link to this heading">¶</a></h2>
 <p>Brain mask:</p>
 <p><em>sub-Stevie_ses-01_space-stereo_desc-brain_mask.nii.gz</em></p>
 <p><em>sub-Stevie_ses-01_space-native_desc-brain_mask.nii.gz</em></p>
 </section>
 <section id="brain-segmentation">
-<h1>Brain segmentation<a class="headerlink" href="#brain-segmentation" title="Link to this heading">¶</a></h1>
+<h2>Brain segmentation<a class="headerlink" href="#brain-segmentation" title="Link to this heading">¶</a></h2>
 <p>Brainmasked files after T1*T2 Bias correction:</p>
 <p><em>sub-Stevie_ses-01_space-stereo_desc-debiased_desc-brain_T1w.nii.gz</em></p>
 <p><em>sub-Stevie_ses-01_space-stereo_desc-debiased_desc-brain_T2w.nii.gz</em></p>
@@ -297,7 +273,7 @@
 <p><em>sub-Stevie_ses-01_space-native_desc-brain_dseg.nii.gz</em></p>
 </section>
 <section id="optional-post-brain-segmentation">
-<h1>Optional Post brain segmentation<a class="headerlink" href="#optional-post-brain-segmentation" title="Link to this heading">¶</a></h1>
+<h2>Optional Post brain segmentation<a class="headerlink" href="#optional-post-brain-segmentation" title="Link to this heading">¶</a></h2>
 <p>Segmented files in mrtrix format:</p>
 <p><em>sub-Stevie_ses-01_space-stereo_desc-5tt_dseg.nii.gz</em></p>
 <p><em>sub-Stevie_ses-01_space-native_desc-5tt_dseg.nii.gz</em></p>
@@ -307,6 +283,7 @@
 <li><p>sub-Stevie_ses-01_space-native_desc-wmgm_mask.nii.gz*</p></li>
 </ul>
 <p><em>sub-Stevie_ses-01_desc-wmgm_mask.stl</em></p>
+</section>
 </section>
 
 
