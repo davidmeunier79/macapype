@@ -17,7 +17,7 @@
     <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Introduction" href="derivatives.html" />
+    <link rel="next" title="Derivatives" href="derivatives.html" />
     <link rel="prev" title="Quick test" href="quick_test.html" />
 <meta charset='utf-8'>
 <meta http-equiv='X-UA-Compatible' content='IE=edge,chrome=1'>
@@ -116,18 +116,19 @@
 <li class="toctree-l2"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="derivatives.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="derivatives.html#data-preparation">Data Preparation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="derivatives.html#native">Native</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="derivatives.html#original-files-possibly-after-reorientation-and-avereging">Original files (possibly after reorientation and avereging):</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivatives.html">Derivatives</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="derivatives.html#introduction">Introduction</a></li>
+<li class="toctree-l2"><a class="reference internal" href="derivatives.html#data-preparation">Data Preparation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="derivatives.html#native">Native</a></li>
+<li class="toctree-l3"><a class="reference internal" href="derivatives.html#stereo">Stereo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="derivatives.html#transformations">Transformations</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="derivatives.html#stereo">Stereo</a></li>
-<li class="toctree-l2"><a class="reference internal" href="derivatives.html#transformations">Transformations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="derivatives.html#brain-extraction">Brain extraction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="derivatives.html#brain-segmentation">Brain segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivatives.html#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="params.html#adding-params">Adding -params</a></li>
 <li class="toctree-l2"><a class="reference internal" href="params.html#advanced-parameters-settings">Advanced parameters settings</a></li>
@@ -167,10 +168,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="derivatives.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="derivatives.html#data-preparation">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivatives.html">Derivatives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="derivatives.html#brain-extraction">Brain extraction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="derivatives.html#brain-segmentation">Brain segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivatives.html#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="indiv_params.html">Individual Parameters</a></li>
 </ul>
@@ -224,10 +225,10 @@
 <li class="toctree-l2"><a class="reference internal" href="#command-line-examples">Command line examples</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="derivatives.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="derivatives.html#data-preparation">Data Preparation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivatives.html">Derivatives</a></li>
 <li class="toctree-l1"><a class="reference internal" href="derivatives.html#brain-extraction">Brain extraction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="derivatives.html#brain-segmentation">Brain segmentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="derivatives.html#optional-post-brain-segmentation">Optional Post brain segmentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="indiv_params.html">Individual Parameters</a></li>
 </ul>
@@ -315,7 +316,7 @@ and matching</p>
 </ul>
 <p><strong>Note</strong> : default is T1 if the attribute is omitted</p>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">-deriv</span></code> : creates a derivatives directory, with all important files, properly named following BIDS derivatives convertion. See <a class="reference internal" href="derivatives.html#derivatives"><span class="std std-ref">Derivatives</span></a> for a descrition of the outputs</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">-deriv</span></code> : creates a derivatives directory, with all important files, properly named following BIDS derivatives convertion. See <span class="xref std std-ref">Derivatives</span> for a descrition of the outputs</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">-pad</span></code> : exports most important files in native (original) space</p></li>
 </ul>
 </section>
