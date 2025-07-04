@@ -857,7 +857,7 @@ def create_IsoSurface_tissues_pipe(params={},
         params=parse_key(params, "csf2mesh"),
         name="csf2mesh")
 
-    IsoSurface_tissues_pipe.connect(keep_gcc_csf_mask, 'gcc_nii_file',
+    IsoSurface_tissues_pipe.connect(csf_erode, 'out_file',
                                     csf2mesh, "nii_file")
 
     # bin_wm
@@ -913,7 +913,7 @@ def create_IsoSurface_tissues_pipe(params={},
         params=parse_key(params, "wm2mesh"),
         name="wm2mesh")
 
-    IsoSurface_tissues_pipe.connect(keep_gcc_wm_mask, 'gcc_nii_file',
+    IsoSurface_tissues_pipe.connect(wm_erode, 'out_file',
                                     wm2mesh, "nii_file")
 
     # bin_gm
@@ -964,13 +964,12 @@ def create_IsoSurface_tissues_pipe(params={},
         gm_erode, "in_file")
 
     # gm2mesh
-
     gm2mesh = NodeParams(
         interface=IsoSurface(),
         params=parse_key(params, "gm2mesh"),
         name="gm2mesh")
 
-    IsoSurface_tissues_pipe.connect(keep_gcc_gm_mask, 'gcc_nii_file',
+    IsoSurface_tissues_pipe.connect(gm_erode, 'out_file',
                                     gm2mesh, "nii_file")
 
     # outputnode
