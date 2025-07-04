@@ -8,6 +8,9 @@ import nipype.interfaces.freesurfer as fs
 
 import macapype.nodes.register as reg
 
+from nipype.interfaces.fsl.maths import (
+    DilateImage, ErodeImage, UnaryMaths)
+
 from macapype.nodes.surface import (Meshify, split_LR_mask,
                                     wrap_nii2mesh,
                                     IsoSurface, merge_tissues,
