@@ -829,7 +829,7 @@ def create_IsoSurface_tissues_pipe(params={},
 
     IsoSurface_tissues_pipe.connect(
 
-        keep_gcc_bin_mask, 'gcc_nii_file',
+        keep_gcc_csf_mask, 'gcc_nii_file',
         csf_dilate, "in_file")
 
     # csf_fill
@@ -885,7 +885,7 @@ def create_IsoSurface_tissues_pipe(params={},
 
     IsoSurface_tissues_pipe.connect(
 
-        keep_gcc_bin_mask, 'gcc_nii_file',
+        keep_gcc_wm_mask, 'gcc_nii_file',
         wm_dilate, "in_file")
 
     # wm_fill
@@ -941,7 +941,7 @@ def create_IsoSurface_tissues_pipe(params={},
 
     IsoSurface_tissues_pipe.connect(
 
-        keep_gcc_bin_mask, 'gcc_nii_file',
+        keep_gcc_gm_mask, 'gcc_nii_file',
         gm_dilate, "in_file")
 
     # gm_fill
