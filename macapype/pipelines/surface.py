@@ -737,8 +737,10 @@ def create_IsoSurface_brain_pipe(params={},
                                   keep_gcc_bin_mask, "nii_file")
 
     # wmgm2mesh
-    wmgm2mesh = pe.Node(interface=IsoSurface(),
-                        name="wmgm2mesh")
+    wmgm2mesh = NodeParams(
+        interface=IsoSurface(),
+        params=parse_key(params, "wmgm2mesh"),
+        name="wmgm2mesh")
 
     IsoSurface_brain_pipe.connect(keep_gcc_bin_mask, 'gcc_nii_file',
                                   wmgm2mesh, "nii_file")

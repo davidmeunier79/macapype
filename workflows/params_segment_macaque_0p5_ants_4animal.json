@@ -75,7 +75,14 @@
         "merge_brain_tissues":
         {
             "keep_indexes": [2,3,4]
+        },
+        "wmgm2mesh":
+        {
+            "KPB" : 0.1,
+            "NITER" : 100
         }
+
+
     },
     "IsoSurface_tissues_pipe":
     {
