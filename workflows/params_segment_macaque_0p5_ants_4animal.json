@@ -76,6 +76,17 @@
         {
             "keep_indexes": [2,3,4]
         },
+        "wmgm_dilate":
+        {
+            "operation" : "modal",
+            "kernel_shape" : "boxv",
+            "kernel_size" : 3.0
+        },
+        "wmgm_erode":
+        {
+            "kernel_shape" : "boxv",
+            "kernel_size" : 3.0
+        },
         "wmgm2mesh":
         {
             "KPB" : 0.0001,
