@@ -92,8 +92,6 @@
             "KPB" : 0.0001,
             "NITER" : 1000
         }
-
-
     },
     "IsoSurface_tissues_pipe":
     {
@@ -147,6 +145,5 @@
             "KPB" : 0.0001,
             "NITER" : 1000
         }
-
     }
 }
