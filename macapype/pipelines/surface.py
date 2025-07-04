@@ -814,6 +814,9 @@ def create_IsoSurface_tissues_pipe(params={},
     wm2mesh = pe.Node(interface=IsoSurface(),
                       name="wm2mesh")
 
+    wm2mesh.inputs.KPB = 0.0000001
+    wm2mesh.inputs.NITER = 200
+
     IsoSurface_tissues_pipe.connect(keep_gcc_wm_mask, 'gcc_nii_file',
                                     wm2mesh, "nii_file")
 
@@ -837,6 +840,9 @@ def create_IsoSurface_tissues_pipe(params={},
     # gm2mesh
     gm2mesh = pe.Node(interface=IsoSurface(),
                       name="gm2mesh")
+
+    gm2mesh.inputs.KPB = 0.0000001
+    gm2mesh.inputs.NITER = 200
 
     IsoSurface_tissues_pipe.connect(keep_gcc_gm_mask, 'gcc_nii_file',
                                     gm2mesh, "nii_file")
