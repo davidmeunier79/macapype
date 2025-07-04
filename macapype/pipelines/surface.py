@@ -750,10 +750,6 @@ def create_IsoSurface_brain_pipe(params={},
         keep_gcc_bin_mask, 'gcc_nii_file',
         wmgm_dilate, "in_file")
 
-    IsoSurface_brain_pipe.connect(
-        inputnode, ("indiv_params", parse_key, "wmgm_dilate"),
-        wmgm_dilate, "indiv_params")
-
     # wmgm_fill
     wmgm_fill = pe.Node(interface=UnaryMaths(),
                             name="wmgm_fill")
@@ -772,10 +768,6 @@ def create_IsoSurface_brain_pipe(params={},
     IsoSurface_brain_pipe.connect(
         wmgm_fill, "out_file",
         wmgm_erode, "in_file")
-
-    IsoSurface_brain_pipe.connect(
-        inputnode, ("indiv_params", parse_key, "wmgm_erode"),
-        wmgm_erode, "indiv_params")
 
     # wmgm2mesh
     wmgm2mesh = NodeParams(
