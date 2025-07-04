@@ -79,5 +79,21 @@
     },
     "IsoSurface_tissues_pipe":
     {
+        "wm2mesh":
+        {
+            "KPB" : 0.000001,
+            "NITER" : 200
+        },
+        "gm2mesh":
+        {
+            "KPB" : 0.000001,
+            "NITER" : 200
+        },
+        "csf2mesh":
+        {
+            "KPB" : 0.1,
+            "NITER" : 200
+        }
+
     }
 }

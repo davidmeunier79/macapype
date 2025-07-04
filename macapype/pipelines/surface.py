@@ -787,8 +787,10 @@ def create_IsoSurface_tissues_pipe(params={},
                                     keep_gcc_csf_mask, "nii_file")
 
     # csf2mesh
-    csf2mesh = pe.Node(interface=IsoSurface(),
-                       name="csf2mesh")
+    csf2mesh = pe.NodeParams(
+        interface=IsoSurface(),
+        params=parse_key(params, "csf2mesh"),
+        name="csf2mesh")
 
     IsoSurface_tissues_pipe.connect(keep_gcc_csf_mask, 'gcc_nii_file',
                                     csf2mesh, "nii_file")
@@ -811,11 +813,10 @@ def create_IsoSurface_tissues_pipe(params={},
                                     keep_gcc_wm_mask, "nii_file")
 
     # wm2mesh
-    wm2mesh = pe.Node(interface=IsoSurface(),
-                      name="wm2mesh")
-
-    wm2mesh.inputs.KPB = 0.0000001
-    wm2mesh.inputs.NITER = 200
+    wm2mesh = pe.NodeParams(
+        interface=IsoSurface(),
+        params=parse_key(params, "wm2mesh"),
+        name="wm2mesh")
 
     IsoSurface_tissues_pipe.connect(keep_gcc_wm_mask, 'gcc_nii_file',
                                     wm2mesh, "nii_file")
@@ -838,11 +839,11 @@ def create_IsoSurface_tissues_pipe(params={},
                                     keep_gcc_gm_mask, "nii_file")
 
     # gm2mesh
-    gm2mesh = pe.Node(interface=IsoSurface(),
-                      name="gm2mesh")
 
-    gm2mesh.inputs.KPB = 0.0000001
-    gm2mesh.inputs.NITER = 200
+    gm2mesh = pe.NodeParams(
+        interface=IsoSurface(),
+        params=parse_key(params, "gm2mesh"),
+        name="gm2mesh")
 
     IsoSurface_tissues_pipe.connect(keep_gcc_gm_mask, 'gcc_nii_file',
                                     gm2mesh, "nii_file")
