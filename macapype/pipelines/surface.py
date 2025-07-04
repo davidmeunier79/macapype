@@ -787,7 +787,7 @@ def create_IsoSurface_tissues_pipe(params={},
                                     keep_gcc_csf_mask, "nii_file")
 
     # csf2mesh
-    csf2mesh = pe.NodeParams(
+    csf2mesh = NodeParams(
         interface=IsoSurface(),
         params=parse_key(params, "csf2mesh"),
         name="csf2mesh")
@@ -813,7 +813,7 @@ def create_IsoSurface_tissues_pipe(params={},
                                     keep_gcc_wm_mask, "nii_file")
 
     # wm2mesh
-    wm2mesh = pe.NodeParams(
+    wm2mesh = NodeParams(
         interface=IsoSurface(),
         params=parse_key(params, "wm2mesh"),
         name="wm2mesh")
@@ -840,7 +840,7 @@ def create_IsoSurface_tissues_pipe(params={},
 
     # gm2mesh
 
-    gm2mesh = pe.NodeParams(
+    gm2mesh = NodeParams(
         interface=IsoSurface(),
         params=parse_key(params, "gm2mesh"),
         name="gm2mesh")
