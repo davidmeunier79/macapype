@@ -81,18 +81,18 @@
     {
         "wm2mesh":
         {
-            "KPB" : 0.000001,
-            "NITER" : 200
+            "KPB" : 0.1,
+            "NITER" : 100
         },
         "gm2mesh":
         {
-            "KPB" : 0.000001,
-            "NITER" : 200
+            "KPB" : 0.1,
+            "NITER" : 100
         },
         "csf2mesh":
         {
             "KPB" : 0.1,
-            "NITER" : 200
+            "NITER" : 100
         }
 
     }
