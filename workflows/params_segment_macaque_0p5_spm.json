@@ -87,8 +87,8 @@
         },
         "wmgm2mesh":
         {
-            "KPB" : 0.0001,
-            "NITER" : 1000
+            "KPB" : 0.1,
+            "NITER" : 100
         }
     },
     "IsoSurface_tissues_pipe":
@@ -106,8 +106,8 @@
         },
         "wm2mesh":
         {
-            "KPB" : 0.0001,
-            "NITER" : 1000
+            "KPB" : 0.1,
+            "NITER" : 100
         },
 
         "gm_dilate":
@@ -123,8 +123,8 @@
         },
         "gm2mesh":
         {
-            "KPB" : 0.0001,
-            "NITER" : 1000
+            "KPB" : 0.1,
+            "NITER" : 100
         },
 
         "csf_dilate":
@@ -140,8 +140,8 @@
         },
         "csf2mesh":
         {
-            "KPB" : 0.0001,
-            "NITER" : 1000
+            "KPB" : 0.1,
+            "NITER" : 100
         }
     }
 }
