@@ -739,35 +739,34 @@ def create_IsoSurface_brain_pipe(params={},
     IsoSurface_brain_pipe.connect(merge_brain_tissues, 'mask_file',
                                   keep_gcc_bin_mask, "nii_file")
 
-    # wmgm_dilate
-    wmgm_dilate = NodeParams(
-        interface=DilateImage(),
-        params=parse_key(params, "wmgm_dilate"),
-        name="wmgm_dilate")
+    if "wmgm_dilate" in params and "wmgm_erode" in params:
+        # wmgm_dilate
+        wmgm_dilate = NodeParams(
+            interface=DilateImage(),
+            params=parse_key(params, "wmgm_dilate"),
+            name="wmgm_dilate")
 
-    IsoSurface_brain_pipe.connect(
+        IsoSurface_brain_pipe.connect(
+            keep_gcc_bin_mask, 'gcc_nii_file',
+            wmgm_dilate, "in_file")
 
-        keep_gcc_bin_mask, 'gcc_nii_file',
-        wmgm_dilate, "in_file")
+        # wmgm_fill
+        wmgm_fill = pe.Node(interface=UnaryMaths(),
+                                name="wmgm_fill")
+        wmgm_fill.inputs.operation = 'fillh'
 
-    # wmgm_fill
-    wmgm_fill = pe.Node(interface=UnaryMaths(),
-                            name="wmgm_fill")
+        IsoSurface_brain_pipe.connect(
+            wmgm_dilate, "out_file",
+            wmgm_fill, "in_file")
 
-    wmgm_fill.inputs.operation = 'fillh'
-
-    IsoSurface_brain_pipe.connect(
-        wmgm_dilate, "out_file",
-        wmgm_fill, "in_file")
-
-    # wmgm_erode
-    wmgm_erode = NodeParams(interface=ErodeImage(),
+        # wmgm_erode
+        wmgm_erode = NodeParams(interface=ErodeImage(),
                                 params=parse_key(params, "wmgm_erode"),
                                 name="wmgm_erode")
 
-    IsoSurface_brain_pipe.connect(
-        wmgm_fill, "out_file",
-        wmgm_erode, "in_file")
+        IsoSurface_brain_pipe.connect(
+            wmgm_fill, "out_file",
+            wmgm_erode, "in_file")
 
     # wmgm2mesh
     wmgm2mesh = NodeParams(
@@ -775,8 +774,15 @@ def create_IsoSurface_brain_pipe(params={},
         params=parse_key(params, "wmgm2mesh"),
         name="wmgm2mesh")
 
-    IsoSurface_brain_pipe.connect(
-        wmgm_erode, "out_file", wmgm2mesh, "nii_file")
+    if "wmgm_dilate" in params and "wmgm_erode" in params:
+        IsoSurface_brain_pipe.connect(
+            wmgm_erode, "out_file",
+            wmgm2mesh, "nii_file")
+
+    else:
+        IsoSurface_brain_pipe.connect(
+            keep_gcc_bin_mask, 'gcc_nii_file',
+            wmgm2mesh, "nii_file")
 
     # outputnode
     outputnode = pe.Node(
@@ -784,8 +790,16 @@ def create_IsoSurface_brain_pipe(params={},
             fields=["wmgm_stl", "wmgm_nii"]),
         name='outputnode')
 
-    IsoSurface_brain_pipe.connect(keep_gcc_bin_mask, 'gcc_nii_file',
-                                  outputnode, "wmgm_nii")
+    if "wmgm_dilate" in params and "wmgm_erode" in params:
+        IsoSurface_brain_pipe.connect(
+            wmgm_erode, "out_file",
+            outputnode, "wmgm_nii")
+
+    else:
+        IsoSurface_brain_pipe.connect(
+            keep_gcc_bin_mask, 'gcc_nii_file',
+            outputnode, "wmgm_nii")
+
     IsoSurface_brain_pipe.connect(wmgm2mesh, 'stl_file',
                                   outputnode, "wmgm_stl")
 
