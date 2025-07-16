@@ -59,10 +59,89 @@
         {
             "merge_indexed_mask":
             {
-                "index_csf": 1,
-                "index_gm": 2,
-                "index_wm": 3
+                "index_csf": 3,
+                "index_gm": 1,
+                "index_wm": 2
             }
+        }
+    },
+    "export_5tt_pipe":
+    {
+    },
+    "IsoSurface_brain_pipe":
+    {
+        "merge_brain_tissues":
+        {
+            "keep_indexes": [1,2]
+        },
+        "wmgm_dilate":
+        {
+            "operation" : "modal",
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "wmgm_erode":
+        {
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "wmgm2mesh":
+        {
+            "KPB" : 0.0001,
+            "NITER" : 1000
+        }
+    },
+    "IsoSurface_tissues_pipe":
+    {
+        "wm_dilate":
+        {
+            "operation" : "modal",
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "wm_erode":
+        {
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "wm2mesh":
+        {
+            "KPB" : 0.0001,
+            "NITER" : 1000
+        },
+
+        "gm_dilate":
+        {
+            "operation" : "modal",
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "gm_erode":
+        {
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "gm2mesh":
+        {
+            "KPB" : 0.0001,
+            "NITER" : 1000
+        },
+
+        "csf_dilate":
+        {
+            "operation" : "modal",
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "csf_erode":
+        {
+            "kernel_shape" : "boxv",
+            "kernel_size" : 1.0
+        },
+        "csf2mesh":
+        {
+            "KPB" : 0.0001,
+            "NITER" : 1000
         }
     }
 }
