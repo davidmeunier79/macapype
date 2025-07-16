@@ -25,13 +25,13 @@ Testing from Singularity image
 
 .. code:: bash
 
-    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg_test -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
+    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg_test -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
 
-    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg_prep -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
+    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg_prep -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
 
-    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg_noseg -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
+    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg_noseg -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
 
-    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
+    $ singularity run -B /path/to/data:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
 
 
 The 4 commands earlier corresponds to brain segmentation performed on an example of marmoset (Tresor) . The 4 steps corresponds to incremental processings, and can performed in the given order. It is possible to test directly the last command (with *-soft ANTS*), but the caching system of nipype should work and the previous steps will not be performed again.
@@ -64,11 +64,11 @@ The 4 commands earlier corresponds to brain segmentation performed on an example
 Testing from docker image
 ------------------------
 
-For testing the docker installation, the beginning of the commands should be replaced by docker run -v /path/to/data:/data macatools/macapype:v0.3.1, e.g.
+For testing the docker installation, the beginning of the commands should be replaced by docker run -v /path/to/data:/data macatools/macapype:v0.6, e.g.
 
 .. code:: bash
 
-    $ docker run -v /path/to/data:/data macatools/macapype:v0.5 segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
+    $ docker run -v /path/to/data:/data macatools/macapype:v0.6 segment_pnh -data /data/macapype_CI_v2.1/cerimed_marmo -out /data/macapype_CI_v2.1/cerimed_marmo/results -soft ANTS_robustreg -species marmo -sub Tresor -ses 01 -deriv -padback -dt T1 T2
 
 
 Testing from python package install
@@ -93,31 +93,65 @@ From github install
 Testing the macaque and baboon datasets
 #######################################
 
-Two other dataset, corresponding to one macaque and one baboon, are available in the test dataset. Please not that due to higher image resolution, the preprocessing will take a longer time.
+Two other datasets, corresponding to one macaque and one baboon, are available in the test dataset. Please not that due to higher image resolution, the preprocessing will take a longer time.
 
 Baboon
 ******
 
+baboon is for adult template
+
 .. code:: bash
 
-    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_adult -soft ANTS -species baboon -sub Prune -ses 3 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_adult -soft ANTS -species baboon -sub Prune -ses 3 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
 
-    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon3 -sub Prune -ses 3 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
+baboon0, baboon1, baboon2 baboon3 can be used for template `Baba21 <doi:10.18112/openneuro.ds005424.v1.0.0>`_
+and matching ages
 
-    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon2 -sub Prune -ses 2 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
+.. code:: bash
 
-    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon1 -sub Prune -ses 1 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon3 -sub Prune -ses 3 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
 
-    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon0 -sub Prune -ses 0 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon2 -sub Prune -ses 2 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
+
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon1 -sub Prune -ses 1 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
+
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data /data/macapype_CI_v2.1/cerimed_baboon -out /data/macapype_CI_v2.1/cerimed_baboon/results_all_ages -soft ANTS -species baboon0 -sub Prune -ses 0 -deriv -padback -dt T1 T2  -indiv /data/cerimed_baboon/indiv_params_segment_baboon.json
 
 Macaque
 *******
 
+
 .. code:: bash
 
-    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.5.sif segment_pnh -data segment_pnh -data /data/macapype_CI_v2.1/cerimed_macaque -out /data/macapype_CI_v2.1/cerimed_macaque/results -soft ANTS_robustreg -sub Stevie -ses 01 -deriv -padback -dt T1 T2 -species macaque
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data segment_pnh -data /data/macapype_CI_v2.1/cerimed_macaque -out /data/macapype_CI_v2.1/cerimed_macaque/results -soft ANTS_robustreg -sub Stevie -ses 01 -deriv -padback -dt T1 T2 -species macaque
+
+
 
 Testing different pipelines and options
 #######################################
 
-    It is possible to run the pipeline with only T1w available with *-dt T1* (instead of *-dt T1 T2* previously). Please see `Commands <command>`_ for further information on the parameters available for command line
+Some options can be added to ``-soft`` and/or ``-species`` for faster and less precise computations, like ``-soft ANTS_4animal`` for a faster version of brain extraction using FSL bet4animal, or ``-species macaque_0p5`` to use donwsampled version of the template, or a combination of both options:
+
+.. code:: bash
+
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data segment_pnh -data /data/macapype_CI_v2.1/cerimed_macaque -out /data/macapype_CI_v2.1/cerimed_macaque/results_0p5 -soft ANTS_robustreg -sub Stevie -ses 01 -deriv -padback -dt T1 T2 -species macaque_0p5
+
+.. code:: bash
+
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data segment_pnh -data /data/macapype_CI_v2.1/cerimed_macaque -out /data/macapype_CI_v2.1/cerimed_macaque/results -soft ANTS_4animal_robustreg -sub Stevie -ses 01 -deriv -padback -dt T1 T2 -species macaque
+
+.. code:: bash
+
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data segment_pnh -data /data/macapype_CI_v2.1/cerimed_macaque -out /data/macapype_CI_v2.1/cerimed_macaque/results_0p5 -soft ANTS_4animal_robustreg -sub Stevie -ses 01 -deriv -padback -dt T1 T2 -species macaque_0p5
+
+It is also possible to run the pipeline with only T1w available with *-dt T1* (instead of *-dt T1 T2* previously).
+
+.. code:: bash
+
+    $ singularity run -B /path/to/data/:/data /path/to/containers/macapype_v0.6.sif segment_pnh -data segment_pnh -data /data/macapype_CI_v2.1/cerimed_macaque -out /data/macapype_CI_v2.1/cerimed_macaque/results -soft ANTS_robustreg -sub Stevie -ses 01 -deriv -padback -dt T1 -species macaque
+
+Please see `Commands <command>`_ for further information on the parameters available for command line
+
+
+
+

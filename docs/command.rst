@@ -31,7 +31,7 @@ For container (docker and singularity), here are some examples - add your proper
 
 .. code:: bash
 
-    $ singularity run -v binding_to_host:binding_guest /path/to/containers/macapype_v0.0.4.1.sif segment_pnh
+    $ singularity run -v binding_to_host:binding_guest /path/to/containers/macapype_v0.6.sif segment_pnh
 
 Expected input data
 *******************
@@ -89,7 +89,7 @@ exclusive parameters
 **NB** : marmoT2 can be used for segmenting from the T2w image (by default, T1w is used for marmo)
 
 **NB** : baboon0, baboon1, baboon2 baboon3 can be used for template `Baba21 <doi:10.18112/openneuro.ds005424.v1.0.0>`_
-and matching
+and matching ages
 
 **NB** : some templates are available in downgraded versions: baboon1_0p6, baboon2_0p6 baboon3_0p6 and macaque_0p5 and show significant decrease in processing time with low redection in quality. However, not all combinations are available
 

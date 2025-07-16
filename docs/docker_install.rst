@@ -36,10 +36,15 @@ Starting from the release v0.2.1 on github, the docker images are tagged accordi
 
 .. code:: bash
 
-    $ docker pull macatools/macapype:version-0.2.1
-
+    $ docker pull macatools/macapype:v0.6
 
 See :ref:`Quick test <quick_test>` for testing if your docker installation works properly on test datasets.
+
+**NB** for running ``-soft SPM`` and/or hdbet (corresponding ``-soft ANTS_quick``), a bigger version of the docker is available:
+
+.. code:: bash
+
+    $ docker pull macatools/macapype:v0.6-spm-hdbet
 
 Note on Singularity
 -------------------
@@ -50,9 +55,13 @@ Here is an example of a command line to install and convert the docker image to 
 
 .. code:: bash
 
-    $ export SINGULARITY_TMPDIR=/tmp/; export SINGULARITY_CACHEDIR=/tmp/; sudo -E /path/to/bin/singularity build /path/to/containers/macapype_v0.4.2.sif docker://macatools/macapype:v0.4.2
+    $ singularity build /path/to/containers/macapype_v0.6.sif docker://macatools/macapype:v0.6
 
-It *seems* the sudo priviliges are required to install and build images, so in case you have trouble, ask the admin of your cluster to perform this operation
+The container have been tested and can be installed without sudo privilieges; In case you have trouble or want the container to be accessible on a shared cluster, ask the admin of the cluster to perform this operation:
+
+.. code:: bash
+
+    $ export SINGULARITY_TMPDIR=/tmp/; export SINGULARITY_CACHEDIR=/tmp/; sudo -E /path/to/bin/singularity build /path/to/containers/macapype_v0.6.sif docker://macatools/macapype:v0.6
 
 See :ref:`Quick test <quick_test>` for testing if your singularity installation works properly on test datasets.
 

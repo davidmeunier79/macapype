@@ -42,13 +42,14 @@ RUN python -m pip install xvfbwrapper \
 
 RUN python -m pip install graphviz \
     pybids \
-    nipype \
+    nipype==1.8.6 \
     nilearn \
     scikit-image \
     brain-slam
 
-
 RUN python -m pip install SimpleITK
+
+ENV OPENBLAS_NUM_THREADS=1 # should be added in macapype_env
 
 ############################################# install macapype
 
@@ -64,3 +65,4 @@ RUN rm -rf \
      /var/*/apt/*/partial \
      /var/log/apt/term*
 
+ENV LD_LIBRARY_PATH=/usr/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH # to check if useful

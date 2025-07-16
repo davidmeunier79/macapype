@@ -36,13 +36,13 @@ RUN python -m pip install xvfbwrapper \
     pydot \
     rdflib \
     pbr \
-    nibabel==3.2.2 \
+    nibabel\
     packaging \
     pytest
 
 RUN python -m pip install graphviz \
     pybids \
-    nipype \
+    nipype==1.8.6 \
     nilearn \
     scikit-image \
     brain-slam
@@ -51,9 +51,12 @@ RUN python -m pip install SimpleITK
 
 RUN python -m pip install HD-BET
 
+# should be added in macapype_env
+ENV OPENBLAS_NUM_THREADS=1
+
 ############################################# install macapype
 
-RUN python -m pip install macapype --upgrade
+RUN python -m pip install --pre macapype --upgrade
 RUN python -c "import macapype; print(macapype.__version__)"
 
 ################################################## Finishing
