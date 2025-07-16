@@ -306,6 +306,7 @@ def average_align(list_img, reorient=False, max_index = None):
 
                 if max_index is not None:
                     if i > max_index:
+                        print(f"Iter {i=} higher than {max_index=}")
                         continue
 
                 data_orig_shape = nib.load(img).get_fdata().shape
