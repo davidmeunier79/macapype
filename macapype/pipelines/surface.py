@@ -952,7 +952,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                                 params=parse_key(params, "wm_erode"),
                                 name="wm_erode")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             bin_wm, 'out_file',
             wm_erode, "in_file")
 
@@ -964,7 +964,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                 function=keep_gcc),
             name="keep_gcc_bin_mask")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             wm_erode, 'out_file',
             keep_gcc_bin_mask, "nii_file")
 
@@ -974,7 +974,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
             params=parse_key(params, "wm_dilate"),
             name="wm_dilate")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             keep_gcc_bin_mask, 'gcc_nii_file',
             wm_dilate, "in_file")
     else:
@@ -987,7 +987,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                 function=keep_gcc),
             name="keep_gcc_bin_mask")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             merge_brain_tissues, 'mask_file',
             keep_gcc_bin_mask, "nii_file")
 
@@ -998,12 +998,12 @@ def create_open_IsoSurface_tissues_pipe(params={},
         name="wm2mesh")
 
     if "wm_dilate" in params and "wm_erode" in params:
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             wm_dilate, "out_file",
             wm2mesh, "nii_file")
 
     else:
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             keep_gcc_bin_mask, 'gcc_nii_file',
             wm2mesh, "nii_file")
 
@@ -1025,7 +1025,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                                 params=parse_key(params, "csf_erode"),
                                 name="csf_erode")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             bin_csf, 'out_file',
             csf_erode, "in_file")
 
@@ -1037,7 +1037,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                 function=keep_gcc),
             name="keep_gcc_bin_mask")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             csf_erode, 'out_file',
             keep_gcc_bin_mask, "nii_file")
 
@@ -1047,7 +1047,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
             params=parse_key(params, "csf_dilate"),
             name="csf_dilate")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             keep_gcc_bin_mask, 'gcc_nii_file',
             csf_dilate, "in_file")
     else:
@@ -1060,7 +1060,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                 function=keep_gcc),
             name="keep_gcc_bin_mask")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             merge_brain_tissues, 'mask_file',
             keep_gcc_bin_mask, "nii_file")
 
@@ -1071,12 +1071,12 @@ def create_open_IsoSurface_tissues_pipe(params={},
         name="csf2mesh")
 
     if "csf_dilate" in params and "csf_erode" in params:
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             csf_dilate, "out_file",
             csf2mesh, "nii_file")
 
     else:
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             keep_gcc_bin_mask, 'gcc_nii_file',
             csf2mesh, "nii_file")
 
@@ -1097,7 +1097,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                                 params=parse_key(params, "wm_erode"),
                                 name="wm_erode")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             bin_wm, 'out_file',
             wm_erode, "in_file")
 
@@ -1109,7 +1109,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                 function=keep_gcc),
             name="keep_gcc_bin_mask")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             wm_erode, 'out_file',
             keep_gcc_bin_mask, "nii_file")
 
@@ -1119,7 +1119,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
             params=parse_key(params, "wm_dilate"),
             name="wm_dilate")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             keep_gcc_bin_mask, 'gcc_nii_file',
             wm_dilate, "in_file")
     else:
@@ -1132,7 +1132,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
                 function=keep_gcc),
             name="keep_gcc_bin_mask")
 
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             merge_brain_tissues, 'mask_file',
             keep_gcc_bin_mask, "nii_file")
 
@@ -1143,12 +1143,12 @@ def create_open_IsoSurface_tissues_pipe(params={},
         name="wm2mesh")
 
     if "wm_dilate" in params and "wm_erode" in params:
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             wm_dilate, "out_file",
             wm2mesh, "nii_file")
 
     else:
-        IsoSurface_brain_pipe.connect(
+        IsoSurface_tissues_pipe.connect(
             keep_gcc_bin_mask, 'gcc_nii_file',
             wm2mesh, "nii_file")
 
