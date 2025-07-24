@@ -1090,16 +1090,16 @@ def create_open_IsoSurface_tissues_pipe(params={},
     IsoSurface_tissues_pipe.connect(inputnode, 'threshold_gm',
                                     bin_gm, 'in_file')
 
-    if "wm_dilate" in params and "wm_erode" in params:
+    if "gm_dilate" in params and "gm_erode" in params:
 
-        # wm_erode
-        wm_erode = NodeParams(interface=ErodeImage(),
-                                params=parse_key(params, "wm_erode"),
-                                name="wm_erode")
+        # gm_erode
+        gm_erode = NodeParams(interface=ErodeImage(),
+                                params=parse_key(params, "gm_erode"),
+                                name="gm_erode")
 
         IsoSurface_tissues_pipe.connect(
-            bin_wm, 'out_file',
-            wm_erode, "in_file")
+            bin_gm, 'out_file',
+            gm_erode, "in_file")
 
         # keep_gcc_bin_mask
         gm_keep_gcc = pe.Node(
@@ -1110,18 +1110,18 @@ def create_open_IsoSurface_tissues_pipe(params={},
             name="gm_keep_gcc")
 
         IsoSurface_tissues_pipe.connect(
-            wm_erode, 'out_file',
+            gm_erode, 'out_file',
             gm_keep_gcc, "nii_file")
 
-        # wm_dilate
-        wm_dilate = NodeParams(
+        # gm_dilate
+        gm_dilate = NodeParams(
             interface=DilateImage(),
-            params=parse_key(params, "wm_dilate"),
-            name="wm_dilate")
+            params=parse_key(params, "gm_dilate"),
+            name="gm_dilate")
 
         IsoSurface_tissues_pipe.connect(
             gm_keep_gcc, 'gcc_nii_file',
-            wm_dilate, "in_file")
+            gm_dilate, "in_file")
     else:
 
         # gm_keep_gcc
@@ -1136,21 +1136,21 @@ def create_open_IsoSurface_tissues_pipe(params={},
             bin_gm, 'out_file',
             gm_keep_gcc, "nii_file")
 
-    # wm2mesh
-    wm2mesh = NodeParams(
+    # gm2mesh
+    gm2mesh = NodeParams(
         interface=IsoSurface(),
-        params=parse_key(params, "wm2mesh"),
-        name="wm2mesh")
+        params=parse_key(params, "gm2mesh"),
+        name="gm2mesh")
 
-    if "wm_dilate" in params and "wm_erode" in params:
+    if "gm_dilate" in params and "gm_erode" in params:
         IsoSurface_tissues_pipe.connect(
-            wm_dilate, "out_file",
-            wm2mesh, "nii_file")
+            gm_dilate, "out_file",
+            gm2mesh, "nii_file")
 
     else:
         IsoSurface_tissues_pipe.connect(
             gm_keep_gcc, 'gcc_nii_file',
-            wm2mesh, "nii_file")
+            gm2mesh, "nii_file")
 
 
 
