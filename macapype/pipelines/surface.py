@@ -956,17 +956,17 @@ def create_open_IsoSurface_tissues_pipe(params={},
             bin_wm, 'out_file',
             wm_erode, "in_file")
 
-        # keep_gcc_bin_mask
-        keep_gcc_bin_mask = pe.Node(
+        # wm_keep_gcc
+        wm_keep_gcc = pe.Node(
             interface=niu.Function(
                 input_names=["nii_file"],
                 output_names=["gcc_nii_file"],
                 function=keep_gcc),
-            name="keep_gcc_bin_mask")
+            name="wm_keep_gcc")
 
         IsoSurface_tissues_pipe.connect(
             wm_erode, 'out_file',
-            keep_gcc_bin_mask, "nii_file")
+            wm_keep_gcc, "nii_file")
 
         # wm_dilate
         wm_dilate = NodeParams(
@@ -975,21 +975,21 @@ def create_open_IsoSurface_tissues_pipe(params={},
             name="wm_dilate")
 
         IsoSurface_tissues_pipe.connect(
-            keep_gcc_bin_mask, 'gcc_nii_file',
+            wm_keep_gcc, 'gcc_nii_file',
             wm_dilate, "in_file")
     else:
 
-        # keep_gcc_bin_mask
-        keep_gcc_bin_mask = pe.Node(
+        # wm_keep_gcc
+        wm_keep_gcc = pe.Node(
             interface=niu.Function(
                 input_names=["nii_file"],
                 output_names=["gcc_nii_file"],
                 function=keep_gcc),
-            name="keep_gcc_bin_mask")
+            name="wm_keep_gcc")
 
         IsoSurface_tissues_pipe.connect(
-            merge_brain_tissues, 'mask_file',
-            keep_gcc_bin_mask, "nii_file")
+            bin_wm, 'out_file',
+            wm_keep_gcc, "nii_file")
 
     # wm2mesh
     wm2mesh = NodeParams(
@@ -1004,7 +1004,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
 
     else:
         IsoSurface_tissues_pipe.connect(
-            keep_gcc_bin_mask, 'gcc_nii_file',
+            wm_keep_gcc, 'gcc_nii_file',
             wm2mesh, "nii_file")
 
 
@@ -1029,17 +1029,17 @@ def create_open_IsoSurface_tissues_pipe(params={},
             bin_csf, 'out_file',
             csf_erode, "in_file")
 
-        # keep_gcc_bin_mask
-        keep_gcc_bin_mask = pe.Node(
+        # csf_keep_gcc
+        csf_keep_gcc = pe.Node(
             interface=niu.Function(
                 input_names=["nii_file"],
                 output_names=["gcc_nii_file"],
                 function=keep_gcc),
-            name="keep_gcc_bin_mask")
+            name="csf_keep_gcc")
 
         IsoSurface_tissues_pipe.connect(
             csf_erode, 'out_file',
-            keep_gcc_bin_mask, "nii_file")
+            csf_keep_gcc, "nii_file")
 
         # csf_dilate
         csf_dilate = NodeParams(
@@ -1048,21 +1048,21 @@ def create_open_IsoSurface_tissues_pipe(params={},
             name="csf_dilate")
 
         IsoSurface_tissues_pipe.connect(
-            keep_gcc_bin_mask, 'gcc_nii_file',
+            csf_keep_gcc, 'gcc_nii_file',
             csf_dilate, "in_file")
     else:
 
-        # keep_gcc_bin_mask
-        keep_gcc_bin_mask = pe.Node(
+        # csf_keep_gcc
+        csf_keep_gcc = pe.Node(
             interface=niu.Function(
                 input_names=["nii_file"],
                 output_names=["gcc_nii_file"],
                 function=keep_gcc),
-            name="keep_gcc_bin_mask")
+            name="csf_keep_gcc")
 
         IsoSurface_tissues_pipe.connect(
-            merge_brain_tissues, 'mask_file',
-            keep_gcc_bin_mask, "nii_file")
+            bin_csf, 'out_file',
+            csf_keep_gcc, "nii_file")
 
     # csf2mesh
     csf2mesh = NodeParams(
@@ -1077,7 +1077,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
 
     else:
         IsoSurface_tissues_pipe.connect(
-            keep_gcc_bin_mask, 'gcc_nii_file',
+            csf_keep_gcc, 'gcc_nii_file',
             csf2mesh, "nii_file")
 
 
@@ -1102,16 +1102,16 @@ def create_open_IsoSurface_tissues_pipe(params={},
             wm_erode, "in_file")
 
         # keep_gcc_bin_mask
-        keep_gcc_bin_mask = pe.Node(
+        gm_keep_gcc = pe.Node(
             interface=niu.Function(
                 input_names=["nii_file"],
                 output_names=["gcc_nii_file"],
                 function=keep_gcc),
-            name="keep_gcc_bin_mask")
+            name="gm_keep_gcc")
 
         IsoSurface_tissues_pipe.connect(
             wm_erode, 'out_file',
-            keep_gcc_bin_mask, "nii_file")
+            gm_keep_gcc, "nii_file")
 
         # wm_dilate
         wm_dilate = NodeParams(
@@ -1120,21 +1120,21 @@ def create_open_IsoSurface_tissues_pipe(params={},
             name="wm_dilate")
 
         IsoSurface_tissues_pipe.connect(
-            keep_gcc_bin_mask, 'gcc_nii_file',
+            gm_keep_gcc, 'gcc_nii_file',
             wm_dilate, "in_file")
     else:
 
-        # keep_gcc_bin_mask
-        keep_gcc_bin_mask = pe.Node(
+        # gm_keep_gcc
+        gm_keep_gcc = pe.Node(
             interface=niu.Function(
                 input_names=["nii_file"],
                 output_names=["gcc_nii_file"],
                 function=keep_gcc),
-            name="keep_gcc_bin_mask")
+            name="gm_keep_gcc")
 
         IsoSurface_tissues_pipe.connect(
-            merge_brain_tissues, 'mask_file',
-            keep_gcc_bin_mask, "nii_file")
+            bin_gm, 'out_file',
+            gm_keep_gcc, "nii_file")
 
     # wm2mesh
     wm2mesh = NodeParams(
@@ -1149,7 +1149,7 @@ def create_open_IsoSurface_tissues_pipe(params={},
 
     else:
         IsoSurface_tissues_pipe.connect(
-            keep_gcc_bin_mask, 'gcc_nii_file',
+            gm_keep_gcc, 'gcc_nii_file',
             wm2mesh, "nii_file")
 
 
