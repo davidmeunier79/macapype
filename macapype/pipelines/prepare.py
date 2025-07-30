@@ -588,13 +588,25 @@ def create_short_preparation_pipe(params, params_template={},
             N4debias_T2, "indiv_params")
 
         # outputnode
-        data_preparation_pipe.connect(
-            N4debias_T1, "output_image",
-            outputnode, "stereo_debiased_T1")
+        if "use_T2" in params.keys():
 
-        data_preparation_pipe.connect(
-            N4debias_T2, "output_image",
-            outputnode, "stereo_debiased_T2")
+            data_preparation_pipe.connect(
+                N4debias_T1, "output_image",
+                outputnode, "stereo_debiased_T2")
+
+            data_preparation_pipe.connect(
+                N4debias_T2, "output_image",
+                outputnode, "stereo_debiased_T1")
+
+        else:
+
+            data_preparation_pipe.connect(
+                N4debias_T1, "output_image",
+                outputnode, "stereo_debiased_T1")
+
+            data_preparation_pipe.connect(
+                N4debias_T2, "output_image",
+                outputnode, "stereo_debiased_T2")
 
     elif "fast" in params.keys():
 
@@ -647,13 +659,26 @@ def create_short_preparation_pipe(params, params_template={},
             fast_T2, "indiv_params")
 
         # outputnode
-        data_preparation_pipe.connect(
-            fast_T1, "restored_image",
-            outputnode, "stereo_debiased_T1")
 
-        data_preparation_pipe.connect(
-            fast_T2, "restored_image",
-            outputnode, "stereo_debiased_T2")
+        if "use_T2" in params.keys():
+
+            data_preparation_pipe.connect(
+                fast_T1, "restored_image",
+                outputnode, "stereo_debiased_T2")
+
+            data_preparation_pipe.connect(
+                fast_T2, "restored_image",
+                outputnode, "stereo_debiased_T1")
+
+        else:
+
+            data_preparation_pipe.connect(
+                fast_T1, "restored_image",
+                outputnode, "stereo_debiased_T1")
+
+            data_preparation_pipe.connect(
+                fast_T2, "restored_image",
+                outputnode, "stereo_debiased_T2")
 
     elif "itk_debias" in params:
 
@@ -663,7 +688,7 @@ def create_short_preparation_pipe(params, params_template={},
         itk_debias_T1 = NodeParams(
             interface=niu.Function(
                 input_names=["img_file"],
-                output_names=["cor_img_file", "bias_img_file"],
+                output_names=["cor_img_file", "bias_img_file", "mask_file"],
                 function=itk_debias),
             params=parse_key(params, "itk_debias"),
             name='itk_debias_T1')
@@ -681,7 +706,7 @@ def create_short_preparation_pipe(params, params_template={},
         itk_debias_T2 = NodeParams(
             interface=niu.Function(
                 input_names=["img_file"],
-                output_names=["cor_img_file", "bias_img_file"],
+                output_names=["cor_img_file", "bias_img_file", "mask_file"],
                 function=itk_debias),
             params=parse_key(params, "itk_debias"),
             name='itk_debias_T2')
@@ -696,33 +721,71 @@ def create_short_preparation_pipe(params, params_template={},
                 itk_debias_T2, "img_file")
 
         # outputnode
-        data_preparation_pipe.connect(
-            itk_debias_T1, "cor_img_file",
-            outputnode, "stereo_debiased_T1")
 
-        data_preparation_pipe.connect(
-            itk_debias_T2, "cor_img_file",
-            outputnode, "stereo_debiased_T2")
+        if "use_T2" in params.keys():
+
+            data_preparation_pipe.connect(
+                itk_debias_T1, "cor_img_file",
+                outputnode, "stereo_debiased_T2")
+
+            data_preparation_pipe.connect(
+                itk_debias_T2, "cor_img_file",
+                outputnode, "stereo_debiased_T1")
+
+        else:
+
+            data_preparation_pipe.connect(
+                itk_debias_T1, "cor_img_file",
+                outputnode, "stereo_debiased_T1")
+
+            data_preparation_pipe.connect(
+                itk_debias_T2, "cor_img_file",
+                outputnode, "stereo_debiased_T2")
 
     else:
         print("No debias will be performed before extract_pipe")
 
         if "denoise" in params.keys():
-            data_preparation_pipe.connect(
-                denoise_T1, "output_image",
-                outputnode, "stereo_debiased_T1")
 
-            data_preparation_pipe.connect(
-                denoise_T2, "output_image",
-                outputnode, "stereo_debiased_T2")
+            if "use_T2" in params.keys():
+
+                data_preparation_pipe.connect(
+                    denoise_T1, "output_image",
+                    outputnode, "stereo_debiased_T2")
+
+                data_preparation_pipe.connect(
+                    denoise_T2, "output_image",
+                    outputnode, "stereo_debiased_T1")
+            else:
+
+                data_preparation_pipe.connect(
+                    denoise_T1, "output_image",
+                    outputnode, "stereo_debiased_T1")
+
+                data_preparation_pipe.connect(
+                    denoise_T2, "output_image",
+                    outputnode, "stereo_debiased_T2")
+
         else:
-            data_preparation_pipe.connect(
-                crop_aladin_pipe, "outputnode.stereo_T1",
-                outputnode, "stereo_debiased_T1")
 
-            data_preparation_pipe.connect(
-                apply_crop_aladin_T2, 'out_file',
-                outputnode, "stereo_debiased_T2")
+            if "use_T2" in params.keys():
+
+                data_preparation_pipe.connect(
+                    crop_aladin_pipe, "outputnode.stereo_T1",
+                    outputnode, "stereo_debiased_T2")
+
+                data_preparation_pipe.connect(
+                    apply_crop_aladin_T2, 'out_file',
+                    outputnode, "stereo_debiased_T1")
+            else:
+
+                data_preparation_pipe.connect(
+                    crop_aladin_pipe, "outputnode.stereo_T1",
+                    outputnode, "stereo_debiased_T1")
+
+                data_preparation_pipe.connect(
+                    apply_crop_aladin_T2, 'out_file',
+                    outputnode, "stereo_debiased_T2")
 
     # resample T1 to higher dimension
     if "pad_template" in params.keys():

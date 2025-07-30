@@ -258,4 +258,4 @@ def itk_debias(img_file):
     mask_img_file = os.path.abspath(fname + "_mask" + ext)
     sitk.WriteImage(input_image_mask, mask_img_file)
 
-    return cor_img_file, bias_img_file
+    return cor_img_file, bias_img_file, mask_img_file

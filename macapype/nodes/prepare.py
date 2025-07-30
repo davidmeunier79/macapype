@@ -273,7 +273,7 @@ class CropVolume(CommandLine):
 
 ###############################################################################
 # Equivalent of flirt_average in FSL
-def average_align(list_img, reorient=False):
+def average_align(list_img, reorient=False, max_index=None):
 
     import os
     import nibabel as nib
@@ -299,7 +299,16 @@ def average_align(list_img, reorient=False):
             data_0_shape = data_0.shape
             list_data = [data_0]
 
-            for i, img in enumerate(list_img[1:]):
+            if max_index is not None:
+                assert max_index < len(list_img), f"Error with {max_index=}"
+
+            for i, img in enumerate(list_img[1:], 1):
+
+                if max_index is not None:
+                    if i > max_index:
+                        print(f"Iter {i=} higher than {max_index=}")
+                        continue
+
                 data_orig_shape = nib.load(img).get_fdata().shape
                 if data_orig_shape != data_0_shape:
                     print(f"**** Warning , original image shape \

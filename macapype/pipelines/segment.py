@@ -375,16 +375,6 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
 
         seg_at.inputs.prior_weight = params["use_priors"]
 
-    # split dseg_mask
-    split_dseg_mask = pe.Node(
-        interface=niu.Function(input_names=["nii_file"],
-                               output_names=["list_split_files"],
-                               function=split_indexed_mask),
-        name="split_dseg_mask")
-
-    segment_pipe.connect(seg_at, 'segmented_file',
-                         split_dseg_mask, "nii_file")
-
     # on segmentation indexed mask (with labels)
     outputnode = pe.Node(
         niu.IdentityInterface(
@@ -395,6 +385,16 @@ def create_segment_atropos_pipe(params={}, name="segment_atropos_pipe"):
 
     segment_pipe.connect(seg_at, 'segmented_file',
                          outputnode, 'segmented_file')
+
+    # split dseg_mask
+    split_dseg_mask = pe.Node(
+        interface=niu.Function(input_names=["nii_file"],
+                               output_names=["list_split_files"],
+                               function=split_indexed_mask),
+        name="split_dseg_mask")
+
+    segment_pipe.connect(seg_at, 'segmented_file',
+                         split_dseg_mask, "nii_file")
 
     if "tissue_dict" in params.keys():
         tissue_dict = params["tissue_dict"]

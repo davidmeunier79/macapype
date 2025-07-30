@@ -944,35 +944,52 @@ def create_open_IsoSurface_tissues_pipe(params={},
     IsoSurface_tissues_pipe.connect(inputnode, 'threshold_wm',
                                     bin_wm, 'in_file')
 
-    # wm_dilate
-    wm_dilate = NodeParams(
-        interface=DilateImage(),
-        params=parse_key(params, "wm_dilate"),
-        name="wm_dilate")
+    if "wm_dilate" in params and "wm_erode" in params:
 
-    IsoSurface_tissues_pipe.connect(
-        bin_wm, 'out_file',
-        wm_dilate, "in_file")
+        # wm_erode
+        wm_erode = NodeParams(
+            interface=ErodeImage(),
+            params=parse_key(params, "wm_erode"),
+            name="wm_erode")
 
-    # keep_gcc_wm_mask
-    keep_gcc_wm_mask = pe.Node(
-        interface=niu.Function(input_names=["nii_file"],
-                               output_names=["gcc_nii_file"],
-                               function=keep_gcc),
-        name="keep_gcc_wm_mask")
+        IsoSurface_tissues_pipe.connect(
+            bin_wm, 'out_file',
+            wm_erode, "in_file")
 
-    IsoSurface_tissues_pipe.connect(wm_dilate, 'out_file',
-                                    keep_gcc_wm_mask, "nii_file")
+        # wm_keep_gcc
+        wm_keep_gcc = pe.Node(
+            interface=niu.Function(
+                input_names=["nii_file"],
+                output_names=["gcc_nii_file"],
+                function=keep_gcc),
+            name="wm_keep_gcc")
 
-    # wm_erode
-    wm_erode = NodeParams(
-        interface=ErodeImage(),
-        params=parse_key(params, "wm_erode"),
-        name="wm_erode")
+        IsoSurface_tissues_pipe.connect(
+            wm_erode, 'out_file',
+            wm_keep_gcc, "nii_file")
 
-    IsoSurface_tissues_pipe.connect(
-        keep_gcc_wm_mask, "gcc_nii_file",
-        wm_erode, "in_file")
+        # wm_dilate
+        wm_dilate = NodeParams(
+            interface=DilateImage(),
+            params=parse_key(params, "wm_dilate"),
+            name="wm_dilate")
+
+        IsoSurface_tissues_pipe.connect(
+            wm_keep_gcc, 'gcc_nii_file',
+            wm_dilate, "in_file")
+    else:
+
+        # wm_keep_gcc
+        wm_keep_gcc = pe.Node(
+            interface=niu.Function(
+                input_names=["nii_file"],
+                output_names=["gcc_nii_file"],
+                function=keep_gcc),
+            name="wm_keep_gcc")
+
+        IsoSurface_tissues_pipe.connect(
+            bin_wm, 'out_file',
+            wm_keep_gcc, "nii_file")
 
     # wm2mesh
     wm2mesh = NodeParams(
@@ -980,8 +997,15 @@ def create_open_IsoSurface_tissues_pipe(params={},
         params=parse_key(params, "wm2mesh"),
         name="wm2mesh")
 
-    IsoSurface_tissues_pipe.connect(wm_erode, 'out_file',
-                                    wm2mesh, "nii_file")
+    if "wm_dilate" in params and "wm_erode" in params:
+        IsoSurface_tissues_pipe.connect(
+            wm_dilate, "out_file",
+            wm2mesh, "nii_file")
+
+    else:
+        IsoSurface_tissues_pipe.connect(
+            wm_keep_gcc, 'gcc_nii_file',
+            wm2mesh, "nii_file")
 
     # ######### csf mesh
     # bin_csf
@@ -991,35 +1015,52 @@ def create_open_IsoSurface_tissues_pipe(params={},
     IsoSurface_tissues_pipe.connect(inputnode, 'threshold_csf',
                                     bin_csf, 'in_file')
 
-    # csf_dilate
-    csf_dilate = NodeParams(
-        interface=DilateImage(),
-        params=parse_key(params, "csf_dilate"),
-        name="csf_dilate")
+    if "csf_dilate" in params and "csf_erode" in params:
 
-    IsoSurface_tissues_pipe.connect(
-        bin_csf, 'out_file',
-        csf_dilate, "in_file")
+        # csf_erode
+        csf_erode = NodeParams(
+            interface=ErodeImage(),
+            params=parse_key(params, "csf_erode"),
+            name="csf_erode")
 
-    # keep_gcc_csf_mask
-    keep_gcc_csf_mask = pe.Node(
-        interface=niu.Function(input_names=["nii_file"],
-                               output_names=["gcc_nii_file"],
-                               function=keep_gcc),
-        name="keep_gcc_csf_mask")
+        IsoSurface_tissues_pipe.connect(
+            bin_csf, 'out_file',
+            csf_erode, "in_file")
 
-    IsoSurface_tissues_pipe.connect(csf_dilate, 'out_file',
-                                    keep_gcc_csf_mask, "nii_file")
+        # csf_keep_gcc
+        csf_keep_gcc = pe.Node(
+            interface=niu.Function(
+                input_names=["nii_file"],
+                output_names=["gcc_nii_file"],
+                function=keep_gcc),
+            name="csf_keep_gcc")
 
-    # csf_erode
-    csf_erode = NodeParams(
-        interface=ErodeImage(),
-        params=parse_key(params, "csf_erode"),
-        name="csf_erode")
+        IsoSurface_tissues_pipe.connect(
+            csf_erode, 'out_file',
+            csf_keep_gcc, "nii_file")
 
-    IsoSurface_tissues_pipe.connect(
-        keep_gcc_csf_mask, "gcc_nii_file",
-        csf_erode, "in_file")
+        # csf_dilate
+        csf_dilate = NodeParams(
+            interface=DilateImage(),
+            params=parse_key(params, "csf_dilate"),
+            name="csf_dilate")
+
+        IsoSurface_tissues_pipe.connect(
+            csf_keep_gcc, 'gcc_nii_file',
+            csf_dilate, "in_file")
+    else:
+
+        # csf_keep_gcc
+        csf_keep_gcc = pe.Node(
+            interface=niu.Function(
+                input_names=["nii_file"],
+                output_names=["gcc_nii_file"],
+                function=keep_gcc),
+            name="csf_keep_gcc")
+
+        IsoSurface_tissues_pipe.connect(
+            bin_csf, 'out_file',
+            csf_keep_gcc, "nii_file")
 
     # csf2mesh
     csf2mesh = NodeParams(
@@ -1027,8 +1068,15 @@ def create_open_IsoSurface_tissues_pipe(params={},
         params=parse_key(params, "csf2mesh"),
         name="csf2mesh")
 
-    IsoSurface_tissues_pipe.connect(csf_erode, 'out_file',
-                                    csf2mesh, "nii_file")
+    if "csf_dilate" in params and "csf_erode" in params:
+        IsoSurface_tissues_pipe.connect(
+            csf_dilate, "out_file",
+            csf2mesh, "nii_file")
+
+    else:
+        IsoSurface_tissues_pipe.connect(
+            csf_keep_gcc, 'gcc_nii_file',
+            csf2mesh, "nii_file")
 
     # ######### gm mesh
     # bin_gm
@@ -1038,35 +1086,52 @@ def create_open_IsoSurface_tissues_pipe(params={},
     IsoSurface_tissues_pipe.connect(inputnode, 'threshold_gm',
                                     bin_gm, 'in_file')
 
-    # gm_dilate
-    gm_dilate = NodeParams(
-        interface=DilateImage(),
-        params=parse_key(params, "gm_dilate"),
-        name="gm_dilate")
+    if "gm_dilate" in params and "gm_erode" in params:
 
-    IsoSurface_tissues_pipe.connect(
-        bin_gm, 'out_file',
-        gm_dilate, "in_file")
+        # gm_erode
+        gm_erode = NodeParams(
+            interface=ErodeImage(),
+            params=parse_key(params, "gm_erode"),
+            name="gm_erode")
 
-    # keep_gcc_gm_mask
-    keep_gcc_gm_mask = pe.Node(
-        interface=niu.Function(input_names=["nii_file"],
-                               output_names=["gcc_nii_file"],
-                               function=keep_gcc),
-        name="keep_gcc_gm_mask")
+        IsoSurface_tissues_pipe.connect(
+            bin_gm, 'out_file',
+            gm_erode, "in_file")
 
-    IsoSurface_tissues_pipe.connect(gm_dilate, 'out_file',
-                                    keep_gcc_gm_mask, "nii_file")
+        # keep_gcc_bin_mask
+        gm_keep_gcc = pe.Node(
+            interface=niu.Function(
+                input_names=["nii_file"],
+                output_names=["gcc_nii_file"],
+                function=keep_gcc),
+            name="gm_keep_gcc")
 
-    # gm_erode
-    gm_erode = NodeParams(
-        interface=ErodeImage(),
-        params=parse_key(params, "gm_erode"),
-        name="gm_erode")
+        IsoSurface_tissues_pipe.connect(
+            gm_erode, 'out_file',
+            gm_keep_gcc, "nii_file")
 
-    IsoSurface_tissues_pipe.connect(
-        keep_gcc_gm_mask, "gcc_nii_file",
-        gm_erode, "in_file")
+        # gm_dilate
+        gm_dilate = NodeParams(
+            interface=DilateImage(),
+            params=parse_key(params, "gm_dilate"),
+            name="gm_dilate")
+
+        IsoSurface_tissues_pipe.connect(
+            gm_keep_gcc, 'gcc_nii_file',
+            gm_dilate, "in_file")
+    else:
+
+        # gm_keep_gcc
+        gm_keep_gcc = pe.Node(
+            interface=niu.Function(
+                input_names=["nii_file"],
+                output_names=["gcc_nii_file"],
+                function=keep_gcc),
+            name="gm_keep_gcc")
+
+        IsoSurface_tissues_pipe.connect(
+            bin_gm, 'out_file',
+            gm_keep_gcc, "nii_file")
 
     # gm2mesh
     gm2mesh = NodeParams(
@@ -1074,8 +1139,15 @@ def create_open_IsoSurface_tissues_pipe(params={},
         params=parse_key(params, "gm2mesh"),
         name="gm2mesh")
 
-    IsoSurface_tissues_pipe.connect(gm_erode, 'out_file',
-                                    gm2mesh, "nii_file")
+    if "gm_dilate" in params and "gm_erode" in params:
+        IsoSurface_tissues_pipe.connect(
+            gm_dilate, "out_file",
+            gm2mesh, "nii_file")
+
+    else:
+        IsoSurface_tissues_pipe.connect(
+            gm_keep_gcc, 'gcc_nii_file',
+            gm2mesh, "nii_file")
 
     # ####outputnode
     outputnode = pe.Node(

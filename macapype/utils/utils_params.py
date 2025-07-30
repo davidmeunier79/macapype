@@ -190,70 +190,73 @@ def update_params(ssoft=[], subjects=None, sessions=None,
         params["short_preparation_pipe"]["N4debias"] = params["N4debias"]
         del params["N4debias"]
 
-    # ANTS
-    if "ants" in ssoft:
-        print("Found ants in soft")
+    if "noseg" in ssoft:
+        print("Found noseg in soft")
+        if "brain_segment_pipe" in params.keys():
+            del params["brain_segment_pipe"]
+            print("Deleting brain_segment_pipe")
 
-        if "noseg" in ssoft:
-            print("Found noseg in soft")
-            if "brain_segment_pipe" in params.keys():
-                del params["brain_segment_pipe"]
-                print("Deleting brain_segment_pipe")
+        if "old_segment_pipe" in params.keys():
+            del params["old_segment_pipe"]
+            print("Deleting old_segment_pipe")
 
-        if "prep" in ssoft:
-            print("Found prep in soft")
+        if "mask_from_seg_pipe" in params.keys():
+            del params["mask_from_seg_pipe"]
+            print("Deleting mask_from_seg_pipe")
 
-            # brain mask
-            if "extract_pipe" in params.keys():
-                del params["extract_pipe"]
-                print("Deleting extract_pipe")
+        if "IsoSurface_brain_pipe" in params.keys():
+            del params["IsoSurface_brain_pipe"]
+            print("Deleting IsoSurface_brain_pipe")
 
-            # masked debias
-            if "masked_correct_bias_pipe" in params.keys():
-                del params["masked_correct_bias_pipe"]
-                print("Deleting masked_correct_bias_pipe")
+        if "IsoSurface_tissues_pipe" in params.keys():
+            del params["IsoSurface_tissues_pipe"]
+            print("Deleting IsoSurface_tissues_pipe")
 
-            if "debias" in params.keys():
-                del params["debias"]
-                print("Deleting debias")
+        if "export_5tt_pipe" in params.keys():
+            del params["export_5tt_pipe"]
+            print("Deleting export_5tt_pipe")
 
-            # segment
-            if "brain_segment_pipe" in params.keys():
-                del params["brain_segment_pipe"]
-                print("Deleting brain_segment_pipe")
+    if "prep" in ssoft:
+        print("Found prep in soft")
 
-    # SPM
-    if "spm" in ssoft:
-        print("Found spm in soft")
+        # brain mask
+        if "extract_pipe" in params.keys():
+            del params["extract_pipe"]
+            print("Deleting extract_pipe")
 
-        if "noseg" in ssoft:
-            print("Found noseg in soft")
-            if "old_segment_pipe" in params.keys():
-                del params["old_segment_pipe"]
-                print("Deleting old_segment_pipe")
+        # masked debias
+        if "masked_correct_bias_pipe" in params.keys():
+            del params["masked_correct_bias_pipe"]
+            print("Deleting masked_correct_bias_pipe")
 
-            if "mask_from_seg_pipe" in params.keys():
-                del params["mask_from_seg_pipe"]
-                print("Deleting mask_from_seg_pipe")
+        if "debias" in params.keys():
+            del params["debias"]
+            print("Deleting debias")
 
-        if "prep" in ssoft:
-            print("Found prep in soft")
+        # segment
+        if "brain_segment_pipe" in params.keys():
+            del params["brain_segment_pipe"]
+            print("Deleting brain_segment_pipe")
 
-            if "debias" in params.keys():
-                del params["debias"]
-                print("Deleting debias")
+        if "old_segment_pipe" in params.keys():
+            del params["old_segment_pipe"]
+            print("Deleting old_segment_pipe")
 
-            if "reg" in params.keys():
-                del params["reg"]
-                print("Deleting debias")
+        if "mask_from_seg_pipe" in params.keys():
+            del params["mask_from_seg_pipe"]
+            print("Deleting mask_from_seg_pipe")
 
-            if "old_segment_pipe" in params.keys():
-                del params["old_segment_pipe"]
-                print("Deleting old_segment_pipe")
+        if "IsoSurface_brain_pipe" in params.keys():
+            del params["IsoSurface_brain_pipe"]
+            print("Deleting IsoSurface_brain_pipe")
 
-            if "mask_from_seg_pipe" in params.keys():
-                del params["mask_from_seg_pipe"]
-                print("Deleting mask_from_seg_pipe")
+        if "IsoSurface_tissues_pipe" in params.keys():
+            del params["IsoSurface_tissues_pipe"]
+            print("Deleting IsoSurface_tissues_pipe")
+
+        if "export_5tt_pipe" in params.keys():
+            del params["export_5tt_pipe"]
+            print("Deleting export_5tt_pipe")
 
     print("After modif, running with params:")
     pprint.pprint(params)
