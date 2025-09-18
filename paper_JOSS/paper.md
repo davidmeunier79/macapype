@@ -19,7 +19,7 @@ authors:
     affiliation: 4
   - name: Bastien Cagna
     orcid: 0009-0005-4243-5234
-    affiliation: 2,3
+    affiliation: "2,3"
   - name: Regis Trapeau
     orcid: 0000-0003-1137-8669
     affiliation: 1
