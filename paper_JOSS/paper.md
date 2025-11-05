@@ -60,7 +60,7 @@ In this context, we propose a general framework for the tissue segmentation of n
 
 The Macapype package was specifically designed to provide wraps of custom tools specific to NHP anatomical MRI preprocessingn, as well pipelines and workflows to achieve high-quality automated tissue segmentation of NHP anatomical images. In particular, the tuning of parameters for different species, should be possible if needed via the use parameters files
 
-![Different pipelines are chained\label{pipeline}](./pipelines2.png)
+![Different pipelines are chained\label{pipeline}](./pipelines.png)
 
 ## Pipelines
 
