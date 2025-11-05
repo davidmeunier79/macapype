@@ -66,6 +66,10 @@ The Macapype package was specifically designed to provide wraps of custom tools 
 
 Macapype provides configurable pipelines organized in three steps: data preparation, brain extraction, and brain segmentation. Post-processing allows for conversion to format for further processing outside Macapype.
 
+## Pipelines
+
+Macapype provides configurable pipelines organized in three steps: data preparation, brain extraction, and brain segmentation. Post-processing allows for conversion to format for further processing outside Macapype.
+
 ### Data Preparation Pipeline
 
 The data preparation pipeline is specified in a JSON parameters file and depends on individual parameters. If cropping parameters are absent, Macapype performs an automated but low-precision crop. The input volume is reoriented in a standard space, and denoising and debiasing steps are performed.
