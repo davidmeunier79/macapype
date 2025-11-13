@@ -526,7 +526,7 @@ def equal_header_forms(img_file):
     # save modified_img_file
     fpath, fname, ext = split_f(img_file)
     modified_img_file = os.path.abspath(fname + "_hforms" + ext)
-    modified_img = nib.Nifti1Image(img.get_fdata,
+    modified_img = nib.Nifti1Image(img.get_fdata(),
                                    affine=img.affine,
                                    header=header_img)
     nib.save(modified_img, modified_img_file)
