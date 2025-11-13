@@ -508,21 +508,28 @@ def create_short_preparation_pipe(params, params_template={},
     # outputnode (stereo)
     if "use_T2" in params.keys():
         data_preparation_pipe.connect(
-            crop_aladin_pipe, "outputnode.stereo_T1",
+            equal_hforms_stereo_T1, "modified_img_file",
+            #crop_aladin_pipe, "outputnode.stereo_T1",
             outputnode, 'stereo_T2')
 
         data_preparation_pipe.connect(
-            apply_crop_aladin_T2, 'out_file',
+
+            equal_hforms_stereo_T2, "modified_img_file",
+            #apply_crop_aladin_T2, 'out_file',
             outputnode, 'stereo_T1')
 
     else:
 
         data_preparation_pipe.connect(
-            crop_aladin_pipe, "outputnode.stereo_T1",
+
+            equal_hforms_stereo_T1, "modified_img_file",
+            #crop_aladin_pipe, "outputnode.stereo_T1",
             outputnode, 'stereo_T1')
 
         data_preparation_pipe.connect(
-            apply_crop_aladin_T2, 'out_file',
+
+            equal_hforms_stereo_T2, "modified_img_file",
+            #apply_crop_aladin_T2, 'out_file',
             outputnode, 'stereo_T2')
 
     # denoise with Ants package
@@ -537,11 +544,15 @@ def create_short_preparation_pipe(params, params_template={},
                                 name="denoise_T2")
         # inputs
         data_preparation_pipe.connect(
-            crop_aladin_pipe, "outputnode.stereo_T1",
+
+            equal_hforms_stereo_T1, "modified_img_file",
+            #crop_aladin_pipe, "outputnode.stereo_T1",
             denoise_T1, 'input_image')
 
         data_preparation_pipe.connect(
-            apply_crop_aladin_T2, 'out_file',
+
+            equal_hforms_stereo_T2, "modified_img_file",
+            #apply_crop_aladin_T2, 'out_file',
             denoise_T2, 'input_image')
 
         # outputs
@@ -583,7 +594,9 @@ def create_short_preparation_pipe(params, params_template={},
                 N4debias_T1, "input_image")
         else:
             data_preparation_pipe.connect(
-                crop_aladin_pipe, "outputnode.stereo_T1",
+
+                equal_hforms_stereo_T1, "modified_img_file",
+                #crop_aladin_pipe, "outputnode.stereo_T1",
                 N4debias_T1, "input_image")
 
         data_preparation_pipe.connect(
@@ -601,7 +614,9 @@ def create_short_preparation_pipe(params, params_template={},
                 N4debias_T2, "input_image")
         else:
             data_preparation_pipe.connect(
-                apply_crop_aladin_T2, 'out_file',
+
+                equal_hforms_stereo_T2, "modified_img_file",
+                #apply_crop_aladin_T2, 'out_file',
                 N4debias_T2, "input_image")
 
         data_preparation_pipe.connect(
@@ -649,7 +664,9 @@ def create_short_preparation_pipe(params, params_template={},
                 fast_T1, "in_files")
         else:
             data_preparation_pipe.connect(
-                crop_aladin_pipe, "outputnode.stereo_T1",
+
+                equal_hforms_stereo_T1, "modified_img_file",
+                #crop_aladin_pipe, "outputnode.stereo_T1",
                 fast_T1, "in_files")
 
         data_preparation_pipe.connect(
@@ -672,7 +689,9 @@ def create_short_preparation_pipe(params, params_template={},
                 fast_T2, "in_files")
         else:
             data_preparation_pipe.connect(
-                apply_crop_aladin_T2, 'out_file',
+
+                equal_hforms_stereo_T2, "modified_img_file",
+                #apply_crop_aladin_T2, 'out_file',
                 fast_T2, "in_files")
 
         data_preparation_pipe.connect(
@@ -720,7 +739,9 @@ def create_short_preparation_pipe(params, params_template={},
                 itk_debias_T1, "img_file")
         else:
             data_preparation_pipe.connect(
-                crop_aladin_pipe, "outputnode.stereo_T1",
+
+                equal_hforms_stereo_T1, "modified_img_file",
+                #crop_aladin_pipe, "outputnode.stereo_T1",
                 itk_debias_T1, "img_file")
 
         # itk_debias over T2
@@ -738,7 +759,9 @@ def create_short_preparation_pipe(params, params_template={},
                 itk_debias_T2, "img_file")
         else:
             data_preparation_pipe.connect(
-                apply_crop_aladin_T2, 'out_file',
+
+                equal_hforms_stereo_T2, "modified_img_file",
+                #apply_crop_aladin_T2, 'out_file',
                 itk_debias_T2, "img_file")
 
         # outputnode
@@ -792,20 +815,27 @@ def create_short_preparation_pipe(params, params_template={},
             if "use_T2" in params.keys():
 
                 data_preparation_pipe.connect(
-                    crop_aladin_pipe, "outputnode.stereo_T1",
+
+                    equal_hforms_stereo_T1, "modified_img_file",
+                    #crop_aladin_pipe, "outputnode.stereo_T1",
                     outputnode, "stereo_debiased_T2")
 
                 data_preparation_pipe.connect(
-                    apply_crop_aladin_T2, 'out_file',
+
+                    equal_hforms_stereo_T2, "modified_img_file",
+                    #apply_crop_aladin_T2, 'out_file',
                     outputnode, "stereo_debiased_T1")
             else:
 
                 data_preparation_pipe.connect(
-                    crop_aladin_pipe, "outputnode.stereo_T1",
+
+                    equal_hforms_stereo_T1, "modified_img_file",
+                    #crop_aladin_pipe, "outputnode.stereo_T1",
                     outputnode, "stereo_debiased_T1")
 
                 data_preparation_pipe.connect(
-                    apply_crop_aladin_T2, 'out_file',
+                    equal_hforms_stereo_T2, "modified_img_file",
+                    #apply_crop_aladin_T2, 'out_file',
                     outputnode, "stereo_debiased_T2")
 
     # resample T1 to higher dimension
