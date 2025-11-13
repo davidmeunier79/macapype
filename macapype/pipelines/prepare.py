@@ -484,7 +484,7 @@ def create_short_preparation_pipe(params, params_template={},
 
     data_preparation_pipe.connect(
         apply_crop_aladin_T2, 'out_file',
-        equal_hforms_stereo_T1, 'img_file')
+        equal_hforms_stereo_T2, 'img_file')
 
     # compute inv transfo
     inv_tranfo = NodeParams(
