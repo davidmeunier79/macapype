@@ -14,7 +14,7 @@ from nipype.interfaces.ants.segmentation import DenoiseImage
 from ..utils.utils_nodes import NodeParams
 from ..utils.misc import parse_key
 
-from ..nodes.prepare import average_align
+from ..nodes.prepare import average_align, equal_header_forms
 
 from ..nodes.register import pad_zero_mri
 
@@ -464,6 +464,27 @@ def create_short_preparation_pipe(params, params_template={},
     data_preparation_pipe.connect(
         crop_aladin_pipe, 'outputnode.stereo_T1',
         apply_crop_aladin_T2, 'ref_file')
+
+
+    # copying header from img to csf_prior_file
+    equal_hforms_stereo_T1 = pe.Node(niu.Function(
+        input_names=['img_file'],
+        output_names=['modified_img_file'],
+        function=equal_header_forms), name='equal_hforms_stereo_T1')
+
+    data_preparation_pipe.connect(
+        crop_aladin_pipe, "outputnode.stereo_T1",
+        equal_hforms_stereo_T1, 'img_file')
+
+    # copying header from img to csf_prior_file
+    equal_hforms_stereo_T2 = pe.Node(niu.Function(
+        input_names=['img_file'],
+        output_names=['modified_img_file'],
+        function=equal_header_forms), name='equal_hforms_stereo_T2')
+
+    data_preparation_pipe.connect(
+        apply_crop_aladin_T2, 'out_file',
+        equal_hforms_stereo_T1, 'img_file')
 
     # compute inv transfo
     inv_tranfo = NodeParams(

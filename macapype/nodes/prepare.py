@@ -494,6 +494,48 @@ def apply_li_thresh(orig_img_file):
 
     return lithr_img_file
 
+def equal_header_forms(img_file):
+
+    import os
+    import nibabel as nib
+    import numpy as np
+
+    from nipype.utils.filemanip import split_filename as split_f
+
+
+    # orig image
+    img = nib.load(img_file)
+
+    # handle header forms
+    header_img = img.header
+
+    print(header_img)
+
+    sform = header_img.get_sform()
+    print(sform)
+    qform = header_img.get_qform()
+    print(qform)
+
+
+    sform = header_img.get_sform(coded = True)
+    print(sform)
+    qform = header_img.get_qform(coded = True)
+    print(qform)
+
+    0/0
+
+    # save modified_img_file
+    fpath, fname, ext = split_f(img_file)
+    modified_img_file = os.path.abspath(fname + "_hforms" + ext)
+    img_lithresh = nib.Nifti1Image(img.get_fdata,
+                                   affine=img.affine,
+                                   header=)
+    nib.save(img_lithresh, lithr_img_file)
+
+    return modified_img_file
+
+
+
 
 if __name__ == '__main__':
 
