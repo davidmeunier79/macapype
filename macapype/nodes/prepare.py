@@ -524,12 +524,13 @@ def equal_header_forms(img_file):
 
     0/0
 
+    header_img.set_sform(qform)
     # save modified_img_file
     fpath, fname, ext = split_f(img_file)
     modified_img_file = os.path.abspath(fname + "_hforms" + ext)
     img_lithresh = nib.Nifti1Image(img.get_fdata,
                                    affine=img.affine,
-                                   header=)
+                                   header=header_img)
     nib.save(img_lithresh, lithr_img_file)
 
     return modified_img_file
