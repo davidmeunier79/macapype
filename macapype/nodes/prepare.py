@@ -516,11 +516,11 @@ def equal_header_forms(img_file):
     qform = header_img.get_qform()
     print(qform)
 
-
-    sform = header_img.get_sform(coded = True)
-    print(sform)
-    qform = header_img.get_qform(coded = True)
-    print(qform)
+    #
+    # sform = header_img.get_sform(coded = True)
+    # print(sform)
+    # qform = header_img.get_qform(coded = True)
+    # print(qform)
 
     header_img.set_qform(sform)
     # save modified_img_file
