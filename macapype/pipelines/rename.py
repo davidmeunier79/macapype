@@ -504,7 +504,7 @@ def rename_all_brain_derivatives(params, main_workflow, segment_pnh_pipe,
             rename_stereo_padded_wmgm_mask = pe.Node(
                 niu.Rename(),
                 name="v")
-            v.inputs.format_string = \
+            rename_stereo_padded_wmgm_mask.inputs.format_string = \
                 pref_deriv + "_space-stereo_desc-pad_desc-wmgm_mask"
             rename_stereo_padded_wmgm_mask.inputs.parse_string = \
                 parse_str
