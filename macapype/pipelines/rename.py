@@ -512,7 +512,7 @@ def rename_all_brain_derivatives(params, main_workflow, segment_pnh_pipe,
 
             main_workflow.connect(
                 segment_pnh_pipe,
-                'outputnode.stereo_padded_segmented_brain_mask',
+                'outputnode.stereo_padded_wmgm_mask',
                 rename_stereo_padded_wmgm_mask, 'in_file')
 
             main_workflow.connect(
