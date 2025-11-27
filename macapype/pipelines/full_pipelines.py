@@ -1271,7 +1271,7 @@ def create_full_T1T2_subpipes(
                 pad_stereo_wmgm_mask, "op1")
 
             seg_pipe.connect(
-                pad_stereo_stereo_brain_mask, "output_image",
+                pad_stereo_wmgm_mask, "output_image",
                 outputnode, "stereo_padded_wmgm_mask")
 
     if "IsoSurface_tissues_pipe" in params:
