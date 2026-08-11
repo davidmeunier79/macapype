@@ -135,7 +135,7 @@
 </ul>
 </li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Useful tips (before processing)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-orient-the-labels-your-images">How to orient the labels your images ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-orient-the-axis-labels-your-images">How to orient the axis labels your images ?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-tilt-the-orientation-of-your-images">How to tilt the orientation of your images ?</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#nudging-the-image-with-fsleyes">Nudging the image with FSLEyes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#in-fsleyes">In FSLEyes</a></li>
@@ -169,7 +169,7 @@
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="indiv_params.html">Individual Parameters</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Useful tips (before processing)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-orient-the-labels-your-images">How to orient the labels your images ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-orient-the-axis-labels-your-images">How to orient the axis labels your images ?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-tilt-the-orientation-of-your-images">How to tilt the orientation of your images ?</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#nudging-the-image-with-fsleyes">Nudging the image with FSLEyes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#in-fsleyes">In FSLEyes</a></li>
@@ -225,7 +225,7 @@
 <li class="toctree-l1"><a class="reference internal" href="params.html">Parameters</a></li>
 <li class="toctree-l1"><a class="reference internal" href="indiv_params.html">Individual Parameters</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Useful tips (before processing)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#how-to-orient-the-labels-your-images">How to orient the labels your images ?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-to-orient-the-axis-labels-your-images">How to orient the axis labels your images ?</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#how-to-tilt-the-orientation-of-your-images">How to tilt the orientation of your images ?</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#nudging-the-image-with-fsleyes">Nudging the image with FSLEyes</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#in-fsleyes">In FSLEyes</a></li>
@@ -246,12 +246,13 @@
       
   <section id="useful-tips-before-processing">
 <span id="utils"></span><h1>Useful tips (before processing)<a class="headerlink" href="#useful-tips-before-processing" title="Link to this heading">¶</a></h1>
-<section id="how-to-orient-the-labels-your-images">
-<h2>How to orient the labels your images ?<a class="headerlink" href="#how-to-orient-the-labels-your-images" title="Link to this heading">¶</a></h2>
+<p>If default pipelines are failing, it may be due to original images being non-optimal for processing. Please check axis labels, orientation , and cropping before retrying to run macapype</p>
+<section id="how-to-orient-the-axis-labels-your-images">
+<h2>How to orient the axis labels your images ?<a class="headerlink" href="#how-to-orient-the-axis-labels-your-images" title="Link to this heading">¶</a></h2>
 <p>In particular, the image should be in neurological convention, i.e. left label on the right of the image in FSL coronal representation, and x values increasion from left to right.</p>
 <a class="reference internal image-reference" href="_images/wrong_orient_mark.png"><img alt="_images/wrong_orient_mark.png" class="align-center" src="_images/wrong_orient_mark.png" style="width: 961.0px; height: 370.0px;" />
 </a>
-<p>If is not the case, use the following procedure to swap the X-axis</p>
+<p>If is not the case, it is possible to use FSL use the following procedure to swap the X-axis</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cp<span class="w"> </span>Orig/sub-Iroquoise_ses-01_T1w.nii.gz<span class="w"> </span>.
 fslreorient2std<span class="w"> </span>sub-Iroquoise_ses-01_T1w.nii.gz<span class="w"> </span>sub-Iroquoise_ses-01_T1w_reorient.nii.gz
 fslorient<span class="w"> </span>-forceneurological<span class="w"> </span>sub-Iroquoise_ses-01_T1w_reorient.nii.gz
@@ -326,6 +327,7 @@ Facing straight when viewed from from the top</p>
 mv<span class="w"> </span>sub-Pandore_ses-01_T2w_flirt.nii.gz<span class="w">  </span>sub-Pandore_ses-01_T2w.nii.gz
 </pre></div>
 </div>
+<p>Other possibilities to perform interactively labels modification and images orientation include tools such as  <a class="reference external" href="https://neuroanatomy.github.io/reorient">Reorient</a> .</p>
 </section>
 </section>
 </section>
@@ -378,7 +380,7 @@ mv<span class="w"> </span>sub-Pandore_ses-01_T2w_flirt.nii.gz<span class="w">  <
       
     </p>
     <p>
-        &copy; Copyright 2026, Macapype Developers (macatools). Last updated on 2026-08-10.<br/>
+        &copy; Copyright 2026, Macapype Developers (macatools). Last updated on 2026-08-11.<br/>
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 8.1.3.<br/>
     </p>
   </div>
