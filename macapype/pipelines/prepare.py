@@ -559,7 +559,7 @@ def create_short_preparation_pipe(params, params_template={},
 
         data_preparation_pipe.connect(
             align_T1_on_template, 'out_file',
-            apply_xfm_T2, 'ref_file')
+            apply_xfm_T2, 'reference')
 
         # compute inv transfo
         inv_tranfo = pe.Node(fsl.ConvertXFM(),
