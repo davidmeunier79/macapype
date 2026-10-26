@@ -515,9 +515,9 @@ def create_short_preparation_pipe(params, params_template={},
         align_T1_on_template = pe.Node(fsl.FLIRT(), name="align_T1_on_template")
         align_T1_on_template.inputs.dof = 6
 
-        align_T1_on_template.inputs.searchr_x = [30, 30]
-        align_T1_on_template.inputs.searchr_y = [30, 30]
-        align_T1_on_template.inputs.searchr_z = [30, 30]
+        align_T1_on_template.inputs.searchr_x = [-30, 30]
+        align_T1_on_template.inputs.searchr_y = [-30, 30]
+        align_T1_on_template.inputs.searchr_z = [-30, 30]
 
 
         if "crop_T1" in params.keys():
