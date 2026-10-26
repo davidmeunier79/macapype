@@ -540,7 +540,7 @@ def create_short_preparation_pipe(params, params_template={},
         data_preparation_pipe.connect(av_T1, 'outputnode.std_img',
                                       align_T1_on_template, 'reference')
 
-        # apply
+        # apply_xfm_T2
         apply_xfm_T2 = pe.Node(fsl.ApplyXFM(), name = "apply_xfm_T2")
 
         if 'aladin_T2_on_T1' in params.keys():
@@ -559,7 +559,7 @@ def create_short_preparation_pipe(params, params_template={},
 
         data_preparation_pipe.connect(
             align_T1_on_template, 'out_file',
-            apply_crop_aladin_T2, 'ref_file')
+            apply_xfm_T2, 'ref_file')
 
         # compute inv transfo
         inv_tranfo = pe.Node(fsl.ConvertXFM(),
