@@ -537,7 +537,7 @@ def create_short_preparation_pipe(params, params_template={},
                     av_T1, 'avg_img',
                     align_T1_on_template, 'in_file')
 
-        data_preparation_pipe.inputs.reference = params_template["template_head"]
+        align_T1_on_template.inputs.reference = params_template["template_head"]
 
         # apply_xfm_T2
         apply_xfm_T2 = pe.Node(fsl.ApplyXFM(), name = "apply_xfm_T2")
