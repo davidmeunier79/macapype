@@ -580,6 +580,25 @@ def create_short_preparation_pipe(params, params_template={},
             inv_tranfo, 'out_file',
             outputnode, 'stereo_to_native_trans')
 
+        # outputnode (stereo)
+        if "use_T2" in params.keys():
+            data_preparation_pipe.connect(
+                align_T1_on_template, 'out_file',
+                outputnode, 'stereo_T2')
+
+            data_preparation_pipe.connect(
+                apply_xfm_T2, 'out_file',
+                outputnode, 'stereo_T1')
+
+        else:
+
+            data_preparation_pipe.connect(
+                align_T1_on_template, 'out_file',
+                outputnode, 'stereo_T1')
+
+            data_preparation_pipe.connect(
+                apply_xfm_T2, 'out_file',
+                outputnode, 'stereo_T2')
 
     # denoise with Ants package
     if "denoise" in params.keys():
