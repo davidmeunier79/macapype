@@ -298,6 +298,10 @@ def create_short_preparation_pipe(params, params_template={},
         align_T2_on_T1 = pe.Node(fsl.FLIRT(), name="align_T2_on_T1")
         align_T2_on_T1.inputs.dof = 6
 
+        align_T2_on_T1.inputs.searchr_x = [30 30]
+        align_T2_on_T1.inputs.searchr_y = [30 30]
+        align_T2_on_T1.inputs.searchr_z = [30 30]
+
         if "avg_reorient_pipe" in params.keys():
             data_preparation_pipe.connect(av_T1, 'outputnode.std_img',
                                           align_T2_on_T1, 'reference')
