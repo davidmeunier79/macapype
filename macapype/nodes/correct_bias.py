@@ -108,6 +108,9 @@ class T1xT2BiasFieldCorrectionOutputSpec(TraitedSpec):
     debiased_mask_file = File(
         desc="debiased bet mask")
 
+    bias_field_file = File(
+        desc="bias_field_file")
+
 
 class T1xT2BiasFieldCorrection(CommandLine):
     """
@@ -199,6 +202,9 @@ class T1xT2BiasFieldCorrection(CommandLine):
             t1_fname + self.inputs.os + ".nii.gz")
         outputs["t2_debiased_file"] = os.path.abspath(
             t2_fname + self.inputs.os + ".nii.gz")
+
+        outputs["bias_field_file"] = os.path.abspath(
+                t1_fname + "_OutputBiasField.nii.gz")
 
         if self.inputs.aT2:
             outputs["t2_coreg_file"] = os.path.abspath(

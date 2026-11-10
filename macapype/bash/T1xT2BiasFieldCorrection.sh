@@ -222,7 +222,7 @@ TMP[T1mulT2_NM]="${INpath}${T1name}_T1mulT2_NM.nii.gz"
 TMP[T1mulT2_mod]="${INpath}${T1name}_T1mulT2_mod.nii.gz"
 TMP[T1mulT2_mod_mask]="${INpath}${T1name}_T1mulT2_mod_mask.nii.gz"
 TMP[bias_raw]="${INpath}${T1name}_bias_raw.nii.gz"
-TMP[OutputBiasField]="${INpath}${T1name}_OutputBiasField.nii.gz"
+OutputBiasField="${INpath}${T1name}_OutputBiasField.nii.gz"
 
 
 
@@ -290,10 +290,11 @@ echo Masking...
 echo Dilating...
 "${FSLPREFIX}fslmaths" ${TMP[T1mulT2_norm]} -mas ${TMP[T1mulT2_mod_mask]} -dilall ${TMP[bias_raw]} -odt float
 echo Smoothing...
-"${FSLPREFIX}fslmaths" ${TMP[bias_raw]}  -s $SIGMA ${TMP[OutputBiasField]}
+"${FSLPREFIX}fslmaths" ${TMP[bias_raw]}  -s $SIGMA $OutputBiasField
 echo Applying bias field...
-"${FSLPREFIX}fslmaths" $T1 -div ${TMP[OutputBiasField]} $OUT_PREFIX1 -odt float
-"${FSLPREFIX}fslmaths" $T2 -div ${TMP[OutputBiasField]} $OUT_PREFIX2 -odt float
+"${FSLPREFIX}fslmaths" $T1 -div $OutputBiasField $OUT_PREFIX1 -odt float
+"${FSLPREFIX}fslmaths" $T2 -div $OutputBiasField $OUT_PREFIX2 -odt float
+
 
 # Applying brain or BET mask to debiased images
 if [[ -n "$BRAIN" ]]; then
@@ -305,6 +306,7 @@ elif [[ $TRYBET -ne 0 ]]; then
   "${FSLPREFIX}fslmaths" $OUT_PREFIX1 -mas ${TMP[T1mulT2_BET_mask]} "${OUT_PREFIX1}${BET_SUFFIX}"
   "${FSLPREFIX}fslmaths" $OUT_PREFIX2 -mas ${TMP[T1mulT2_BET_mask]} "${OUT_PREFIX2}${BET_SUFFIX}"
   mv ${TMP[T1mulT2_BET_mask]} "${OUT_PREFIX1}${BET_SUFFIX}_mask.nii.gz"
+
 fi
 
 
